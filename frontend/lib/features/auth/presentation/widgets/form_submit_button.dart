@@ -26,7 +26,7 @@ class FormSubmitButton extends StatelessWidget {
         ),
         child: Text(
           isLoading ? 'Loading..' : label,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
     );

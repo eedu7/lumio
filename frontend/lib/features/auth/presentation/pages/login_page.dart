@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 32.0,
+        spacing: 36.0,
         children: [
           // Heading
           AuthHeading(firstLine: 'Login to your', secondLine: 'Account'),

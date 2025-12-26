@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 
 class AuthScaffold extends StatelessWidget {
   final Widget body;
-
   final String helperText;
   final String actionText;
   final String actionRoute;
@@ -19,57 +18,66 @@ class AuthScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: context.canPop()
             ? IconButton(
                 onPressed: () => context.pop(),
-                icon: Icon(Icons.arrow_back),
+                icon: const Icon(Icons.arrow_back),
               )
             : null,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32.0),
-          child: Column(
-            children: [
-              // Body
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
-                  child: body,
-                ),
-              ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                // Constrain the column to at least the height of the screen
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        // The main content area
+                        Expanded(child: body),
 
-              // Footer
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Row(
-                  spacing: 4,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      helperText,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => context.push(actionRoute),
-                      child: Text(
-                        actionText,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.primaryColor,
-                          fontWeight: FontWeight.bold,
+                        // The Footer area
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 32.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                helperText,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              // Replaces 'spacing' for compatibility
+                              GestureDetector(
+                                onTap: () => context.push(actionRoute),
+                                child: Text(
+                                  actionText,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: theme.primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
