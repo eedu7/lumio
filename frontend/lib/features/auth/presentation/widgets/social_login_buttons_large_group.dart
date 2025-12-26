@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_assets.dart';
 import 'package:frontend/core/services/supabase/supabase_auth.dart';
 import 'package:frontend/features/auth/presentation/ui/social_login_icon_button_large.dart';
 
@@ -21,14 +22,14 @@ class _SocialLoginButtonsLargeGroupState
       children: [
         SocialLoginIconButtonLarge(
           label: 'Continue with google',
-          iconUrl: 'assets/logos/google-logo.png',
+          iconUrl: AppAssets.googleIcon,
           onPressed: () async {
             await _auth.signInWithGoogle();
           },
         ),
         SocialLoginIconButtonLarge(
           label: 'Continue with github',
-          iconUrl: 'assets/logos/github-logo.png',
+          iconUrl: AppAssets.githubIcon,
           onPressed: () async {
             await _auth.signInWithGithub();
           },

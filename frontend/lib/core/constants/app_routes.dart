@@ -7,6 +7,15 @@ class AppRoutes {
   static const String socialLogin = '/social-login';
   static const String forgotPassword = '/forgot-password';
 
+  // Cart
+  static const String cart = '/cart';
+
+  // Notifications
+  static const String notifications = '/notifications';
+
+  // Profile
+  static const String profile = '/profile';
+
   // Home
   static const String home = '/';
 

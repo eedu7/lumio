@@ -1,21 +1,23 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/core/constants/app_routes.dart';
+import 'package:frontend/core/widgets/main_scaffold.dart';
 import 'package:frontend/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:frontend/features/auth/presentation/pages/login_page.dart';
 import 'package:frontend/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:frontend/features/auth/presentation/pages/social_login_page.dart';
+import 'package:frontend/features/cart/presentations/pages/cart_page.dart';
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
+import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
+import 'package:frontend/features/profile/presentations/pages/profile_page.dart';
 import 'package:go_router/go_router.dart';
 
-final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutes.socialLogin,
-  routes: <RouteBase>[
-    // Home
-    GoRoute(
-      path: AppRoutes.home,
-      builder: (BuildContext context, GoRouterState state) => const HomePage(),
-    ),
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
+final GoRouter appRouter = GoRouter(
+  navigatorKey: _rootNavigatorKey,
+  initialLocation: AppRoutes.home,
+  routes: <RouteBase>[
     // Authentication
     GoRoute(
       path: AppRoutes.signUp,
@@ -35,6 +37,58 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.forgotPassword,
       builder: (BuildContext context, GoRouterState state) =>
           const ForgotPasswordPage(),
+    ),
+
+    // Main App Shell
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return MainScaffold(navigationShell: navigationShell);
+      },
+      branches: [
+        // Branch Home
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.home,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const HomePage(),
+            ),
+          ],
+        ),
+
+        // Branch Profile
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.profile,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const ProfilePage(),
+            ),
+          ],
+        ),
+
+        // Branch Notifications
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.notifications,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const NotificationsPage(),
+            ),
+          ],
+        ),
+
+        // Branch Cart
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.cart,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const CartPage(),
+            ),
+          ],
+        ),
+      ],
     ),
   ],
 );
