@@ -118,9 +118,12 @@ class _LoginFormState extends State<LoginForm> {
           ),
 
           // Forgot Password
-          TextButton(
-            onPressed: () => context.push(AppRoutes.forgotPassword),
-            child: const Text('Forgot Password?'),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton(
+              onPressed: () => context.push(AppRoutes.forgotPassword),
+              child: const Text('Forgot Password?'),
+            ),
           ),
         ],
       ),
