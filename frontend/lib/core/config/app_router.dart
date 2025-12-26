@@ -4,11 +4,18 @@ import 'package:frontend/features/auth/presentation/pages/forgot_password_page.d
 import 'package:frontend/features/auth/presentation/pages/login_page.dart';
 import 'package:frontend/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:frontend/features/auth/presentation/pages/social_login_page.dart';
+import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: AppRoutes.login,
   routes: <RouteBase>[
+    // Home
+    GoRoute(
+      path: AppRoutes.home,
+      builder: (BuildContext context, GoRouterState state) => const HomePage(),
+    ),
+
     // Authentication
     GoRoute(
       path: AppRoutes.signUp,

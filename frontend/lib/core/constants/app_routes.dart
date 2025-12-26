@@ -7,11 +7,11 @@ class AppRoutes {
   static const String socialLogin = '/social-login';
   static const String forgotPassword = '/forgot-password';
 
-  // Products
-  static const String products = '/products';
+  // Home
+  static const String home = '/';
 
   // Product Detail
-  static const String productDetailPattern = '/products/:productId';
+  static const String productDetailPattern = '/home/:productId';
 
-  static String productDetails(String productId) => '/products/$productId';
+  static String productDetails(String productId) => '/home/$productId';
 }

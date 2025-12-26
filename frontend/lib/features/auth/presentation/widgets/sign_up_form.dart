@@ -6,14 +6,14 @@ import 'package:frontend/features/auth/presentation/widgets/form_submit_button.d
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _SignUpFormState extends State<SignUpForm> {
   final SupabaseAuth _auth = SupabaseAuth();
 
   final _formKey = GlobalKey<FormState>();
@@ -39,7 +39,7 @@ class _LoginFormState extends State<LoginForm> {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
 
-      await _auth.signInWithPassword(email: email, password: password);
+      await _auth.signUp(email: email, password: password);
 
       if (mounted) {
         context.go(AppRoutes.home);
@@ -112,15 +112,9 @@ class _LoginFormState extends State<LoginForm> {
 
           // Submit Button
           FormSubmitButton(
-            label: 'Log In',
+            label: 'Sign Up',
             onPressed: _isSubmitting ? null : _submit,
             isLoading: _isSubmitting,
-          ),
-
-          // Forgot Password
-          TextButton(
-            onPressed: () => context.push(AppRoutes.forgotPassword),
-            child: const Text('Forgot Password?'),
           ),
         ],
       ),

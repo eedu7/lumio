@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
         spacing: 32.0,
         children: [
           // Heading
-          AuthHeading(firstLine: 'Create your', secondLine: 'Account'),
+          AuthHeading(firstLine: 'Login to your', secondLine: 'Account'),
 
           // Login Form
           LoginForm(),
