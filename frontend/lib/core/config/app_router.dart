@@ -8,7 +8,7 @@ import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutes.login,
+  initialLocation: AppRoutes.socialLogin,
   routes: <RouteBase>[
     // Home
     GoRoute(
