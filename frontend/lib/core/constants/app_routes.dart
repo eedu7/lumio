@@ -5,6 +5,7 @@ class AppRoutes {
   static const String signUp = '/sign-up';
   static const String login = '/login';
   static const String socialLogin = '/social-login';
+  static const String forgotPassword = '/forgot-password';
 
   // Products
   static const String products = '/products';

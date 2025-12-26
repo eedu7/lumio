@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/auth/presentation/widgets/auth_scaffold.dart';
 
-class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+class ForgotPasswordPage extends StatelessWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class SignUpPage extends StatelessWidget {
       helperText: 'Already have an account?',
       body: const Center(
         child: Text(
-          'SignUp Page',
+          'Forgot Password',
           style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         ),
       ),

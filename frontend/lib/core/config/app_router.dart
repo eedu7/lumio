@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:frontend/core/constants/app_routes.dart';
+import 'package:frontend/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:frontend/features/auth/presentation/pages/login_page.dart';
 import 'package:frontend/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:frontend/features/auth/presentation/pages/social_login_page.dart';
@@ -22,6 +23,11 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.socialLogin,
       builder: (BuildContext context, GoRouterState state) =>
           const SocialLoginPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.forgotPassword,
+      builder: (BuildContext context, GoRouterState state) =>
+          const ForgotPasswordPage(),
     ),
   ],
 );

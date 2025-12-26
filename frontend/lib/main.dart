@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Lumio',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepOrange)),
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.pinkAccent)),
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
     );
