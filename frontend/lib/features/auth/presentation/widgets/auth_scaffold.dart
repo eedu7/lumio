@@ -34,8 +34,7 @@ class AuthScaffold extends StatelessWidget {
             return SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                // Constrain the column to at least the height of the screen
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: ConstrainedBox(
                   constraints: BoxConstraints(minHeight: constraints.maxHeight),
                   child: IntrinsicHeight(
