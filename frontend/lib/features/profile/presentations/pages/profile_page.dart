@@ -7,7 +7,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        'Cart Page',
+        'Profile Page',
         style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
       ),
     );

@@ -34,6 +34,7 @@ class MainScaffold extends StatelessWidget {
             selectedIcon: Icon(Icons.notifications_active),
             label: 'Alerts',
           ),
+
           NavigationDestination(
             icon: Icon(Icons.person_outline_rounded),
             selectedIcon: Icon(Icons.person_rounded),

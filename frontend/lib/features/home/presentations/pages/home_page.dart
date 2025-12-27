@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/features/home/presentations/widgets/product_categories.dart';
 import 'package:frontend/features/home/presentations/widgets/product_search_bar.dart';
 import 'package:frontend/features/home/presentations/widgets/section_heading.dart';
 import 'package:frontend/features/home/presentations/widgets/special_offers.dart';
@@ -34,6 +35,9 @@ class HomePage extends StatelessWidget {
                   SpecialOffers(),
                 ],
               ),
+
+              // Categories
+              ProductCategories(),
             ],
           ),
         ),

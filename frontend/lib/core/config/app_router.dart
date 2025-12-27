@@ -56,13 +56,13 @@ final GoRouter appRouter = GoRouter(
           ],
         ),
 
-        // Branch Profile
+        // Branch Cart
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: AppRoutes.profile,
+              path: AppRoutes.cart,
               builder: (BuildContext context, GoRouterState state) =>
-                  const ProfilePage(),
+                  const CartPage(),
             ),
           ],
         ),
@@ -78,13 +78,13 @@ final GoRouter appRouter = GoRouter(
           ],
         ),
 
-        // Branch Cart
+        // Branch Profile
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: AppRoutes.cart,
+              path: AppRoutes.profile,
               builder: (BuildContext context, GoRouterState state) =>
-                  const CartPage(),
+                  const ProfilePage(),
             ),
           ],
         ),

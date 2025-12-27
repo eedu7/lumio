@@ -24,6 +24,7 @@ class SpecialOfferCard extends StatelessWidget {
                 spacing: 4.0,
                 children: [
                   Text(
+                    maxLines: 1,
                     '30%',
                     style: theme.textTheme.displayMedium?.copyWith(
                       fontWeight: FontWeight.w600,
@@ -31,6 +32,7 @@ class SpecialOfferCard extends StatelessWidget {
                     ),
                   ),
                   Text(
+                    maxLines: 1,
                     "SPECIAL OFFER: ${index}",
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
@@ -40,6 +42,7 @@ class SpecialOfferCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
+                        maxLines: 2,
                         "Get discount for every order. Only valid for the next 30 days.",
                         style: theme.textTheme.bodySmall,
                       ),
