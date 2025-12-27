@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/features/home/presentations/widgets/product_search_bar.dart';
+import 'package:frontend/features/home/presentations/widgets/section_heading.dart';
+import 'package:frontend/features/home/presentations/widgets/special_offers.dart';
 import 'package:frontend/features/home/presentations/widgets/user_profile_header.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,6 +21,19 @@ class HomePage extends StatelessWidget {
 
               // Search Bar
               ProductSearchBar(),
+
+              // Special Offers
+              Column(
+                spacing: 4.0,
+                children: [
+                  SectionHeading(
+                    title: 'Special Offers',
+                    actionLabel: 'See All',
+                    onPressed: () {},
+                  ),
+                  SpecialOffers(),
+                ],
+              ),
             ],
           ),
         ),
