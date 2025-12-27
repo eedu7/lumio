@@ -7,6 +7,7 @@ import 'package:frontend/features/auth/presentation/pages/login_page.dart';
 import 'package:frontend/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:frontend/features/auth/presentation/pages/social_login_page.dart';
 import 'package:frontend/features/cart/presentations/pages/cart_page.dart';
+import 'package:frontend/features/categories/pages/category_page.dart';
 import 'package:frontend/features/chat/presentations/pages/chat_page.dart';
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
@@ -53,6 +54,17 @@ final GoRouter appRouter = GoRouter(
               path: AppRoutes.home,
               builder: (BuildContext context, GoRouterState state) =>
                   const HomePage(),
+              routes: [
+                GoRoute(
+                  path: AppRoutes.category,
+                  builder: (BuildContext context, GoRouterState state) {
+                    final qKey = state.uri.queryParameters[AppRoutes.qKey]!;
+                    final qValue = state.uri.queryParameters[AppRoutes.qValue]!;
+
+                    return CategoryPage(qKey: qKey, qValue: qValue);
+                  },
+                ),
+              ],
             ),
           ],
         ),

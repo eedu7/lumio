@@ -16,11 +16,8 @@ class ProductCategories extends StatelessWidget {
         crossAxisCount: 4,
         children: appCategories
             .map(
-              (category) => CategoryItem(
-                label: category.label,
-                icon: category.icon,
-                actionRoute: category.route,
-              ),
+              (category) =>
+                  CategoryItem(label: category.label, icon: category.icon),
             )
             .toList(),
       ),

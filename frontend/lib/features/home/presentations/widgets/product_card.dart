@@ -18,10 +18,7 @@ class _ProductCardState extends State<ProductCard> {
       child: Card.filled(
         elevation: 0.5,
         clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: Colors.grey.shade200),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         child: SizedBox(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,7 +31,7 @@ class _ProductCardState extends State<ProductCard> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Column(
                   spacing: 4.0,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +52,7 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade300,
+                            color: Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(4.0),
                           ),
                           padding: const EdgeInsets.all(4.0),

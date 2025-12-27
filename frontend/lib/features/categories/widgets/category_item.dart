@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_routes.dart';
 import 'package:go_router/go_router.dart';
 
 class CategoryItem extends StatelessWidget {
   final String label;
   final IconData icon;
-  final String actionRoute;
 
-  const CategoryItem({
-    super.key,
-    required this.label,
-    required this.icon,
-    required this.actionRoute,
-  });
+  const CategoryItem({super.key, required this.label, required this.icon});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return InkWell(
       borderRadius: BorderRadius.circular(12),
-      onTap: () => context.go(actionRoute),
+      onTap: () => context.push(
+        AppRoutes.categoryProducts(key: AppRoutes.categoryName, value: label),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(

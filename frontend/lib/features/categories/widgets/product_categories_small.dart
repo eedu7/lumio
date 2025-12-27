@@ -20,12 +20,7 @@ class _ProductCategoriesSmallState extends State<ProductCategoriesSmall> {
   void initState() {
     super.initState();
     _categoriesWithAll = [
-      const AppCategoryModel(
-        id: allCategoryId,
-        label: 'All',
-        icon: Icons.apps,
-        route: '',
-      ),
+      const AppCategoryModel(id: allCategoryId, label: 'All', icon: Icons.apps),
       ...appCategories,
     ];
   }

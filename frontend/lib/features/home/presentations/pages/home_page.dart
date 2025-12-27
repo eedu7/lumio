@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/categories/widgets/product_categories.dart';
 import 'package:frontend/features/categories/widgets/product_categories_small.dart';
 import 'package:frontend/features/home/presentations/widgets/product_catalog.dart';
@@ -6,6 +7,7 @@ import 'package:frontend/features/home/presentations/widgets/product_search_bar.
 import 'package:frontend/features/home/presentations/widgets/section_heading.dart';
 import 'package:frontend/features/home/presentations/widgets/special_offers.dart';
 import 'package:frontend/features/home/presentations/widgets/user_profile_header.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -32,7 +34,12 @@ class HomePage extends StatelessWidget {
                   SectionHeading(
                     title: 'Special Offers',
                     actionLabel: 'See All',
-                    onPressed: () {},
+                    onPressed: () => context.push(
+                      AppRoutes.categoryProducts(
+                        key: AppRoutes.collection,
+                        value: 'Special Offers',
+                      ),
+                    ),
                   ),
                   SpecialOffers(),
                 ],
@@ -48,7 +55,12 @@ class HomePage extends StatelessWidget {
                   SectionHeading(
                     title: 'Popular Products',
                     actionLabel: 'See All',
-                    onPressed: () {},
+                    onPressed: () => context.push(
+                      AppRoutes.categoryProducts(
+                        key: AppRoutes.collection,
+                        value: 'Popular Products',
+                      ),
+                    ),
                   ),
                   ProductCategoriesSmall(),
                   ProductCatalog(),
