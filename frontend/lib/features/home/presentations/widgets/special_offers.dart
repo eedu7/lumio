@@ -19,7 +19,6 @@ class _SpecialOffersState extends State<SpecialOffers> {
         shrinkExtent: 256,
         scrollDirection: Axis.horizontal,
         itemSnapping: true,
-
         children: List.generate(5, (int index) {
           return SpecialOfferCard(index: index);
         }),

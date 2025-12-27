@@ -14,9 +14,9 @@ class ProductCategories extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         primary: false,
         padding: const EdgeInsets.all(8.0),
-        crossAxisSpacing: 10.0,
-        mainAxisSpacing: 10.0,
-        crossAxisCount: 4,
+        crossAxisSpacing: 4.0,
+        mainAxisSpacing: 4.0,
+        crossAxisCount: 3,
         children: appCategories
             .map(
               (category) => CategoryItem(

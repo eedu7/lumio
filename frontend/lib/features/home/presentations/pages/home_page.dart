@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/features/categories/widgets/product_categories.dart';
 import 'package:frontend/features/categories/widgets/product_categories_small.dart';
+import 'package:frontend/features/home/presentations/widgets/product_catalog.dart';
 import 'package:frontend/features/home/presentations/widgets/product_search_bar.dart';
 import 'package:frontend/features/home/presentations/widgets/section_heading.dart';
 import 'package:frontend/features/home/presentations/widgets/special_offers.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8.0),
           child: Column(
             spacing: 24.0,
             children: [
@@ -50,6 +51,7 @@ class HomePage extends StatelessWidget {
                     onPressed: () {},
                   ),
                   ProductCategoriesSmall(),
+                  ProductCatalog(),
                 ],
               ),
             ],

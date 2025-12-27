@@ -39,7 +39,6 @@ class _ProductCategoriesSmallState extends State<ProductCategoriesSmall> {
       height: 56,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
         itemCount: _categoriesWithAll.length,
         separatorBuilder: (_, __) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
