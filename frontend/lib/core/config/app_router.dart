@@ -72,7 +72,7 @@ final GoRouter appRouter = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: AppRoutes.cart,
+              path: AppRoutes.chat,
               builder: (BuildContext context, GoRouterState state) =>
                   const ChatPage(),
             ),

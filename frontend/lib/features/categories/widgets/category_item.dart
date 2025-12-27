@@ -33,10 +33,15 @@ class CategoryItem extends StatelessWidget {
                 child: Icon(icon, size: 20, color: theme.colorScheme.primary),
               ),
             ),
-            Text(
-              label,
-              style: theme.textTheme.bodySmall,
-              textAlign: TextAlign.center,
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  style: theme.textTheme.bodySmall,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
           ],
         ),

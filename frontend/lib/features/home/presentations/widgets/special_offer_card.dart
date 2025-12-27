@@ -41,10 +41,15 @@ class SpecialOfferCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        maxLines: 2,
-                        "Get discount for every order. Only valid for the next 30 days.",
-                        style: theme.textTheme.bodySmall,
+                      Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            maxLines: 2,
+                            "Get discount for every order. Only valid for the next 30 days.",
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ),
                       ),
                     ],
                   ),
