@@ -15,7 +15,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
       width: double.infinity,
       child: GridView.count(
         clipBehavior: Clip.antiAlias,
-        childAspectRatio: 0.6,
+        childAspectRatio: 0.65,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         primary: false,

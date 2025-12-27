@@ -12,9 +12,16 @@ class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    return GestureDetector(
+    return InkWell(
+      borderRadius: BorderRadius.circular(12.0),
       onTap: () {},
       child: Card.filled(
+        elevation: 0.5,
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: Colors.grey.shade200),
+        ),
         child: SizedBox(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,15 +41,18 @@ class _ProductCardState extends State<ProductCard> {
                   children: [
                     Text(
                       'Product Name 01',
-                      style: textTheme.labelSmall,
+                      style: textTheme.bodyMedium,
                       maxLines: 1,
                     ),
                     Row(
-                      spacing: 4.0,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: 8.0,
                       children: [
-                        Icon(Icons.star_half, color: Colors.amber, size: 16),
-                        Text("4.4(N)", style: textTheme.labelSmall),
+                        Text(
+                          '\$700',
+                          style: textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             color: Colors.grey.shade300,
@@ -53,11 +63,14 @@ class _ProductCardState extends State<ProductCard> {
                         ),
                       ],
                     ),
-                    Text(
-                      '\$ 700',
-                      style: textTheme.labelMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Row(
+                      spacing: 4.0,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Icons.star, color: Colors.amber, size: 18),
+                        Text('4.4(N)', style: textTheme.bodySmall),
+                        Text('(N) Sold', style: textTheme.bodySmall),
+                      ],
                     ),
                   ],
                 ),
