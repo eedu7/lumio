@@ -30,6 +30,11 @@ class MainScaffold extends StatelessWidget {
             label: 'Cart',
           ),
           NavigationDestination(
+            icon: Icon(Icons.chat_bubble_outline),
+            selectedIcon: Icon(Icons.chat_bubble),
+            label: 'Chat',
+          ),
+          NavigationDestination(
             icon: Icon(Icons.notifications_outlined),
             selectedIcon: Icon(Icons.notifications_active),
             label: 'Alerts',

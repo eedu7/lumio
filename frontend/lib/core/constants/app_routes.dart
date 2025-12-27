@@ -8,6 +8,9 @@ class AppRoutes {
   static const String forgotPassword = '/forgot-password';
 
   // Cart
+  static const String chat = '/chat';
+
+  // Cart
   static const String cart = '/cart';
 
   // Notifications

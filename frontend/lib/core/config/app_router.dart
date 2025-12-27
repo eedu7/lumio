@@ -7,6 +7,7 @@ import 'package:frontend/features/auth/presentation/pages/login_page.dart';
 import 'package:frontend/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:frontend/features/auth/presentation/pages/social_login_page.dart';
 import 'package:frontend/features/cart/presentations/pages/cart_page.dart';
+import 'package:frontend/features/chat/presentations/pages/chat_page.dart';
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
 import 'package:frontend/features/profile/presentations/pages/profile_page.dart';
@@ -63,6 +64,17 @@ final GoRouter appRouter = GoRouter(
               path: AppRoutes.cart,
               builder: (BuildContext context, GoRouterState state) =>
                   const CartPage(),
+            ),
+          ],
+        ),
+
+        // Branch Chat
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: AppRoutes.cart,
+              builder: (BuildContext context, GoRouterState state) =>
+                  const ChatPage(),
             ),
           ],
         ),
