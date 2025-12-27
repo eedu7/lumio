@@ -38,6 +38,18 @@ class HomePage extends StatelessWidget {
 
               // Categories
               ProductCategories(),
+
+              // Popular Products
+              Column(
+                spacing: 4.0,
+                children: [
+                  SectionHeading(
+                    title: 'Popular Products',
+                    actionLabel: 'See All',
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             ],
           ),
         ),
