@@ -22,7 +22,7 @@ class _ProductCatalogState extends State<ProductCatalog> {
         crossAxisSpacing: 2.0,
         mainAxisSpacing: 2.0,
         crossAxisCount: 2,
-        children: List.generate(3, (index) => ProductCard()),
+        children: List.generate(12, (index) => ProductCard()),
       ),
     );
   }

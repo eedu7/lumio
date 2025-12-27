@@ -61,7 +61,14 @@ final GoRouter appRouter = GoRouter(
                     final qKey = state.uri.queryParameters[AppRoutes.qKey]!;
                     final qValue = state.uri.queryParameters[AppRoutes.qValue]!;
 
-                    return CategoryPage(qKey: qKey, qValue: qValue);
+                    final bool showCategoryButton =
+                        qKey == AppRoutes.collection;
+
+                    return CategoryPage(
+                      qKey: qKey,
+                      qValue: qValue,
+                      showCategoryButton: showCategoryButton,
+                    );
                   },
                 ),
               ],

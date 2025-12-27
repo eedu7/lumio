@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/features/categories/widgets/product_categories_small.dart';
+import 'package:frontend/features/home/presentations/widgets/product_catalog.dart';
 import 'package:go_router/go_router.dart';
 
 class CategoryPage extends StatefulWidget {
   final String qKey;
   final String qValue;
+  final bool showCategoryButton;
 
-  const CategoryPage({super.key, required this.qKey, required this.qValue});
+  const CategoryPage({
+    super.key,
+    required this.qKey,
+    required this.qValue,
+    required this.showCategoryButton,
+  });
 
   @override
   State<CategoryPage> createState() => _CategoryPageState();
@@ -14,23 +22,34 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
-      appBar: AppBar(
-        leading: context.canPop()
-            ? IconButton(
-                onPressed: () => context.pop(),
-                icon: Icon(Icons.arrow_back),
-              )
-            : null,
-        title: Text(widget.qValue, style: textTheme.titleLarge),
-      ),
       body: SafeArea(
-        child: Center(
-          child: Text(
-            'Category: ${widget.qValue}',
-            style: textTheme.headlineSmall,
-          ),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              snap: true,
+              leading: context.canPop()
+                  ? IconButton(
+                      onPressed: () => context.pop(),
+                      icon: const Icon(Icons.arrow_back),
+                    )
+                  : null,
+              title: Text(widget.qValue, style: textTheme.titleLarge),
+            ),
+
+            SliverToBoxAdapter(
+              child: Column(
+                spacing: 8.0,
+                children: [
+                  if (widget.showCategoryButton) const ProductCategoriesSmall(),
+                  const ProductCatalog(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
