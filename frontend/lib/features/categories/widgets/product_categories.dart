@@ -13,10 +13,7 @@ class ProductCategories extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         primary: false,
-        padding: const EdgeInsets.all(8.0),
-        crossAxisSpacing: 4.0,
-        mainAxisSpacing: 4.0,
-        crossAxisCount: 3,
+        crossAxisCount: 4,
         children: appCategories
             .map(
               (category) => CategoryItem(
