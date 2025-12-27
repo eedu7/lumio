@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class AppCategoryModal {
+class AppCategoryModel {
   final String id;
   final String label;
   final IconData icon;
   final String route;
 
-  AppCategoryModal({
+  const AppCategoryModel({
     required this.id,
     required this.label,
     required this.icon,
