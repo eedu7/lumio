@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/constants/app_assets.dart';
+import 'package:frontend/core/constants/app_routes.dart';
+import 'package:frontend/features/home/presentations/widgets/info_box.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductCard extends StatefulWidget {
   const ProductCard({super.key});
@@ -14,7 +17,8 @@ class _ProductCardState extends State<ProductCard> {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return InkWell(
       borderRadius: BorderRadius.circular(12.0),
-      onTap: () {},
+      onTap: () =>
+          context.push(AppRoutes.productsDetail(productId: 'product-id')),
       child: Card.filled(
         elevation: 0.5,
         clipBehavior: Clip.antiAlias,
@@ -50,14 +54,7 @@ class _ProductCardState extends State<ProductCard> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          padding: const EdgeInsets.all(4.0),
-                          child: Text('Discount', style: textTheme.labelSmall),
-                        ),
+                        InfoBox(label: 'Discount'),
                       ],
                     ),
                     Row(
@@ -66,7 +63,7 @@ class _ProductCardState extends State<ProductCard> {
                       children: [
                         Icon(Icons.star, color: Colors.amber, size: 18),
                         Text('4.4(N)', style: textTheme.bodySmall),
-                        Text('(N) Sold', style: textTheme.bodySmall),
+                        Text('(N) Reviews', style: textTheme.bodySmall),
                       ],
                     ),
                   ],

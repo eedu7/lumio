@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
           child: Column(
             spacing: 24.0,
             children: [

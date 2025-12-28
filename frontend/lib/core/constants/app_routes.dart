@@ -35,10 +35,17 @@ class AppRoutes {
   static const String discountKey = 'discount';
 
   // Product Detail
-  static const String productDetailPattern = 'product/:productId';
+  static const String productDetail = '/product';
+  static const String productKey = 'product-id';
 
   // Helpers
-  static String productDetails(String productId) => '/$productId';
+  static String productsDetail({required String productId}) {
+    final uri = Uri(
+      path: productDetail,
+      queryParameters: {productKey: productId},
+    );
+    return uri.toString();
+  }
 
   static String categoryProducts({
     required String key,

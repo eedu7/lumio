@@ -10,6 +10,7 @@ import 'package:frontend/features/cart/presentations/pages/cart_page.dart';
 import 'package:frontend/features/categories/pages/category_page.dart';
 import 'package:frontend/features/chat/presentations/pages/chat_page.dart';
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
+import 'package:frontend/features/home/presentations/pages/product_detail_page.dart';
 import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
 import 'package:frontend/features/profile/presentations/pages/profile_page.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +19,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: AppRoutes.home,
+  initialLocation: AppRoutes.productsDetail(productId: '0000-0000-0000-0000'),
   routes: <RouteBase>[
     // Authentication
     GoRoute(
@@ -41,6 +42,16 @@ final GoRouter appRouter = GoRouter(
           const ForgotPasswordPage(),
     ),
 
+    // Product Details
+    GoRoute(
+      path: AppRoutes.productDetail,
+      builder: (BuildContext context, GoRouterState state) {
+        final productId = state.uri.queryParameters[AppRoutes.productKey]!;
+
+        return ProductDetailPage(productId: productId);
+      },
+    ),
+
     // Main App Shell
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
@@ -55,6 +66,7 @@ final GoRouter appRouter = GoRouter(
               builder: (BuildContext context, GoRouterState state) =>
                   const HomePage(),
               routes: [
+                // Category
                 GoRoute(
                   path: AppRoutes.category,
                   builder: (BuildContext context, GoRouterState state) {
