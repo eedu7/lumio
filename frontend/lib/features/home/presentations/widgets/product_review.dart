@@ -12,14 +12,19 @@ class ProductReview extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         InfoBox(label: '62 sold'),
-        Row(
-          spacing: 4.0,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(Icons.star, color: Colors.amber, size: 18),
-            Text('4.4', style: theme.textTheme.bodyMedium),
-            Text('(42) Reviews', style: theme.textTheme.bodyMedium),
-          ],
+        InkWell(
+          onTap: () {
+            // TODO: Go to review page of the product
+          },
+          child: Row(
+            spacing: 4.0,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(Icons.star, color: Colors.amber, size: 18),
+              Text('4.4', style: theme.textTheme.bodyMedium),
+              Text('(42) Reviews', style: theme.textTheme.bodyMedium),
+            ],
+          ),
         ),
       ],
     );
