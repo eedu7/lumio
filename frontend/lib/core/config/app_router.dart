@@ -60,6 +60,8 @@ final GoRouter appRouter = GoRouter(
                   builder: (BuildContext context, GoRouterState state) {
                     final qKey = state.uri.queryParameters[AppRoutes.qKey]!;
                     final qValue = state.uri.queryParameters[AppRoutes.qValue]!;
+                    final discount =
+                        state.uri.queryParameters[AppRoutes.discountKey] ?? '';
 
                     final bool showCategoryButton =
                         qKey == AppRoutes.collection;
@@ -67,6 +69,7 @@ final GoRouter appRouter = GoRouter(
                     return CategoryPage(
                       qKey: qKey,
                       qValue: qValue,
+                      discount: discount,
                       showCategoryButton: showCategoryButton,
                     );
                   },

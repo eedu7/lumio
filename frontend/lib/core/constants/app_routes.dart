@@ -32,6 +32,7 @@ class AppRoutes {
   // Allowed category query keys (IMPORTANT)
   static const String categoryName = 'categoryName';
   static const String collection = 'collection';
+  static const String discountKey = 'discount';
 
   // Product Detail
   static const String productDetailPattern = 'product/:productId';
@@ -39,10 +40,14 @@ class AppRoutes {
   // Helpers
   static String productDetails(String productId) => '/$productId';
 
-  static String categoryProducts({required String key, required String value}) {
+  static String categoryProducts({
+    required String key,
+    required String value,
+    String discount = '',
+  }) {
     final uri = Uri(
       path: category,
-      queryParameters: {qKey: key, qValue: value},
+      queryParameters: {qKey: key, qValue: value, discountKey: discount},
     );
     return uri.toString();
   }

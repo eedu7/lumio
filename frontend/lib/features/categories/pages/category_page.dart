@@ -6,12 +6,14 @@ import 'package:go_router/go_router.dart';
 class CategoryPage extends StatefulWidget {
   final String qKey;
   final String qValue;
+  final String discount;
   final bool showCategoryButton;
 
   const CategoryPage({
     super.key,
     required this.qKey,
     required this.qValue,
+    required this.discount,
     required this.showCategoryButton,
   });
 

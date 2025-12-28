@@ -19,8 +19,6 @@ class _ProductCatalogState extends State<ProductCatalog> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         primary: false,
-        crossAxisSpacing: 2.0,
-        mainAxisSpacing: 2.0,
         crossAxisCount: 2,
         children: List.generate(12, (index) => ProductCard()),
       ),
