@@ -13,6 +13,7 @@ import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/home/presentations/pages/product_detail_page.dart';
 import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
 import 'package:frontend/features/profile/presentations/pages/profile_page.dart';
+import 'package:frontend/features/reviews/pages/reviews_page.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -49,6 +50,16 @@ final GoRouter appRouter = GoRouter(
         final productId = state.uri.queryParameters[AppRoutes.productKey]!;
 
         return ProductDetailPage(productId: productId);
+      },
+    ),
+
+    // Reviews
+    GoRoute(
+      path: AppRoutes.reviews,
+      builder: (BuildContext context, GoRouterState state) {
+        final productId = state.uri.queryParameters[AppRoutes.productKey]!;
+
+        return ReviewsPage(productId: productId);
       },
     ),
 

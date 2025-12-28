@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/home/presentations/widgets/info_box.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductReview extends StatelessWidget {
   const ProductReview({super.key});
@@ -13,9 +15,8 @@ class ProductReview extends StatelessWidget {
       children: [
         InfoBox(label: '62 sold'),
         InkWell(
-          onTap: () {
-            // TODO: Go to review page of the product
-          },
+          onTap: () =>
+              context.push(AppRoutes.reviewProduct(productId: '00-00-000-00')),
           child: Row(
             spacing: 4.0,
             crossAxisAlignment: CrossAxisAlignment.center,

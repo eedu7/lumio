@@ -16,6 +16,10 @@ class AppRoutes {
   // Notifications
   static const String notifications = '/notifications';
 
+  // Reviews
+  static const String reviews = '/reviews';
+  static const String reviewProductQuery = 'product-id';
+
   // Profile
   static const String profile = '/profile';
 
@@ -55,6 +59,14 @@ class AppRoutes {
     final uri = Uri(
       path: category,
       queryParameters: {qKey: key, qValue: value, discountKey: discount},
+    );
+    return uri.toString();
+  }
+
+  static String reviewProduct({required String productId}) {
+    final uri = Uri(
+      path: reviews,
+      queryParameters: {reviewProductQuery: productId},
     );
     return uri.toString();
   }
