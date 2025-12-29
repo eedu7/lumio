@@ -165,7 +165,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
           ),
           // Sticky Bottom Bar
-          ProductPriceBar(),
+          ProductPriceBar(
+            buttonLabel: 'Add to Cart',
+            icon: Icons.shopping_bag_outlined,
+            onPressed: () {
+              // Handle adding to cart logic here
+              print("Added to cart: ${widget.productId}");
+            },
+          ),
         ],
       ),
     );

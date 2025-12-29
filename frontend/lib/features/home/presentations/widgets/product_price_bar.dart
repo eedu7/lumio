@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 
 class ProductPriceBar extends StatelessWidget {
-  const ProductPriceBar({super.key});
+  final String label;
+  final String price;
+  final String buttonLabel;
+  final IconData icon;
+  final VoidCallback? onPressed;
+
+  const ProductPriceBar({
+    super.key,
+    this.label = 'Total price',
+    this.price = '\$400.00',
+    this.buttonLabel = 'Add to Cart',
+    this.icon = Icons.shopping_bag_outlined,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +35,13 @@ class ProductPriceBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // Price Info
+          // Price Section
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Total price',
+                label,
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: Colors.grey[500],
                   fontWeight: FontWeight.w500,
@@ -36,7 +49,7 @@ class ProductPriceBar extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                '\$400.00',
+                price,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
@@ -45,7 +58,7 @@ class ProductPriceBar extends StatelessWidget {
             ],
           ),
           const SizedBox(width: 24),
-          // Add to Cart Button
+          // Action Button Section
           Expanded(
             child: SizedBox(
               height: 56,
@@ -58,13 +71,14 @@ class ProductPriceBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () {
-                  // TODO: Implement add to cart logic
-                },
-                icon: const Icon(Icons.shopping_bag_outlined, size: 20),
-                label: const Text(
-                  'Add to Cart',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                onPressed: onPressed ?? () {},
+                icon: Icon(icon, size: 20),
+                label: Text(
+                  buttonLabel,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

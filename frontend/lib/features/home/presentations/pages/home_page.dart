@@ -33,12 +33,7 @@ class HomePage extends StatelessWidget {
               SectionHeading(
                 title: 'Special Offers',
                 actionLabel: 'See All',
-                onPressed: () => context.push(
-                  AppRoutes.categoryProducts(
-                    key: AppRoutes.collection,
-                    value: 'Special Offers',
-                  ),
-                ),
+                onPressed: () => context.push(AppRoutes.specialOffers),
               ),
               const SizedBox(height: 12),
               SpecialOffers(),

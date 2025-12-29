@@ -13,6 +13,9 @@ class AppRoutes {
   // Cart
   static const String cart = '/cart';
 
+  // Special Offer
+  static const String specialOffers = '/special-offers';
+
   // Notifications
   static const String notifications = '/notifications';
 
