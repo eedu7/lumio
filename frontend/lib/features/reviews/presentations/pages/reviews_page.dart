@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/features/reviews/presentations/widgets/review_card.dart';
+import 'package:frontend/features/reviews/presentations/widgets/review_rating_filter.dart';
 import 'package:go_router/go_router.dart';
 
 class ReviewsPage extends StatefulWidget {
@@ -14,6 +16,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -30,7 +33,25 @@ class _ReviewsPageState extends State<ReviewsPage> {
               title: Text('Reviews (N)', style: theme.textTheme.titleLarge),
             ),
 
-            SliverToBoxAdapter(child: Center(child: Text('Reviews Page'))),
+            /// Rating Filter
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: ReviewRatingFilter(),
+              ),
+            ),
+
+            const SliverPadding(padding: EdgeInsets.only(top: 8)),
+
+            /// Reviews List
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  child: ReviewCard(),
+                );
+              }, childCount: 12),
+            ),
           ],
         ),
       ),

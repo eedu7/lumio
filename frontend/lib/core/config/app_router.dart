@@ -13,14 +13,14 @@ import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/home/presentations/pages/product_detail_page.dart';
 import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
 import 'package:frontend/features/profile/presentations/pages/profile_page.dart';
-import 'package:frontend/features/reviews/pages/reviews_page.dart';
+import 'package:frontend/features/reviews/presentations/pages/reviews_page.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: AppRoutes.productsDetail(productId: '0000-0000-0000-0000'),
+  initialLocation: AppRoutes.reviewProduct(productId: '0000-0000-0000-0000'),
   routes: <RouteBase>[
     // Authentication
     GoRoute(
