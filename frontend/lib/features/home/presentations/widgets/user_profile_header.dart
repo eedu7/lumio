@@ -17,11 +17,20 @@ class UserProfileHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        /// Left: Avatar + Text
         Expanded(
           child: Row(
             children: [
-              CircleAvatar(radius: 22, child: Text(username)),
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: theme.primaryColor.withValues(alpha: 0.1),
+                child: Text(
+                  username.substring(0, 1).toUpperCase(),
+                  style: TextStyle(
+                    color: theme.primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +39,8 @@ class UserProfileHeader extends StatelessWidget {
                   Text(
                     greeting,
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.grey,
+                      color: Colors.grey[600],
+                      letterSpacing: 0.5,
                     ),
                   ),
                   Text(
@@ -38,7 +48,7 @@ class UserProfileHeader extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
@@ -46,15 +56,26 @@ class UserProfileHeader extends StatelessWidget {
             ],
           ),
         ),
-
-        /// Right: Actions
-        Row(
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.favorite_border),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.notifications_none_rounded,
+              color: Colors.black87,
+              size: 24,
             ),
-          ],
+          ),
         ),
       ],
     );

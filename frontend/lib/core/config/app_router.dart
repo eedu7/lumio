@@ -20,7 +20,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: AppRoutes.reviewProduct(productId: '0000-0000-0000-0000'),
+  initialLocation: AppRoutes.cart,
   routes: <RouteBase>[
     // Authentication
     GoRoute(

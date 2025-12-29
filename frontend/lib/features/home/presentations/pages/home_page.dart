@@ -15,57 +15,54 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Column(
-            spacing: 24.0,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // User Profile
               UserProfileHeader(username: 'JD', greeting: 'Good Morning! 👋'),
 
-              // Search Bar
+              const SizedBox(height: 20),
+
               ProductSearchBar(),
 
-              // Special Offers
-              Column(
-                spacing: 4.0,
-                children: [
-                  SectionHeading(
-                    title: 'Special Offers',
-                    actionLabel: 'See All',
-                    onPressed: () => context.push(
-                      AppRoutes.categoryProducts(
-                        key: AppRoutes.collection,
-                        value: 'Special Offers',
-                      ),
-                    ),
-                  ),
-                  SpecialOffers(),
-                ],
-              ),
+              const SizedBox(height: 24),
 
-              // Categories
+              SectionHeading(
+                title: 'Special Offers',
+                actionLabel: 'See All',
+                onPressed: () => context.push(
+                  AppRoutes.categoryProducts(
+                    key: AppRoutes.collection,
+                    value: 'Special Offers',
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SpecialOffers(),
+
+              const SizedBox(height: 24),
+
               ProductCategories(),
 
-              // Popular Products
-              Column(
-                spacing: 4.0,
-                children: [
-                  SectionHeading(
-                    title: 'Popular Products',
-                    actionLabel: 'See All',
-                    onPressed: () => context.push(
-                      AppRoutes.categoryProducts(
-                        key: AppRoutes.collection,
-                        value: 'Popular Products',
-                      ),
-                    ),
+              const SizedBox(height: 24),
+
+              SectionHeading(
+                title: 'Popular Products',
+                actionLabel: 'See All',
+                onPressed: () => context.push(
+                  AppRoutes.categoryProducts(
+                    key: AppRoutes.collection,
+                    value: 'Popular Products',
                   ),
-                  ProductCategoriesSmall(),
-                  ProductCatalog(),
-                ],
+                ),
               ),
+              const SizedBox(height: 12),
+              ProductCategoriesSmall(),
+              const SizedBox(height: 16),
+              ProductCatalog(),
             ],
           ),
         ),

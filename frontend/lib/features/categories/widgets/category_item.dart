@@ -11,32 +11,40 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
+
+    return GestureDetector(
       onTap: () => context.push(
         AppRoutes.categoryProducts(key: AppRoutes.categoryName, value: label),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Column(
-          spacing: 8.0,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Material(
-              color: theme.colorScheme.surfaceContainerHighest,
-              shape: const CircleBorder(),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Icon(icon, size: 20, color: theme.colorScheme.primary),
-              ),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            Text(
-              label,
-              style: theme.textTheme.bodySmall,
-              textAlign: TextAlign.center,
+            child: Icon(icon, size: 24, color: theme.primaryColor),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
             ),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

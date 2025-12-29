@@ -11,17 +11,17 @@ class ProductCatalog extends StatefulWidget {
 class _ProductCatalogState extends State<ProductCatalog> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: GridView.count(
-        clipBehavior: Clip.antiAlias,
-        childAspectRatio: 0.65,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        primary: false,
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 12,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        children: List.generate(12, (index) => ProductCard()),
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 0.68,
       ),
+      itemBuilder: (context, index) => const ProductCard(),
     );
   }
 }

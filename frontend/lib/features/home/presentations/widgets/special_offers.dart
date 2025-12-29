@@ -14,27 +14,24 @@ class _SpecialOffersState extends State<SpecialOffers> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 196.0,
+      height: 180.0,
       width: double.infinity,
       child: CarouselView.weighted(
         onTap: (int index) {
           context.push(
             AppRoutes.categoryProducts(
               key: AppRoutes.collection,
-              value: 'Special Offer: ${index}',
+              value: 'Special Offer: $index',
               discount: '30',
             ),
           );
         },
-        flexWeights: <int>[1],
-        shrinkExtent: 256,
+        flexWeights: const <int>[1],
+        shrinkExtent: 300,
         scrollDirection: Axis.horizontal,
         itemSnapping: true,
         children: List.generate(5, (int index) {
-          return InkWell(
-            onTap: () => {debugPrint('Clicked')},
-            child: SpecialOfferCard(index: index),
-          );
+          return SpecialOfferCard(index: index);
         }),
       ),
     );

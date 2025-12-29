@@ -7,20 +7,20 @@ class ProductCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: GridView.count(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        primary: false,
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: appCategories.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        children: appCategories
-            .map(
-              (category) =>
-                  CategoryItem(label: category.label, icon: category.icon),
-            )
-            .toList(),
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 12,
+        childAspectRatio: 0.85,
       ),
+      itemBuilder: (context, index) {
+        final category = appCategories[index];
+        return CategoryItem(label: category.label, icon: category.icon);
+      },
     );
   }
 }

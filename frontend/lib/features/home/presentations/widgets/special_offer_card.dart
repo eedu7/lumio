@@ -9,53 +9,61 @@ class SpecialOfferCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Card(
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               flex: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 4.0,
                 children: [
                   Text(
-                    maxLines: 1,
                     '30%',
-                    style: theme.textTheme.displayMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: theme.colorScheme.primary,
+                    style: theme.textTheme.displaySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.primaryColor,
                     ),
                   ),
+                  const SizedBox(height: 4),
                   Text(
-                    maxLines: 1,
-                    "SPECIAL OFFER: ${index}",
+                    "Today's Special",
                     style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        maxLines: 2,
-                        "Get discount for every order. Only valid for the next 30 days.",
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    ],
+                  const SizedBox(height: 8),
+                  Text(
+                    "Get discount for every order. Only valid for the next 30 days.",
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: Colors.grey[600],
+                      height: 1.4,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
             ),
+            const SizedBox(width: 12),
             Expanded(
               flex: 2,
               child: Image.asset(
                 AppAssets.socialLoginEnterAssetImage,
-                width: double.infinity,
                 fit: BoxFit.contain,
               ),
             ),
