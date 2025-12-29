@@ -18,43 +18,97 @@ class _ReviewsPageState extends State<ReviewsPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       body: SafeArea(
         child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
           slivers: [
+            // App Bar
             SliverAppBar(
-              floating: true,
-              snap: true,
-              leading: context.canPop()
-                  ? IconButton(
-                      onPressed: () => context.pop(),
-                      icon: const Icon(Icons.arrow_back),
-                    )
-                  : null,
-              title: Text('Reviews (N)', style: theme.textTheme.titleLarge),
-            ),
-
-            /// Rating Filter
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: ReviewRatingFilter(),
+              pinned: true,
+              backgroundColor: Colors.grey[50],
+              elevation: 0,
+              surfaceTintColor: Colors.transparent,
+              centerTitle: true,
+              leadingWidth: 70,
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () => context.pop(),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.grey.shade200),
+                      ),
+                      child: const Icon(Icons.arrow_back_ios_new, size: 16),
+                    ),
+                  ),
+                ),
+              ),
+              title: Text(
+                'Reviews (42)',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
 
-            const SliverPadding(padding: EdgeInsets.only(top: 8)),
-
-            /// Reviews List
-            SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  child: ReviewCard(),
-                );
-              }, childCount: 12),
+            // Rating Filter (Pinned)
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: _FilterHeaderDelegate(
+                child: Container(
+                  color: Colors.grey[50],
+                  child: const ReviewRatingFilter(),
+                ),
+              ),
             ),
+
+            const SliverPadding(padding: EdgeInsets.only(top: 12)),
+
+            // Reviews List
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ReviewCard(),
+                ),
+                childCount: 12,
+              ),
+            ),
+
+            const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
           ],
         ),
       ),
     );
   }
+}
+
+class _FilterHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+
+  _FilterHeaderDelegate({required this.child});
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return child;
+  }
+
+  @override
+  double get maxExtent => 48;
+
+  @override
+  double get minExtent => 48;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
+      false;
 }

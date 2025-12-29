@@ -6,31 +6,29 @@ class ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerLow,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(
-          color: colorScheme.outlineVariant.withValues(alpha: 0.4),
-        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Profile Picture with Primary-colored border
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: colorScheme.primaryContainer,
-                child: Icon(
-                  Icons.person_rounded,
-                  color: colorScheme.onPrimaryContainer,
+              const CircleAvatar(
+                radius: 22,
+                backgroundImage: NetworkImage(
+                  'https://i.pravatar.cc/150?u=john',
                 ),
               ),
               const SizedBox(width: 12),
@@ -42,78 +40,77 @@ class ReviewCard extends StatelessWidget {
                       'John Doe',
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       '12 Dec 2024',
                       style: theme.textTheme.labelSmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
+                        color: Colors.grey,
                       ),
                     ),
                   ],
                 ),
               ),
-              // Rating Badge
+              Row(
+                children: List.generate(
+                  5,
+                  (i) => Icon(
+                    Icons.star_rounded,
+                    size: 18,
+                    color: i < 4 ? Colors.amber : Colors.grey[300],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'The build quality is exceptional and exceeded expectations.',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              height: 1.5,
+              color: Colors.grey[700],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: colorScheme.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  color: Colors.green.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.star_rounded,
-                      size: 16,
-                      color: colorScheme.primary,
+                    const Icon(
+                      Icons.verified_user_rounded,
+                      size: 12,
+                      color: Colors.green,
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      '4.0',
-                      style: theme.textTheme.labelMedium?.copyWith(
-                        color: colorScheme.primary,
+                      'Verified',
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: Colors.green,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'The build quality is exceptional. It exceeded my expectations in every way. Highly recommend to anyone looking for durability.',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurface.withValues(alpha: 0.8),
-              height: 1.4,
-            ),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 8),
-          // Interactive footer
-          Row(
-            children: [
-              Icon(
-                Icons.check_circle_outline,
-                size: 14,
-                color: Colors.green.shade600,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                'Verified Purchase',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: Colors.green.shade700,
-                ),
-              ),
               const Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.thumb_up_outlined, size: 18),
-                visualDensity: VisualDensity.compact,
-                color: colorScheme.onSurfaceVariant,
+              Row(
+                children: [
+                  const Icon(Icons.thumb_up_outlined, size: 16),
+                  const SizedBox(width: 6),
+                  Text(
+                    '12',
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
