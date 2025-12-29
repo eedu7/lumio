@@ -10,21 +10,20 @@ class ProductReview extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Row(
-      spacing: 8.0,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        InfoBox(label: '62 sold'),
+        const InfoBox(label: '62 sold'),
+        const SizedBox(width: 12),
+        const Icon(Icons.star_rounded, color: Colors.amber, size: 20),
+        const SizedBox(width: 4),
         InkWell(
           onTap: () =>
               context.push(AppRoutes.reviewProduct(productId: '00-00-000-00')),
-          child: Row(
-            spacing: 4.0,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(Icons.star, color: Colors.amber, size: 18),
-              Text('4.4', style: theme.textTheme.bodyMedium),
-              Text('(42) Reviews', style: theme.textTheme.bodyMedium),
-            ],
+          child: Text(
+            '4.4 (42 Reviews)',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ],

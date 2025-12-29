@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/home/presentations/widgets/label.dart';
 
 class ProductColorSelector extends StatelessWidget {
   final List<Color> colors;
@@ -15,46 +14,53 @@ class ProductColorSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      spacing: 4.0,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Label(text: 'Color'),
-        Wrap(
-          spacing: 8,
-          children: colors.map((color) {
-            final isSelected = color == selectedColor;
-
-            return InkWell(
-              borderRadius: BorderRadius.circular(999),
-              onTap: () => onSelected(color),
-              child: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: color,
-                  border: Border.all(
-                    color: isSelected
-                        ? theme.colorScheme.primary
-                        : theme.dividerColor,
-                    width: isSelected ? 2 : 1,
-                  ),
-                ),
-                child: isSelected
-                    ? Icon(
-                        Icons.check,
-                        size: 18,
-                        color: theme.colorScheme.onPrimary,
-                      )
-                    : null,
+    return Wrap(
+      spacing: 16,
+      children: colors.map((color) {
+        final isSelected = color == selectedColor;
+        return GestureDetector(
+          onTap: () => onSelected(color),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isSelected ? color : Colors.transparent,
+                width: 2,
               ),
-            );
-          }).toList(),
-        ),
-      ],
+            ),
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: color,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: isSelected
+                  ? Icon(
+                      Icons.check,
+                      size: 18,
+                      color: _getContrastingColor(color),
+                    )
+                  : null,
+            ),
+          ),
+        );
+      }).toList(),
     );
+  }
+
+  Color _getContrastingColor(Color color) {
+    return ThemeData.estimateBrightnessForColor(color) == Brightness.light
+        ? Colors.black87
+        : Colors.white;
   }
 }

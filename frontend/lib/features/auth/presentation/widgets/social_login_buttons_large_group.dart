@@ -18,21 +18,17 @@ class _SocialLoginButtonsLargeGroupState
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 16.0,
       children: [
         SocialLoginIconButtonLarge(
-          label: 'Continue with google',
+          label: 'Continue with Google',
           iconUrl: AppAssets.googleIcon,
-          onPressed: () async {
-            await _auth.signInWithGoogle();
-          },
+          onPressed: () async => await _auth.signInWithGoogle(),
         ),
+        const SizedBox(height: 16),
         SocialLoginIconButtonLarge(
-          label: 'Continue with github',
+          label: 'Continue with Github',
           iconUrl: AppAssets.githubIcon,
-          onPressed: () async {
-            await _auth.signInWithGithub();
-          },
+          onPressed: () async => await _auth.signInWithGithub(),
         ),
       ],
     );

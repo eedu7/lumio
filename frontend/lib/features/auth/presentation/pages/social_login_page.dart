@@ -16,22 +16,37 @@ class SocialLoginPage extends StatelessWidget {
       actionRoute: AppRoutes.signUp,
       actionText: 'Sign Up',
       helperText: 'Don\'t have an account?',
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          spacing: 36.0,
           children: [
-            Image.asset(AppAssets.socialLoginEnterAssetImage),
-            // Social Login Buttons
-            SocialLoginButtonsLargeGroup(),
+            const SizedBox(height: 20),
+            Image.asset(
+              AppAssets.socialLoginEnterAssetImage,
+              height: MediaQuery.of(context).size.height * 0.3,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 48),
 
-            // Divider
-            DividerWithText(label: 'or'),
+            Text(
+              "Let's you in",
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 32),
 
-            // Sign In Button
+            const SocialLoginButtonsLargeGroup(),
+
+            const SizedBox(height: 24),
+            const DividerWithText(label: 'or'),
+            const SizedBox(height: 24),
+
             FormSubmitButton(
               label: 'Sign in with password',
               onPressed: () => context.push(AppRoutes.login),
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

@@ -53,77 +53,119 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
+  InputDecoration _getInputDecoration(
+    String hint,
+    IconData icon, {
+    Widget? suffixIcon,
+  }) {
+    return InputDecoration(
+      hintText: hint,
+      prefixIcon: Icon(icon, color: Colors.grey[400], size: 20),
+      suffixIcon: suffixIcon,
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(
+          color: Theme.of(context).primaryColor,
+          width: 1.5,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
-        spacing: 16.0,
         children: <Widget>[
-          TextFormField(
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: 'Email Address',
-              prefixIcon: Icon(Icons.email),
-              labelText: 'Email *',
-              border: OutlineInputBorder(),
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Email is required';
-              }
-              if (!EmailValidator.validate(value)) {
-                return 'Invalid email';
-              }
-              return null;
-            },
+            child: TextFormField(
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: _getInputDecoration(
+                'Email Address',
+                Icons.email_outlined,
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) return 'Email is required';
+                if (!EmailValidator.validate(value)) return 'Invalid email';
+                return null;
+              },
+            ),
           ),
-          // Password
-          TextFormField(
-            controller: _passwordController,
-            obscureText: _obscureText,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              prefixIcon: Icon(Icons.lock),
-              hintText: 'Password',
-              labelText: 'Password *',
-              suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    _obscureText = !_obscureText;
-                  });
-                },
-                icon: Icon(
-                  _obscureText ? Icons.visibility : Icons.visibility_off,
+          const SizedBox(height: 16),
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: TextFormField(
+              controller: _passwordController,
+              obscureText: _obscureText,
+              decoration: _getInputDecoration(
+                'Password',
+                Icons.lock_outline,
+                suffixIcon: IconButton(
+                  onPressed: () => setState(() => _obscureText = !_obscureText),
+                  icon: Icon(
+                    _obscureText
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    color: Colors.grey[400],
+                    size: 20,
+                  ),
                 ),
               ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty)
+                  return 'Password is required';
+                return null;
+              },
             ),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Password is required';
-              }
-              return null;
-            },
           ),
-
-          // Space
-          SizedBox(height: 8.0),
-
-          // Submit Button
-          FormSubmitButton(
-            label: 'Log In',
-            onPressed: _isSubmitting ? null : _submit,
-            isLoading: _isSubmitting,
-          ),
-
-          // Forgot Password
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
               onPressed: () => context.push(AppRoutes.forgotPassword),
-              child: const Text('Forgot Password?'),
+              child: Text(
+                'Forgot Password?',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
+          ),
+          const SizedBox(height: 24),
+          FormSubmitButton(
+            label: 'Log In',
+            onPressed: _isSubmitting ? null : _submit,
+            isLoading: _isSubmitting,
           ),
         ],
       ),

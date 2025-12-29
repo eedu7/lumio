@@ -25,95 +25,148 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
+      backgroundColor: Colors.white,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        leading: context.canPop()
-            ? IconButton(
-                onPressed: () => context.pop(),
-                icon: Icon(Icons.arrow_back),
-              )
-            : null,
-        title: Text('Product Details: ${widget.productId}'),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  spacing: 4.0,
-                  children: [
-                    // Product Image
-                    ProductImage(
-                      src:
-                          'https://i.pinimg.com/736x/7b/9c/8b/7b9c8bcde77b9491f618532d996c1b0a.jpg',
-                    ),
-
-                    // Body
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        spacing: 12.0,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Product Name
-                          ProductHeading(),
-
-                          // Product Reviews
-                          ProductReview(),
-
-                          // Divider
-                          Divider(),
-
-                          // Description
-                          ProductDescription(),
-
-                          // Product Size Selector
-                          ProductSizeSelector(
-                            sizes: const ['XS', 'S', 'M', 'L', 'XL'],
-                            selectedSize: _selectedSize,
-                            onSelected: (size) {
-                              setState(() {
-                                _selectedSize = size;
-                              });
-                            },
-                          ),
-
-                          // Product Color Selector
-                          ProductColorSelector(
-                            colors: [
-                              Colors.black87,
-                              Colors.red.shade500,
-                              Colors.blue.shade500,
-                              Colors.green.shade500,
-                            ],
-                            selectedColor: _selectedColor,
-                            onSelected: (color) {
-                              setState(() {
-                                _selectedColor = color;
-                              });
-                            },
-                          ),
-
-                          // Product Quantity Selector
-                          ProductQuantitySelector(
-                            quantity: _selectedQuantity,
-                            onChanged: (int value) {
-                              setState(() {
-                                _selectedQuantity = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundColor: Colors.white.withValues(alpha: 0.9),
+            child: IconButton(
+              onPressed: () => context.pop(),
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                size: 18,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundColor: Colors.white.withValues(alpha: 0.9),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.favorite_border,
+                  size: 20,
+                  color: Colors.black87,
                 ),
               ),
             ),
-            ProductPriceBar(),
-          ],
-        ),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Product Image Section
+                  ProductImage(
+                    src:
+                        'https://i.pinimg.com/736x/7b/9c/8b/7b9c8bcde77b9491f618532d996c1b0a.jpg',
+                  ),
+
+                  // Detail Content
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0,
+                      vertical: 24.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const ProductHeading(),
+                        const SizedBox(height: 12),
+                        const ProductReview(),
+
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20.0),
+                          child: Divider(
+                            thickness: 1,
+                            color: Color(0xFFEEEEEE),
+                          ),
+                        ),
+
+                        const ProductDescription(),
+                        const SizedBox(height: 24),
+
+                        // Size Selection
+                        Text(
+                          "Size",
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        ProductSizeSelector(
+                          sizes: const ['XS', 'S', 'M', 'L', 'XL'],
+                          selectedSize: _selectedSize,
+                          onSelected: (size) =>
+                              setState(() => _selectedSize = size),
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Color Selection
+                        Text(
+                          "Color",
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        ProductColorSelector(
+                          colors: [
+                            Colors.black87,
+                            Colors.red.shade500,
+                            Colors.blue.shade500,
+                            Colors.green.shade500,
+                          ],
+                          selectedColor: _selectedColor,
+                          onSelected: (color) =>
+                              setState(() => _selectedColor = color),
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Quantity Section
+                        Row(
+                          children: [
+                            Text(
+                              "Quantity",
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            ProductQuantitySelector(
+                              quantity: _selectedQuantity,
+                              onChanged: (int value) =>
+                                  setState(() => _selectedQuantity = value),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 32),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Sticky Bottom Bar
+          ProductPriceBar(),
+        ],
       ),
     );
   }

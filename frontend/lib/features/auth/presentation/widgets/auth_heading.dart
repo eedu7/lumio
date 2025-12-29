@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/ui/typography/heading_text.dart';
 
 class AuthHeading extends StatelessWidget {
   final String firstLine;
@@ -13,12 +12,28 @@ class AuthHeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
-      spacing: 8,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <HeadingText>[
-        HeadingText(text: firstLine),
-        HeadingText(text: secondLine),
+      children: [
+        Text(
+          firstLine,
+          style: theme.textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: Colors.black54,
+            letterSpacing: -0.5,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          secondLine,
+          style: theme.textTheme.headlineLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+            letterSpacing: -1.0,
+          ),
+        ),
       ],
     );
   }

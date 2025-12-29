@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/home/presentations/widgets/label.dart';
 
 class ProductQuantitySelector extends StatelessWidget {
   final int quantity;
@@ -19,34 +18,52 @@ class ProductQuantitySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      spacing: 12.0,
-      children: [
-        Label(text: 'Quantity'),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              color: quantity <= min ? Colors.grey : null,
-              onPressed: quantity > min ? () => onChanged(quantity - 1) : null,
-              icon: const Icon(Icons.remove),
-            ),
-            Container(
-              width: 40,
-              alignment: Alignment.center,
-              child: Text(
-                quantity.toString(),
-                style: theme.textTheme.titleMedium,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildActionButton(
+            icon: Icons.remove,
+            onPressed: quantity > min ? () => onChanged(quantity - 1) : null,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              quantity.toString(),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
             ),
-            IconButton(
-              onPressed: quantity < max ? () => onChanged(quantity + 1) : null,
-              icon: const Icon(Icons.add),
-            ),
-          ],
+          ),
+          _buildActionButton(
+            icon: Icons.add,
+            onPressed: quantity < max ? () => onChanged(quantity + 1) : null,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActionButton({required IconData icon, VoidCallback? onPressed}) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
         ),
-      ],
+        child: Icon(
+          icon,
+          size: 20,
+          color: onPressed == null ? Colors.grey[300] : Colors.black87,
+        ),
+      ),
     );
   }
 }

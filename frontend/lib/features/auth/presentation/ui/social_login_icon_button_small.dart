@@ -12,15 +12,23 @@ class SocialLoginIconButtonSmall extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
-        shape: RoundedSuperellipseBorder(
-          borderRadius: BorderRadius.circular(8.0),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
+        child: Image.asset(logoUrl, height: 24, width: 24, fit: BoxFit.contain),
       ),
-      onPressed: onPressed,
-      child: Image.asset(logoUrl, width: 24, height: 24),
     );
   }
 }

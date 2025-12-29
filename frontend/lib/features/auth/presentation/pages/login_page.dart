@@ -15,23 +15,24 @@ class LoginPage extends StatelessWidget {
       actionRoute: AppRoutes.signUp,
       actionText: 'Sign Up',
       helperText: 'Don\'t have an account?',
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 36.0,
-        children: [
-          // Heading
-          AuthHeading(firstLine: 'Login to your', secondLine: 'Account'),
-
-          // Login Form
-          LoginForm(),
-
-          // Divider
-          DividerWithText(label: 'or continue with'),
-
-          // Social Login
-          SocialLoginButtonSmallGroup(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 40),
+            const AuthHeading(
+              firstLine: 'Login to your',
+              secondLine: 'Account',
+            ),
+            const SizedBox(height: 40),
+            const LoginForm(),
+            const SizedBox(height: 40),
+            const DividerWithText(label: 'or continue with'),
+            const SizedBox(height: 32),
+            const SocialLoginButtonSmallGroup(),
+            const SizedBox(height: 24),
+          ],
+        ),
       ),
     );
   }

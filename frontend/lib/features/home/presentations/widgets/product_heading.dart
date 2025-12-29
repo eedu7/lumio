@@ -14,26 +14,25 @@ class _ProductHeadingState extends State<ProductHeading> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          "Short Cape Jacket",
-          style: theme.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w600,
+        Expanded(
+          child: Text(
+            "Short Cape Jacket",
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
           ),
         ),
         IconButton(
-          style: IconButton.styleFrom(backgroundColor: Colors.grey.shade200),
-          onPressed: () {
-            // TODO: Add to wishlist or favorite
-            setState(() {
-              _isFavorite = !_isFavorite;
-            });
-          },
+          onPressed: () => setState(() => _isFavorite = !_isFavorite),
           icon: Icon(
-            _isFavorite ? Icons.favorite : Icons.favorite_outline,
-            color: _isFavorite ? Colors.red : null,
+            _isFavorite
+                ? Icons.favorite_rounded
+                : Icons.favorite_outline_rounded,
+            color: _isFavorite ? Colors.redAccent : Colors.black87,
+            size: 28,
           ),
         ),
       ],

@@ -20,11 +20,18 @@ class AuthScaffold extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         leading: context.canPop()
             ? IconButton(
                 onPressed: () => context.pop(),
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 20,
+                  color: Colors.black87,
+                ),
               )
             : null,
       ),
@@ -32,46 +39,39 @@ class AuthScaffold extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      children: [
-                        // The main content area
-                        Expanded(child: body),
-
-                        // The Footer area
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 32.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                helperText,
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: [
+                      Expanded(child: body),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              helperText,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            GestureDetector(
+                              onTap: () => context.push(actionRoute),
+                              child: Text(
+                                actionText,
                                 style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: Colors.grey.shade600,
+                                  color: theme.primaryColor,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              const SizedBox(width: 4),
-                              // Replaces 'spacing' for compatibility
-                              GestureDetector(
-                                onTap: () => context.push(actionRoute),
-                                child: Text(
-                                  actionText,
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: theme.primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -15,23 +15,21 @@ class SignUpPage extends StatelessWidget {
       actionRoute: AppRoutes.login,
       actionText: 'Login',
       helperText: 'Already have an account?',
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 36.0,
-        children: [
-          // Heading
-          AuthHeading(firstLine: 'Create your', secondLine: 'Account'),
-
-          // SignUp Form
-          SignUpForm(),
-
-          // Divider
-          DividerWithText(label: 'or continue with'),
-
-          // Social Login
-          SocialLoginButtonSmallGroup(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 40),
+            const AuthHeading(firstLine: 'Create your', secondLine: 'Account'),
+            const SizedBox(height: 40),
+            const SignUpForm(),
+            const SizedBox(height: 40),
+            const DividerWithText(label: 'or continue with'),
+            const SizedBox(height: 32),
+            const SocialLoginButtonSmallGroup(),
+            const SizedBox(height: 24),
+          ],
+        ),
       ),
     );
   }

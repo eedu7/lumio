@@ -8,10 +8,25 @@ class ProductImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey.shade200,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
+      ),
       child: AspectRatio(
         aspectRatio: 1 / 1,
-        child: Image.network(src, fit: BoxFit.contain),
+        child: Hero(
+          tag: src,
+          child: Image.network(
+            src,
+            fit: BoxFit.contain,
+            // Adding a placeholder for better UX
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(child: CircularProgressIndicator(strokeWidth: 2));
+            },
+          ),
+        ),
       ),
     );
   }
