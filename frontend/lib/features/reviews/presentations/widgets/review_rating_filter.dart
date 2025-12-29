@@ -11,7 +11,7 @@ class _ReviewRatingFilterState extends State<ReviewRatingFilter> {
   static const String all = 'all';
   final List<String> _filters = [all, '5', '4', '3', '2', '1'];
 
-  final Set<String> _selected = {};
+  final Set<String> _selected = {all, '5', '4', '3', '2', '1'};
 
   bool _noneSelected = false;
 

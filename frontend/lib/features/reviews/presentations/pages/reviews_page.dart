@@ -30,20 +30,33 @@ class _ReviewsPageState extends State<ReviewsPage> {
               elevation: 0,
               surfaceTintColor: Colors.transparent,
               centerTitle: true,
-              leadingWidth: 70,
+              expandedHeight: 70,
+              // Slightly taller for breathing room
+              leadingWidth: 72,
               leading: Padding(
                 padding: const EdgeInsets.only(left: 16),
                 child: Center(
                   child: GestureDetector(
                     onTap: () => context.pop(),
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.grey.shade200),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.02),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
-                      child: const Icon(Icons.arrow_back_ios_new, size: 16),
+                      child: const Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 16,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
@@ -51,8 +64,15 @@ class _ReviewsPageState extends State<ReviewsPage> {
               title: Text(
                 'Reviews (42)',
                 style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 20,
+                  color: Colors.black,
                 ),
+              ),
+              // Optional: Add a subtle divider that appears when scrolled
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(1),
+                child: Divider(height: 1, color: Colors.grey.shade100),
               ),
             ),
 
