@@ -1,7 +1,6 @@
 from uuid import uuid4
 
-from pygments.token import String
-from sqlalchemy import UUID
+from sqlalchemy import UUID, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from core.database import Base
