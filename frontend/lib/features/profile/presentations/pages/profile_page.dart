@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/profile/presentations/widgets/logout_button.dart';
 import 'package:frontend/features/profile/presentations/widgets/profile_menu_item.dart';
 import 'package:frontend/features/profile/presentations/widgets/profile_section.dart';
@@ -107,16 +108,14 @@ class ProfilePage extends StatelessWidget {
               title: 'Addresses',
               items: [
                 ProfileMenuItem(
-                  enabled: false,
                   icon: Icons.location_on_outlined,
                   label: 'Shipping Addresses',
-                  onTap: () {},
+                  onTap: () => context.push(AppRoutes.shippingAddress),
                 ),
                 ProfileMenuItem(
-                  enabled: false,
                   icon: Icons.receipt_long_outlined,
                   label: 'Billing Address',
-                  onTap: () {},
+                  onTap: () => context.push(AppRoutes.billingAddress),
                 ),
               ],
             ),

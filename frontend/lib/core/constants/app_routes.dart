@@ -14,6 +14,15 @@ class AppRoutes {
   // Cart
   static const String cart = '/cart';
 
+  // checkout
+  static const String checkout = '/checkout';
+
+  // Shipping Address
+  static const String shippingAddress = '/shipping-address';
+
+  // Billing Address
+  static const String billingAddress = '/billing-address';
+
   // settings
   static const String settings = '/settings';
 

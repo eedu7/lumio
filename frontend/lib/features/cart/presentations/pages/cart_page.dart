@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/cart/presentations/widgets/cart_item.dart';
 import 'package:frontend/features/home/presentations/widgets/product_price_bar.dart';
 import 'package:go_router/go_router.dart';
@@ -71,9 +72,7 @@ class CartPage extends StatelessWidget {
             ProductPriceBar(
               buttonLabel: 'Checkout',
               icon: Icons.arrow_forward_rounded,
-              onPressed: () {
-                // Navigate to checkout
-              },
+              onPressed: () => context.push(AppRoutes.checkout),
             ),
           ],
         ),

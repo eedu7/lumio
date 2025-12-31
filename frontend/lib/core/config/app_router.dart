@@ -7,10 +7,10 @@ import 'package:frontend/features/auth/presentation/pages/forgot_password_page.d
 import 'package:frontend/features/auth/presentation/pages/login_page.dart';
 import 'package:frontend/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:frontend/features/auth/presentation/pages/social_login_page.dart';
-import 'package:frontend/features/auth/presentation/pages/verify_otp_page.dart';
 import 'package:frontend/features/cart/presentations/pages/cart_page.dart';
 import 'package:frontend/features/categories/pages/category_page.dart';
 import 'package:frontend/features/chat/presentations/pages/chat_page.dart';
+import 'package:frontend/features/checkout/presentations/pages/checkout_page.dart';
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/home/presentations/pages/product_detail_page.dart';
 import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
@@ -21,6 +21,8 @@ import 'package:frontend/features/settings/presentations/pages/about_page.dart';
 import 'package:frontend/features/settings/presentations/pages/privacy_policy_page.dart';
 import 'package:frontend/features/settings/presentations/pages/settings_page.dart';
 import 'package:frontend/features/settings/presentations/pages/terms_conditions_page.dart';
+import 'package:frontend/features/shipping-address/presentations/pages/billing_address_page.dart';
+import 'package:frontend/features/shipping-address/presentations/pages/shipping_address_page.dart';
 import 'package:frontend/features/special_offers/presentations/special_offers_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,7 +30,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: AppRoutes.login,
+  initialLocation: AppRoutes.chat,
   routes: <RouteBase>[
     // Authentication
     GoRoute(
@@ -63,6 +65,30 @@ final GoRouter appRouter = GoRouter(
         final productId = state.uri.queryParameters[AppRoutes.productKey]!;
 
         return ProductDetailPage(productId: productId);
+      },
+    ),
+
+    // Checkout
+    GoRoute(
+      path: AppRoutes.checkout,
+      builder: (BuildContext context, GoRouterState state) {
+        return CheckoutPage();
+      },
+    ),
+
+    // Shipping Address
+    GoRoute(
+      path: AppRoutes.shippingAddress,
+      builder: (BuildContext context, GoRouterState state) {
+        return ShippingAddressPage();
+      },
+    ),
+
+    // Billing Address
+    GoRoute(
+      path: AppRoutes.billingAddress,
+      builder: (BuildContext context, GoRouterState state) {
+        return BillingAddressPage();
       },
     ),
 
