@@ -27,7 +27,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: AppRoutes.socialLogin,
+  initialLocation: AppRoutes.login,
   routes: <RouteBase>[
     // Authentication
     GoRoute(

@@ -50,7 +50,9 @@ class CartPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 16),
             child: IconButton(
-              onPressed: () {}, // Action like "Clear Cart" or "Options"
+              onPressed: () {
+                // TODO: Handle more button press
+              },
               icon: const Icon(Icons.more_horiz_rounded, color: Colors.black87),
             ),
           ),

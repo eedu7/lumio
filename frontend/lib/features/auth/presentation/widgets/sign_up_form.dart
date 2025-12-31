@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/core/services/supabase/supabase_auth.dart';
+import 'package:frontend/core/widgets/custom_text_field.dart';
 import 'package:frontend/features/auth/presentation/widgets/form_submit_button.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -44,101 +45,41 @@ class _SignUpFormState extends State<SignUpForm> {
     }
   }
 
-  InputDecoration _getInputDecoration(
-    String hint,
-    IconData icon, {
-    Widget? suffixIcon,
-  }) {
-    return InputDecoration(
-      hintText: hint,
-      prefixIcon: Icon(icon, color: Colors.grey[400], size: 20),
-      suffixIcon: suffixIcon,
-      filled: true,
-      fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide.none,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide.none,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: Theme.of(context).primaryColor,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: _getInputDecoration(
-                'Email Address',
-                Icons.email_outlined,
-              ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) return 'Email is required';
-                if (!EmailValidator.validate(value)) return 'Invalid email';
-                return null;
-              },
-            ),
+          // Email Address
+          CustomTextField(
+            controller: _emailController,
+            prefixIcon: Icons.email_outlined,
+            hint: 'Email Address',
+            validator: (String? value) {
+              if (value == null || value.isEmpty) return 'Email is required';
+              if (!EmailValidator.validate(value)) return 'Invalid email';
+              return null;
+            },
           ),
           const SizedBox(height: 16),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: TextFormField(
-              controller: _passwordController,
-              obscureText: _obscureText,
-              decoration: _getInputDecoration(
-                'Password',
-                Icons.lock_outline,
-                suffixIcon: IconButton(
-                  onPressed: () => setState(() => _obscureText = !_obscureText),
-                  icon: Icon(
-                    _obscureText
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                    color: Colors.grey[400],
-                    size: 20,
-                  ),
-                ),
+          // Password
+          CustomTextField(
+            controller: _passwordController,
+            prefixIcon: Icons.lock_outline,
+            hint: 'Password',
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
               ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty)
-                  return 'Password is required';
-                return null;
-              },
+              onPressed: () => setState(() => _obscureText = !_obscureText),
             ),
+            validator: (String? value) {
+              if (value == null || value.isEmpty) return 'Password is required';
+              return null;
+            },
           ),
+
           const SizedBox(height: 32),
           FormSubmitButton(
             label: 'Sign Up',

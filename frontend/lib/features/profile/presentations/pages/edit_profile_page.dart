@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/profile/presentations/widgets/profile_text_field.dart';
+import 'package:frontend/core/widgets/custom_text_field.dart';
 import 'package:frontend/features/settings/presentations/widgets/custom_app_bar.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -40,20 +40,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
               const SizedBox(height: 32),
 
               // Form Fields
-              ProfileTextField(
+              CustomTextField(
                 label: 'Full Name',
                 controller: _nameController,
                 prefixIcon: Icons.person_outline_rounded,
               ),
               const SizedBox(height: 20),
-              ProfileTextField(
+              CustomTextField(
                 label: 'Email Address',
                 controller: _emailController,
                 prefixIcon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 20),
-              ProfileTextField(
+              CustomTextField(
                 label: 'Date of Birth',
                 controller: _dobController,
                 prefixIcon: Icons.calendar_today_outlined,
@@ -61,13 +61,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onTap: () => _selectDate(context),
               ),
               const SizedBox(height: 20),
-              ProfileTextField(
+              CustomTextField(
                 label: 'Country',
                 controller: _countryController,
                 prefixIcon: Icons.public_rounded,
               ),
               const SizedBox(height: 20),
-              ProfileTextField(
+              CustomTextField(
                 label: 'Mobile Number',
                 controller: _phoneController,
                 prefixIcon: Icons.phone_android_rounded,

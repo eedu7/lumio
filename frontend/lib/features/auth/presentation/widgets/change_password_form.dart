@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/services/supabase/supabase_auth.dart';
+import 'package:frontend/core/widgets/custom_text_field.dart';
+import 'package:frontend/core/widgets/ui_notifications.dart';
+import 'package:go_router/go_router.dart';
 
 class ChangePasswordForm extends StatefulWidget {
   const ChangePasswordForm({super.key});
@@ -15,7 +18,6 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
   final _confirmPasswordController = TextEditingController();
 
   bool _obscureNew = true;
-  bool _obscureConfirm = true;
   bool _isLoading = false;
 
   @override
@@ -25,15 +27,68 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
     super.dispose();
   }
 
+  Future<void> _onSubmit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    if (_newPasswordController.text != _confirmPasswordController.text) {
+      UiNotifications.showError(context, 'Passwords do not match');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await SupabaseAuth().changePassword(
+        password: _newPasswordController.text.trim(),
+      );
+
+      if (!mounted) return;
+
+      UiNotifications.showSuccess(context, 'Password updated successfully');
+      _newPasswordController.clear();
+      _confirmPasswordController.clear();
+      context.pop();
+    } catch (_) {
+      UiNotifications.showError(context, 'Failed to update password');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          _newPasswordField(),
+          CustomTextField(
+            hint: 'New password',
+            controller: _newPasswordController,
+            keyboardType: TextInputType.visiblePassword,
+            prefixIcon: Icons.lock_reset_outlined,
+            obscureText: _obscureNew,
+            validator: _newPasswordValidator,
+            suffixIcon: IconButton(
+              icon: Icon(_obscureNew ? Icons.visibility_off : Icons.visibility),
+              onPressed: () => setState(() => _obscureNew = !_obscureNew),
+            ),
+          ),
           const SizedBox(height: 20),
-          _confirmPasswordField(),
+          CustomTextField(
+            hint: 'Confirm New Password',
+            controller: _confirmPasswordController,
+            keyboardType: TextInputType.visiblePassword,
+            prefixIcon: Icons.check_circle_outline,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please confirm your password';
+              }
+              if (value != _newPasswordController.text) {
+                return 'Passwords do not match';
+              }
+              return null;
+            },
+          ),
           const SizedBox(height: 40),
           SizedBox(
             width: double.infinity,
@@ -59,78 +114,6 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
     );
   }
 
-  Future<void> _onSubmit() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    if (_newPasswordController.text != _confirmPasswordController.text) {
-      _showError('Passwords do not match');
-      return;
-    }
-
-    setState(() => _isLoading = true);
-
-    try {
-      await SupabaseAuth().changePassword(
-        password: _newPasswordController.text.trim(),
-      );
-
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password updated successfully')),
-      );
-
-      _newPasswordController.clear();
-      _confirmPasswordController.clear();
-    } catch (e) {
-      _showError('Failed to update password');
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
-  }
-
-  void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.red),
-    );
-  }
-
-  Widget _newPasswordField() {
-    return TextFormField(
-      controller: _newPasswordController,
-      obscureText: _obscureNew,
-      validator: _newPasswordValidator,
-      decoration: _decoration(
-        label: 'New Password',
-        icon: Icons.lock_reset_outlined,
-        obscure: _obscureNew,
-        toggle: () => setState(() => _obscureNew = !_obscureNew),
-      ),
-    );
-  }
-
-  Widget _confirmPasswordField() {
-    return TextFormField(
-      controller: _confirmPasswordController,
-      obscureText: _obscureConfirm,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please confirm your password';
-        }
-        if (value != _newPasswordController.text) {
-          return 'Passwords do not match';
-        }
-        return null;
-      },
-      decoration: _decoration(
-        label: 'Confirm New Password',
-        icon: Icons.check_circle_outline,
-        obscure: _obscureConfirm,
-        toggle: () => setState(() => _obscureConfirm = !_obscureConfirm),
-      ),
-    );
-  }
-
   String? _newPasswordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Password is required';
@@ -138,9 +121,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
 
     final errors = <String>[];
 
-    if (value.length < 12) {
-      errors.add('• At least 12 characters');
-    }
+    if (value.length < 12) errors.add('• At least 12 characters');
     if (!RegExp(r'[A-Za-z]').hasMatch(value)) {
       errors.add('• Must contain letters');
     }
@@ -152,22 +133,5 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
     }
 
     return errors.isEmpty ? null : errors.join('\n');
-  }
-
-  InputDecoration _decoration({
-    required String label,
-    required IconData icon,
-    required bool obscure,
-    required VoidCallback toggle,
-  }) {
-    return InputDecoration(
-      labelText: label,
-      prefixIcon: Icon(icon),
-      suffixIcon: IconButton(
-        icon: Icon(obscure ? Icons.visibility_off : Icons.visibility),
-        onPressed: toggle,
-      ),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-    );
   }
 }
