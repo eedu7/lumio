@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/constants/app_routes.dart';
-import 'package:frontend/core/services/local_storage_service.dart';
 import 'package:frontend/core/widgets/main_scaffold.dart';
 import 'package:frontend/features/auth/presentation/pages/change_password_page.dart';
 import 'package:frontend/features/auth/presentation/pages/forgot_password_page.dart';
@@ -33,28 +32,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  redirect: (context, state) async {
-    final bool loggedIn = await LocalStorageService.getBool(
-      PrefBoolKey.isLoggedIn,
-    );
 
-    // Define routes that don't require authentication
-    final bool isAuthRoute =
-        state.matchedLocation == AppRoutes.socialLogin ||
-        state.matchedLocation == AppRoutes.login ||
-        state.matchedLocation == AppRoutes.signUp ||
-        state.matchedLocation == AppRoutes.forgotPassword;
-
-    if (!loggedIn && !isAuthRoute) {
-      return AppRoutes.socialLogin;
-    }
-
-    if (loggedIn && isAuthRoute) {
-      return AppRoutes.home;
-    }
-
-    return null; // No redirect needed
-  },
   initialLocation: AppRoutes.home,
   routes: <RouteBase>[
     // Authentication

@@ -21,11 +21,11 @@ class LocalStorageService {
   }
 
   // Read
-  static Future<String> getString(PrefStringKey key) async {
+  static String getString(PrefStringKey key) {
     return _pref.getString(key.name) ?? '';
   }
 
-  static Future<bool> getBool(PrefBoolKey key) async {
+  static bool getBool(PrefBoolKey key) {
     return _pref.getBool(key.name) ?? false;
   }
 
