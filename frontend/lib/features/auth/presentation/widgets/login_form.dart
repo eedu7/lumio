@@ -54,36 +54,6 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
-  InputDecoration _getInputDecoration(
-    String hint,
-    IconData icon, {
-    Widget? suffixIcon,
-  }) {
-    return InputDecoration(
-      hintText: hint,
-      prefixIcon: Icon(icon, color: Colors.grey[400], size: 20),
-      suffixIcon: suffixIcon,
-      filled: true,
-      fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide.none,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide.none,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(
-          color: Theme.of(context).primaryColor,
-          width: 1.5,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Form(
