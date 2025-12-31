@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_routes.dart';
+import 'package:go_router/go_router.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({super.key});
@@ -45,7 +47,7 @@ class UserInfo extends StatelessWidget {
         SizedBox(
           height: 36,
           child: OutlinedButton(
-            onPressed: () {},
+            onPressed: () => context.push(AppRoutes.editProfile),
             style: OutlinedButton.styleFrom(
               shape: StadiumBorder(),
               side: BorderSide(color: Colors.grey.shade300),

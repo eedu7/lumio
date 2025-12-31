@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/settings/presentations/widgets/settings_section.dart';
 import 'package:frontend/features/settings/presentations/widgets/settings_tile.dart';
 import 'package:frontend/features/settings/presentations/widgets/settings_toggle_tile.dart';
@@ -53,8 +54,12 @@ class SettingsPage extends StatelessWidget {
           SettingsSection(
             title: 'Account',
             items: [
-              SettingsTile(label: 'Change Password', onTap: () {}),
               SettingsTile(
+                label: 'Change Password',
+                onTap: () => context.push(AppRoutes.changePassword),
+              ),
+              SettingsTile(
+                enabled: false,
                 label: 'Email / Phone Verification',
                 trailingText: 'Verified',
                 onTap: () {
@@ -62,6 +67,7 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
               SettingsTile(
+                enabled: false,
                 label: 'Delete Account',
                 isDestructive: true,
                 onTap: () {
@@ -78,6 +84,7 @@ class SettingsPage extends StatelessWidget {
               SettingsTile(
                 label: 'Language',
                 trailingText: 'English (US)',
+                enabled: false,
                 onTap: () {
                   // TODO: Implement language change
                 },
@@ -85,6 +92,7 @@ class SettingsPage extends StatelessWidget {
               SettingsTile(
                 label: 'Currency',
                 trailingText: 'USD (\$)',
+                enabled: false,
                 onTap: () {
                   // TODO: Implement currency chage
                 },
@@ -105,15 +113,11 @@ class SettingsPage extends StatelessWidget {
             items: [
               SettingsTile(
                 label: 'Privacy Policy',
-                onTap: () {
-                  // TODO: Provide privacy policy
-                },
+                onTap: () => context.push(AppRoutes.privacyPolicy),
               ),
               SettingsTile(
                 label: 'Terms & Conditions',
-                onTap: () {
-                  // TODO: Provide terms & conditions
-                },
+                onTap: () => context.push(AppRoutes.termsConditions),
               ),
             ],
           ),
@@ -135,9 +139,7 @@ class SettingsPage extends StatelessWidget {
               ),
               SettingsTile(
                 label: 'About',
-                onTap: () {
-                  // TODO: Implement about
-                },
+                onTap: () => context.push(AppRoutes.about),
               ),
             ],
           ),

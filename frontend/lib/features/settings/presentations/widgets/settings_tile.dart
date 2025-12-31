@@ -6,6 +6,7 @@ class SettingsTile extends StatelessWidget {
   final VoidCallback? onTap;
   final bool isDestructive;
   final bool showArrow;
+  final bool enabled;
 
   const SettingsTile({
     super.key,
@@ -14,18 +15,25 @@ class SettingsTile extends StatelessWidget {
     this.onTap,
     this.isDestructive = false,
     this.showArrow = true,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    Color getTitleColor() {
+      if (!enabled) return Colors.grey.shade400;
+      if (isDestructive) return Colors.redAccent;
+      return Colors.black87;
+    }
+
     return ListTile(
-      onTap: onTap,
+      onTap: enabled ? onTap : null,
       title: Text(
         label,
         style: TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w500,
-          color: isDestructive ? Colors.redAccent : Colors.black87,
+          color: getTitleColor(),
         ),
       ),
       trailing: Row(
@@ -34,14 +42,17 @@ class SettingsTile extends StatelessWidget {
           if (trailingText != null)
             Text(
               trailingText!,
-              style: const TextStyle(color: Colors.grey, fontSize: 13),
+              style: TextStyle(
+                color: enabled ? Colors.grey : Colors.grey.shade300,
+                fontSize: 13,
+              ),
             ),
           if (showArrow) ...[
             const SizedBox(width: 8),
-            const Icon(
+            Icon(
               Icons.arrow_forward_ios_rounded,
               size: 12,
-              color: Colors.grey,
+              color: enabled ? Colors.grey : Colors.grey.shade300,
             ),
           ],
         ],

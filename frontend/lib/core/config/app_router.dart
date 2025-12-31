@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/core/widgets/main_scaffold.dart';
+import 'package:frontend/features/auth/presentation/pages/change_password_page.dart';
 import 'package:frontend/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:frontend/features/auth/presentation/pages/login_page.dart';
 import 'package:frontend/features/auth/presentation/pages/sign_up_page.dart';
@@ -12,9 +13,13 @@ import 'package:frontend/features/chat/presentations/pages/chat_page.dart';
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/home/presentations/pages/product_detail_page.dart';
 import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
+import 'package:frontend/features/profile/presentations/pages/edit_profile_page.dart';
 import 'package:frontend/features/profile/presentations/pages/profile_page.dart';
 import 'package:frontend/features/reviews/presentations/pages/reviews_page.dart';
+import 'package:frontend/features/settings/presentations/pages/about_page.dart';
+import 'package:frontend/features/settings/presentations/pages/privacy_policy_page.dart';
 import 'package:frontend/features/settings/presentations/pages/settings_page.dart';
+import 'package:frontend/features/settings/presentations/pages/terms_conditions_page.dart';
 import 'package:frontend/features/special_offers/presentations/special_offers_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,7 +27,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: AppRoutes.profile,
+  initialLocation: AppRoutes.socialLogin,
   routes: <RouteBase>[
     // Authentication
     GoRoute(
@@ -43,6 +48,11 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.forgotPassword,
       builder: (BuildContext context, GoRouterState state) =>
           const ForgotPasswordPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.changePassword,
+      builder: (BuildContext context, GoRouterState state) =>
+          const ChangePasswordPage(),
     ),
 
     // Product Details
@@ -73,7 +83,38 @@ final GoRouter appRouter = GoRouter(
       },
     ),
 
-    // Reviews
+    // Privacy Policy
+    GoRoute(
+      path: AppRoutes.privacyPolicy,
+      builder: (BuildContext context, GoRouterState state) {
+        return PrivacyPolicyPage();
+      },
+    ),
+
+    // Terms and Conditions
+    GoRoute(
+      path: AppRoutes.termsConditions,
+      builder: (BuildContext context, GoRouterState state) {
+        return TermsConditionsPage();
+      },
+    ),
+
+    // About
+    GoRoute(
+      path: AppRoutes.about,
+      builder: (BuildContext context, GoRouterState state) {
+        return AboutPage();
+      },
+    ),
+
+    // Edit Profile
+    GoRoute(
+      path: AppRoutes.editProfile,
+      builder: (BuildContext context, GoRouterState state) =>
+          const EditProfilePage(),
+    ),
+
+    // Special Offer
     GoRoute(
       path: AppRoutes.specialOffers,
       builder: (BuildContext context, GoRouterState state) {

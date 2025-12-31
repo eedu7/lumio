@@ -3,16 +3,17 @@ import 'package:go_router/go_router.dart';
 
 class AuthScaffold extends StatelessWidget {
   final Widget body;
-  final String helperText;
-  final String actionText;
-  final String actionRoute;
+
+  final String? helperText;
+  final String? actionText;
+  final String? actionRoute;
 
   const AuthScaffold({
     super.key,
     required this.body,
-    required this.helperText,
-    required this.actionRoute,
-    required this.actionText,
+    this.helperText,
+    this.actionRoute,
+    this.actionText,
   });
 
   @override
@@ -39,38 +40,42 @@ class AuthScaffold extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: IntrinsicHeight(
                   child: Column(
                     children: [
                       Expanded(child: body),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 24.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              helperText,
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            GestureDetector(
-                              onTap: () => context.push(actionRoute),
-                              child: Text(
-                                actionText,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: theme.primaryColor,
-                                  fontWeight: FontWeight.bold,
+
+                      if (actionText != null && actionRoute != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (helperText != null) ...[
+                                Text(
+                                  helperText!,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                              ],
+                              GestureDetector(
+                                onTap: () => context.push(actionRoute!),
+                                child: Text(
+                                  actionText!,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: theme.primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),

@@ -6,6 +6,7 @@ class AppRoutes {
   static const String login = '/login';
   static const String socialLogin = '/social-login';
   static const String forgotPassword = '/forgot-password';
+  static const String changePassword = '/change-password';
 
   // Chat
   static const String chat = '/chat';
@@ -28,12 +29,18 @@ class AppRoutes {
 
   // Profile
   static const String profile = '/profile';
+  static const String editProfile = '/profile/edit';
 
   // Home
   static const String home = '/';
 
   // Category
   static const String category = '/category';
+
+  // Privacy Policy
+  static const String privacyPolicy = '/settings/privacy-policy';
+  static const String termsConditions = '/settings/terms-conditions';
+  static const String about = '/settings/about';
 
   // Query param names
   static const String qKey = 'key';

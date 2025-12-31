@@ -34,4 +34,23 @@ class SupabaseAuth {
   Future<void> signInWithGithub() async {
     await supabase.auth.signInWithOAuth(OAuthProvider.github);
   }
+
+  // Change Password
+  Future<void> changePassword({required String password}) async {
+    await supabase.auth.updateUser(UserAttributes(password: password));
+  }
+
+  // Send Password Reset email
+  Future<void> sendPasswordResetEmail({required String email}) async {
+    await supabase.auth.resetPasswordForEmail(email);
+  }
+
+  // Verify OTP
+  Future<void> verifyOTP({required String email, required String otp}) async {
+    await supabase.auth.verifyOTP(
+      email: email,
+      type: OtpType.recovery,
+      token: otp,
+    );
+  }
 }

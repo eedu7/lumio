@@ -45,21 +45,25 @@ class ProfilePage extends StatelessWidget {
               title: 'Orders',
               items: [
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.shopping_bag_outlined,
                   label: 'My Orders',
                   onTap: () {},
                 ),
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.local_shipping_outlined,
                   label: 'Order Tracking',
                   onTap: () {},
                 ),
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.history_rounded,
                   label: 'Order History',
                   onTap: () {},
                 ),
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.assignment_return_outlined,
                   label: 'Returns & Refunds',
                   onTap: () {},
@@ -72,21 +76,25 @@ class ProfilePage extends StatelessWidget {
               title: 'Payments',
               items: [
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.credit_card_outlined,
                   label: 'Saved Cards',
                   onTap: () {},
                 ),
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.account_balance_wallet_outlined,
                   label: 'Wallet / Balance',
                   onTap: () {},
                 ),
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.card_giftcard_outlined,
                   label: 'Gift Cards',
                   onTap: () {},
                 ),
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.confirmation_number_outlined,
                   label: 'Coupons',
                   onTap: () {},
@@ -99,11 +107,13 @@ class ProfilePage extends StatelessWidget {
               title: 'Addresses',
               items: [
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.location_on_outlined,
                   label: 'Shipping Addresses',
                   onTap: () {},
                 ),
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.receipt_long_outlined,
                   label: 'Billing Address',
                   onTap: () {},
@@ -116,16 +126,19 @@ class ProfilePage extends StatelessWidget {
               title: 'Support',
               items: [
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.help_outline_rounded,
                   label: 'Help Center',
                   onTap: () {},
                 ),
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.chat_bubble_outline_rounded,
                   label: 'Chat with Support',
                   onTap: () {},
                 ),
                 ProfileMenuItem(
+                  enabled: false,
                   icon: Icons.quiz_outlined,
                   label: 'FAQs',
                   onTap: () {},
