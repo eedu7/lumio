@@ -47,7 +47,7 @@ class _FaqPageState extends State<FaqPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               scrollDirection: Axis.horizontal,
               itemCount: categories.length,
-              separatorBuilder: (_, _) => const SizedBox(width: 8),
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
               itemBuilder: (context, index) {
                 final category = categories[index];
                 final isSelected = _selectedCategory == category;
@@ -79,7 +79,7 @@ class _FaqPageState extends State<FaqPage> {
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: _currentFaqs.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final faq = _currentFaqs[index];
                 return Container(

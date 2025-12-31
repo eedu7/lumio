@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: const Text(
-          'Profile',
+          'My Profile',
           style: TextStyle(
             fontWeight: FontWeight.w900,
             color: Colors.black,

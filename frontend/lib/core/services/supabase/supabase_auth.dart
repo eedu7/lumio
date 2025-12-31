@@ -1,3 +1,4 @@
+import 'package:frontend/core/services/local_storage_service.dart';
 import 'package:frontend/core/services/supabase/supabase_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -9,7 +10,14 @@ class SupabaseAuth {
     required String email,
     required String password,
   }) async {
-    return supabase.auth.signInWithPassword(email: email, password: password);
+    final response = await supabase.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
+    if (response.session != null) {
+      await LocalStorageService.setBoolean(PrefBoolKey.isLoggedIn, true);
+    }
+    return response;
   }
 
   // Sign Up with email and password
@@ -17,12 +25,20 @@ class SupabaseAuth {
     required String email,
     required String password,
   }) async {
-    return supabase.auth.signUp(email: email, password: password);
+    final response = await supabase.auth.signUp(
+      email: email,
+      password: password,
+    );
+    if (response.session != null) {
+      await LocalStorageService.setBoolean(PrefBoolKey.isLoggedIn, true);
+    }
+    return response;
   }
 
   // Sign out
   Future<void> signOut() async {
     await supabase.auth.signOut();
+    await LocalStorageService.setBoolean(PrefBoolKey.isLoggedIn, false);
   }
 
   // Sign in with google
