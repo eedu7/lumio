@@ -12,7 +12,6 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
 
-  // Controllers for the fields
   final _nameController = TextEditingController(text: 'John Doe');
   final _emailController = TextEditingController(text: 'john.doe@email.com');
   final _dobController = TextEditingController(text: '12/12/1995');

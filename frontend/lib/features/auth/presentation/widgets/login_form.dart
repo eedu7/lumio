@@ -64,6 +64,7 @@ class _LoginFormState extends State<LoginForm> {
           CustomTextField(
             controller: _emailController,
             prefixIcon: Icons.email_outlined,
+            keyboardType: TextInputType.emailAddress,
             hint: 'Email Address',
             validator: (String? value) {
               if (value == null || value.isEmpty) return 'Email is required';
@@ -76,6 +77,7 @@ class _LoginFormState extends State<LoginForm> {
           CustomTextField(
             controller: _passwordController,
             prefixIcon: Icons.lock_outline,
+            keyboardType: TextInputType.visiblePassword,
             hint: 'Password',
             suffixIcon: IconButton(
               icon: Icon(

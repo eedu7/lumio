@@ -7,6 +7,7 @@ import 'package:frontend/features/auth/presentation/pages/forgot_password_page.d
 import 'package:frontend/features/auth/presentation/pages/login_page.dart';
 import 'package:frontend/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:frontend/features/auth/presentation/pages/social_login_page.dart';
+import 'package:frontend/features/auth/presentation/pages/verify_otp_page.dart';
 import 'package:frontend/features/cart/presentations/pages/cart_page.dart';
 import 'package:frontend/features/categories/pages/category_page.dart';
 import 'package:frontend/features/chat/presentations/pages/chat_page.dart';

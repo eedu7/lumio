@@ -54,6 +54,7 @@ class _SignUpFormState extends State<SignUpForm> {
           // Email Address
           CustomTextField(
             controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
             prefixIcon: Icons.email_outlined,
             hint: 'Email Address',
             validator: (String? value) {
@@ -66,6 +67,7 @@ class _SignUpFormState extends State<SignUpForm> {
           // Password
           CustomTextField(
             controller: _passwordController,
+            keyboardType: TextInputType.visiblePassword,
             prefixIcon: Icons.lock_outline,
             hint: 'Password',
             suffixIcon: IconButton(
@@ -75,8 +77,24 @@ class _SignUpFormState extends State<SignUpForm> {
               onPressed: () => setState(() => _obscureText = !_obscureText),
             ),
             validator: (String? value) {
-              if (value == null || value.isEmpty) return 'Password is required';
-              return null;
+              if (value == null || value.isEmpty) {
+                return 'Password is required';
+              }
+
+              final errors = <String>[];
+
+              if (value.length < 12) errors.add('• At least 12 characters');
+              if (!RegExp(r'[A-Za-z]').hasMatch(value)) {
+                errors.add('• Must contain letters');
+              }
+              if (!RegExp(r'[0-9]').hasMatch(value)) {
+                errors.add('• Must contain numbers');
+              }
+              if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+                errors.add('• Must contain a special character');
+              }
+
+              return errors.isEmpty ? null : errors.join('\n');
             },
           ),
 
