@@ -21,16 +21,18 @@ import 'package:frontend/features/settings/presentations/pages/about_page.dart';
 import 'package:frontend/features/settings/presentations/pages/privacy_policy_page.dart';
 import 'package:frontend/features/settings/presentations/pages/settings_page.dart';
 import 'package:frontend/features/settings/presentations/pages/terms_conditions_page.dart';
-import 'package:frontend/features/shipping-address/presentations/pages/billing_address_page.dart';
+import 'package:frontend/features/shipping-address/presentations/pages/add_shipping_address_page.dart';
+import 'package:frontend/features/shipping-address/presentations/pages/edit_shipping_address_page.dart';
 import 'package:frontend/features/shipping-address/presentations/pages/shipping_address_page.dart';
 import 'package:frontend/features/special_offers/presentations/special_offers_page.dart';
+import 'package:frontend/features/support/presentations/pages/faq_page.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: AppRoutes.chat,
+  initialLocation: AppRoutes.profile,
   routes: <RouteBase>[
     // Authentication
     GoRoute(
@@ -76,6 +78,14 @@ final GoRouter appRouter = GoRouter(
       },
     ),
 
+    // FAQs
+    GoRoute(
+      path: AppRoutes.faq,
+      builder: (BuildContext context, GoRouterState state) {
+        return FaqPage();
+      },
+    ),
+
     // Shipping Address
     GoRoute(
       path: AppRoutes.shippingAddress,
@@ -84,11 +94,19 @@ final GoRouter appRouter = GoRouter(
       },
     ),
 
-    // Billing Address
+    // Add Shipping Address
     GoRoute(
-      path: AppRoutes.billingAddress,
+      path: AppRoutes.addShippingAddress,
       builder: (BuildContext context, GoRouterState state) {
-        return BillingAddressPage();
+        return AddShippingAddressPage();
+      },
+    ),
+
+    // Edit Shipping Address
+    GoRoute(
+      path: AppRoutes.editShippingAddress,
+      builder: (BuildContext context, GoRouterState state) {
+        return EditShippingAddressPage();
       },
     ),
 

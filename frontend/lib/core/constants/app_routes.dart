@@ -19,12 +19,14 @@ class AppRoutes {
 
   // Shipping Address
   static const String shippingAddress = '/shipping-address';
-
-  // Billing Address
-  static const String billingAddress = '/billing-address';
+  static const String addShippingAddress = '/shipping-address/add';
+  static const String editShippingAddress = '/shipping-address/new';
 
   // settings
   static const String settings = '/settings';
+
+  // Support
+  static const String faq = '/support/faq';
 
   // Special Offer
   static const String specialOffers = '/special-offers';

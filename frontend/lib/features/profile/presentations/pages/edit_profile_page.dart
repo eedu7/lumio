@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/widgets/custom_text_field.dart';
-import 'package:frontend/features/settings/presentations/widgets/custom_app_bar.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -15,110 +13,183 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final _nameController = TextEditingController(text: 'John Doe');
   final _emailController = TextEditingController(text: 'john.doe@email.com');
   final _dobController = TextEditingController(text: '12/12/1995');
-  final _countryController = TextEditingController(text: 'United States');
   final _phoneController = TextEditingController(text: '+1 234 567 890');
 
   String _selectedGender = 'Male';
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: const CustomAppBar(
-        title: 'Edit Profile',
-        backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[50], // Consistent with other pages
+      appBar: AppBar(
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              // Profile Picture Section
-              _buildAvatarSection(),
-              const SizedBox(height: 32),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  spacing: 20.0, // Consistent vertical rhythm
+                  children: [
+                    _buildAvatarSection(theme),
 
-              // Form Fields
-              CustomTextField(
-                label: 'Full Name',
-                controller: _nameController,
-                prefixIcon: Icons.person_outline_rounded,
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                label: 'Email Address',
-                controller: _emailController,
-                prefixIcon: Icons.email_outlined,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                label: 'Date of Birth',
-                controller: _dobController,
-                prefixIcon: Icons.calendar_today_outlined,
-                readOnly: true,
-                onTap: () => _selectDate(context),
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                label: 'Country',
-                controller: _countryController,
-                prefixIcon: Icons.public_rounded,
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                label: 'Mobile Number',
-                controller: _phoneController,
-                prefixIcon: Icons.phone_android_rounded,
-                keyboardType: TextInputType.phone,
-              ),
-              const SizedBox(height: 20),
+                    const SizedBox(height: 12), // Extra space after avatar
 
-              // Gender Selection (Dropdown style)
-              _buildGenderDropdown(),
-
-              const SizedBox(height: 40),
-
-              // Submit Button
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Handle save logic
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                    _buildProfileField(
+                      label: 'Full Name',
+                      controller: _nameController,
+                      icon: Icons.person_outline_rounded,
                     ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    'Save Changes',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
+                    _buildProfileField(
+                      label: 'Email Address',
+                      controller: _emailController,
+                      icon: Icons.email_outlined,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    _buildProfileField(
+                      label: 'Date of Birth',
+                      controller: _dobController,
+                      icon: Icons.calendar_today_outlined,
+                      readOnly: true,
+                      onTap: () {},
+                    ),
+                    _buildProfileField(
+                      label: 'Mobile Number',
+                      controller: _phoneController,
+                      icon: Icons.phone_android_rounded,
+                      keyboardType: TextInputType.phone,
+                    ),
+
+                    _buildGenderDropdown(theme),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+
+          // Sticky Bottom Button (Matching Checkout/Address pages)
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 20,
+                  offset: const Offset(0, -5),
+                ),
+              ],
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    // Handle save logic
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.primaryColor, // Matching Design System
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 0,
+                ),
+                child: const Text(
+                  'Save Changes',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildAvatarSection() {
+  Widget _buildProfileField({
+    required String label,
+    required TextEditingController controller,
+    required IconData icon,
+    bool readOnly = false,
+    VoidCallback? onTap,
+    TextInputType? keyboardType,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8.0,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+        ),
+        TextField(
+          controller: controller,
+          readOnly: readOnly,
+          onTap: onTap,
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
+            prefixIcon: Icon(icon, size: 20, color: Colors.grey[400]),
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.grey.shade200),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 2,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAvatarSection(ThemeData theme) {
     return Center(
       child: Stack(
         children: [
-          CircleAvatar(
-            radius: 50,
-            backgroundColor: Colors.grey[100],
-            backgroundImage: const NetworkImage(
-              'https://i.pravatar.cc/150?u=john',
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 4),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: .1),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
+            child: CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.grey[200],
+              backgroundImage: const NetworkImage(
+                'https://i.pravatar.cc/150?u=john',
+              ),
             ),
           ),
           Positioned(
@@ -126,9 +197,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
             right: 0,
             child: Container(
               padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Colors.black,
+              decoration: BoxDecoration(
+                color: theme.primaryColor, // Button matching primary color
                 shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: 2),
               ),
               child: const Icon(
                 Icons.camera_alt_rounded,
@@ -142,26 +214,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget _buildGenderDropdown() {
+  Widget _buildGenderDropdown(ThemeData theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8.0,
       children: [
         const Text(
           'Gender',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
         ),
-        const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
-            color: Colors.grey[50],
+            color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey[200]!),
+            border: Border.all(color: Colors.grey.shade200),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: _selectedGender,
               isExpanded: true,
+              icon: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: Colors.grey[400],
+              ),
               items: ['Male', 'Female', 'Other'].map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -176,9 +252,5 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       ],
     );
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    // Logic for date picker
   }
 }

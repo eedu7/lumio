@@ -112,11 +112,6 @@ class ProfilePage extends StatelessWidget {
                   label: 'Shipping Addresses',
                   onTap: () => context.push(AppRoutes.shippingAddress),
                 ),
-                ProfileMenuItem(
-                  icon: Icons.receipt_long_outlined,
-                  label: 'Billing Address',
-                  onTap: () => context.push(AppRoutes.billingAddress),
-                ),
               ],
             ),
 
@@ -137,10 +132,9 @@ class ProfilePage extends StatelessWidget {
                   onTap: () {},
                 ),
                 ProfileMenuItem(
-                  enabled: false,
                   icon: Icons.quiz_outlined,
                   label: 'FAQs',
-                  onTap: () {},
+                  onTap: () => context.push(AppRoutes.faq),
                 ),
               ],
             ),
