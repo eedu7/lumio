@@ -1,16 +1,15 @@
-from ast import Del
 from fastapi import APIRouter, Depends, Request, status
 from sqlalchemy import select
 
 from core.dependencies import SessionDep
 from core.dependencies.authentication import get_current_user
 from core.models import Cart, CartItem
-from core.schemas.cart_items import CartItemCreate, CartItemRead
+from core.schemas.cart_items import CartItemCreate
 
 router = APIRouter(dependencies=[Depends(get_current_user)])
 
 
-@router.post("/", response_model=CartItemRead, status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED)
 async def add_cart_item(cart_item_data: CartItemCreate, request: Request, session: SessionDep):
     user_id = request.state.user.id
 
@@ -34,7 +33,3 @@ async def add_cart_item(cart_item_data: CartItemCreate, request: Request, sessio
     await session.commit()
     await session.refresh(cart_item)
     return cart_item
-
-@router.delete('/{cart_item_id}')
-async def remove_cart_item():
-    ...

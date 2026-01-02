@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:frontend/core/network/api_client.dart';
-import 'package:frontend/features/cart/model/cart_item_model.dart';
 import 'package:frontend/features/cart/model/cart_model.dart';
 
 class CartService {
@@ -14,7 +13,7 @@ class CartService {
     return CartModel.fromJson(data);
   }
 
-  static Future<CartItemModel> addCartItem({
+  static Future<void> addCartItem({
     required String productId,
     int quantity = 1,
   }) async {
@@ -26,8 +25,13 @@ class CartService {
     if (response.statusCode != 201) {
       throw Exception('Failed to add cart item');
     }
+  }
 
-    final data = jsonDecode(response.body);
-    return CartItemModel.fromJson(data);
+  static Future<void> removeCart() async {
+    final response = await ApiClient.put('/cart/deactivate');
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to place order ');
+    }
   }
 }

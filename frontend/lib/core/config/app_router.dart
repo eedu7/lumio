@@ -11,6 +11,7 @@ import 'package:frontend/features/cart/presentations/pages/cart_page.dart';
 import 'package:frontend/features/categories/pages/category_page.dart';
 import 'package:frontend/features/chat/presentations/pages/chat_page.dart';
 import 'package:frontend/features/checkout/presentations/pages/checkout_page.dart';
+import 'package:frontend/features/congratulations/presentations/pages/congratulations_page.dart';
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/home/presentations/pages/product_detail_page.dart';
 import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
@@ -76,6 +77,14 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.checkout,
       builder: (BuildContext context, GoRouterState state) {
         return CheckoutPage();
+      },
+    ),
+
+    // Congratulations
+    GoRoute(
+      path: AppRoutes.congratulations,
+      builder: (BuildContext context, GoRouterState state) {
+        return CongratulationsPage();
       },
     ),
 

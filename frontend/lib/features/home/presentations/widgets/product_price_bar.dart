@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/cart/provider/cart_provider.dart';
-import 'package:frontend/features/cart/services/cart_service.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductPriceBar extends ConsumerWidget {
@@ -34,7 +33,7 @@ class ProductPriceBar extends ConsumerWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),
@@ -78,14 +77,22 @@ class ProductPriceBar extends ConsumerWidget {
                   ),
                 ),
                 onPressed: () async {
-                  await CartService.addCartItem(
-                    productId: productId,
-                    quantity: quantity,
-                  );
+                  try {
+                    await addItemToCart(
+                      ref,
+                      productId: productId,
+                      quantity: quantity,
+                    );
 
-                  ref.invalidate(cartProvider);
-
-                  context.go(AppRoutes.cart);
+                    // 3. Navigate to cart
+                    if (context.mounted) {
+                      context.go(AppRoutes.cart);
+                    }
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Error updating cart: $e')),
+                    );
+                  }
                 },
                 icon: Icon(icon, size: 20),
                 label: Text(

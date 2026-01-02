@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/cart/provider/cart_provider.dart';
 import 'package:frontend/features/checkout/presentations/widgets/checout_item_card.dart';
+import 'package:frontend/features/checkout/presentations/widgets/place_order_button.dart';
 import 'package:frontend/features/shipping-address/presentations/widgets/shipping_address_card.dart';
 import 'package:go_router/go_router.dart';
 
@@ -123,30 +124,7 @@ class CheckoutPage extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // TODO: Implement Place Order Logic
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: theme.colorScheme.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          'Place Order',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
+                    PlaceOrderButton(),
                   ],
                 ),
               ),
