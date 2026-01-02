@@ -1,0 +1,2 @@
+class SupabaseService: 
+    pass
