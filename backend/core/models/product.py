@@ -20,7 +20,7 @@ class Product(Base, PrimaryKeyMixin, TimestampMixin):
     description: Mapped[str] = mapped_column(Text(), nullable=False)
     price: Mapped[float] = mapped_column(Double(), nullable=False)
 
-    category_id: Mapped[UUID] = mapped_column(ForeignKey("categories.id", nullable=False))
+    category_id: Mapped[UUID] = mapped_column(ForeignKey("categories.id"), nullable=False)
 
     image: Mapped["ProductImage"] = relationship(
         "ProductImage", back_populates="product", uselist=False, cascade="all, delete-orphan"
