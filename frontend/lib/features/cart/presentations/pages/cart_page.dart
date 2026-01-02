@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/cart/presentations/widgets/cart_item.dart';
-import 'package:frontend/features/home/presentations/widgets/product_price_bar.dart';
+import 'package:frontend/features/cart/presentations/widgets/checkout_button.dart';
+import 'package:frontend/features/cart/provider/cart_provider.dart';
 import 'package:go_router/go_router.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends ConsumerWidget {
   const CartPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartAsync = ref.watch(cartProvider);
+
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -17,64 +21,91 @@ class CartPage extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         leadingWidth: 72,
-        // Room for the custom button
         title: const Text(
           'My Cart',
           style: TextStyle(
-            fontWeight: FontWeight.w900, // Heavier weight for premium look
+            fontWeight: FontWeight.w900,
             color: Colors.black87,
             fontSize: 20,
           ),
         ),
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 16),
-          child: Center(
-            child: GestureDetector(
-              onTap: () => context.pop(),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade200),
-                ),
-                child: const Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 16,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: IconButton(
-              onPressed: () {
-                // TODO: Handle more button press
-              },
-              icon: const Icon(Icons.more_horiz_rounded, color: Colors.black87),
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16.0),
-                itemCount: 3, // Example count
-                itemBuilder: (context, index) => const CartItem(),
-              ),
-            ),
-            ProductPriceBar(
-              buttonLabel: 'Checkout',
-              icon: Icons.arrow_forward_rounded,
-              onPressed: () => context.push(AppRoutes.checkout),
-            ),
-          ],
+        child: cartAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (_, __) => const Center(child: Text('Failed to load cart')),
+          data: (cart) {
+            if (cart.items.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 80,
+                      color: Colors.grey[300],
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Your cart is empty',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextButton(
+                      onPressed: () => context.go(AppRoutes.home),
+                      // Or your shop route
+                      child: const Text('Go Shopping'),
+                    ),
+                  ],
+                ),
+              );
+            }
+            final String totalPriceString = cart.items
+                .fold(
+                  0.0,
+                  (previousValue, element) =>
+                      previousValue +
+                      (element.product.price * element.quantity),
+                )
+                .toStringAsFixed(3);
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: cart.items.length,
+                    itemBuilder: (context, index) {
+                      final item = cart.items[index];
+                      return CartItem(
+                        item: item,
+                        onIncrement: () {
+                          // TODO: ref.read(cartProvider.notifier).updateQuantity(item.id, item.quantity + 1);
+                        },
+                        onDecrement: () {
+                          if (item.quantity > 1) {
+                            // TODO: ref.read(cartProvider.notifier).updateQuantity(item.id, item.quantity - 1);
+                          }
+                        },
+                        onDelete: () {
+                          // TODO: ref.read(cartProvider.notifier).removeItem(item.id);
+                        },
+                      );
+                    },
+                  ),
+                ),
+                CheckoutButton(
+                  price: totalPriceString,
+                  buttonLabel: 'Checkout',
+                  icon: Icons.arrow_forward_rounded,
+                  onPressed: () => context.push(AppRoutes.checkout),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

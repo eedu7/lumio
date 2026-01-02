@@ -11,6 +11,7 @@ from core.database.mixins import PrimaryKeyMixin, TimestampMixin
 
 if TYPE_CHECKING:
     from .cart import Cart
+    from .product import Product
 
 
 class CartItem(Base, PrimaryKeyMixin, TimestampMixin):
@@ -23,3 +24,4 @@ class CartItem(Base, PrimaryKeyMixin, TimestampMixin):
 
     # Relationships
     cart: Mapped["Cart"] = relationship("Cart", back_populates="items")
+    product: Mapped["Product"] = relationship("Product", back_populates="cart_items")

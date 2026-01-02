@@ -179,14 +179,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
               // Sticky Bottom Bar
               ProductPriceBar(
+                productId: product.id,
                 price: product.price * _selectedQuantity,
-                buttonLabel: 'Add to Cart',
-                icon: Icons.shopping_bag_outlined,
-                onPressed: () {
-                  // TODO: Implement the cart logic
-                  // Handle adding to cart logic here
-                  print("Added to cart: ${widget.productId}");
-                },
+                quantity: _selectedQuantity,
               ),
             ],
           );

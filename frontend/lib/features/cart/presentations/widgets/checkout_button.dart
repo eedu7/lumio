@@ -1,30 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/core/constants/app_routes.dart';
-import 'package:frontend/features/cart/provider/cart_provider.dart';
-import 'package:frontend/features/cart/services/cart_service.dart';
-import 'package:go_router/go_router.dart';
 
-class ProductPriceBar extends ConsumerWidget {
+class CheckoutButton extends StatelessWidget {
   final String label;
-  final double price;
+  final String price;
   final String buttonLabel;
   final IconData icon;
-  final String productId;
-  final int quantity;
+  final VoidCallback? onPressed;
 
-  const ProductPriceBar({
+  const CheckoutButton({
     super.key,
-    required this.productId,
-    this.quantity = 1,
     this.label = 'Total price',
-    required this.price,
+    this.price = '400.00',
     this.buttonLabel = 'Add to Cart',
     this.icon = Icons.shopping_bag_outlined,
+    this.onPressed,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Container(
@@ -34,7 +27,7 @@ class ProductPriceBar extends ConsumerWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, -4),
           ),
@@ -65,6 +58,7 @@ class ProductPriceBar extends ConsumerWidget {
             ],
           ),
           const SizedBox(width: 24),
+          // Action Button Section
           Expanded(
             child: SizedBox(
               height: 56,
@@ -77,16 +71,7 @@ class ProductPriceBar extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                onPressed: () async {
-                  await CartService.addCartItem(
-                    productId: productId,
-                    quantity: quantity,
-                  );
-
-                  ref.invalidate(cartProvider);
-
-                  context.go(AppRoutes.cart);
-                },
+                onPressed: onPressed ?? () {},
                 icon: Icon(icon, size: 20),
                 label: Text(
                   buttonLabel,

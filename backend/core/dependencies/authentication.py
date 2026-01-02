@@ -14,7 +14,6 @@ async def get_current_user(
         raise HTTPException(status_code=401, detail="Missing or invalid Authorization header")
 
     token = credentials.credentials
-    print("AccessToken", token)
     try:
         payload = validate_token(token)
     except Exception as e:

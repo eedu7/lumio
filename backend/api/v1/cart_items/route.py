@@ -1,3 +1,4 @@
+from ast import Del
 from fastapi import APIRouter, Depends, Request, status
 from sqlalchemy import select
 
@@ -33,3 +34,7 @@ async def add_cart_item(cart_item_data: CartItemCreate, request: Request, sessio
     await session.commit()
     await session.refresh(cart_item)
     return cart_item
+
+@router.delete('/{cart_item_id}')
+async def remove_cart_item():
+    ...

@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/constants/app_assets.dart';
 import 'package:frontend/core/constants/app_routes.dart';
+import 'package:frontend/features/cart/model/cart_item_model.dart'; // Import your model
 import 'package:go_router/go_router.dart';
 
-class CartItem extends StatefulWidget {
-  const CartItem({super.key});
+class CartItem extends StatelessWidget {
+  final CartItemModel item;
+  final VoidCallback? onIncrement;
+  final VoidCallback? onDecrement;
+  final VoidCallback? onDelete;
 
-  @override
-  State<CartItem> createState() => _CartItemState();
-}
-
-class _CartItemState extends State<CartItem> {
-  int _selectedQuantity = 1;
+  const CartItem({
+    super.key,
+    required this.item,
+    this.onIncrement,
+    this.onDecrement,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final product = item.product;
 
     return GestureDetector(
-      // behavior: HitTestBehavior.opaque ensures the entire area is tappable,
-      // even the white space between text.
       behavior: HitTestBehavior.opaque,
       onTap: () =>
-          context.push(AppRoutes.productsDetail(productId: 'product-id')),
+          context.push(AppRoutes.productsDetail(productId: product.id)),
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
@@ -50,9 +53,11 @@ class _CartItemState extends State<CartItem> {
                     left: Radius.circular(20),
                   ),
                 ),
-                child: Image.asset(
-                  AppAssets.socialLoginEnterAssetImage,
+                child: Image.network(
+                  product.image.imageUrl,
                   fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.broken_image),
                 ),
               ),
 
@@ -67,7 +72,7 @@ class _CartItemState extends State<CartItem> {
                         children: [
                           Expanded(
                             child: Text(
-                              'Premium Sneakers',
+                              product.name,
                               style: theme.textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
@@ -76,11 +81,8 @@ class _CartItemState extends State<CartItem> {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          // Stop Propagation: Ensure this tap doesn't trigger the card's onTap
                           GestureDetector(
-                            onTap: () {
-                              // Deletion Logic
-                            },
+                            onTap: onDelete,
                             child: const Icon(
                               Icons.delete_outline_rounded,
                               color: Colors.redAccent,
@@ -91,10 +93,9 @@ class _CartItemState extends State<CartItem> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Color: Black  •  Size: 42',
+                        'Category ID: ${product.categoryId}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: Colors.grey[500],
-                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       const Spacer(),
@@ -103,44 +104,39 @@ class _CartItemState extends State<CartItem> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '\$120.00',
+                            '\$${(product.price * item.quantity).toStringAsFixed(2)}',
                             style: theme.textTheme.titleLarge?.copyWith(
                               color: theme.primaryColor,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
 
+                          // TODO: Implement this
                           // Quantity Selector
-                          Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[100],
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Row(
-                              children: [
-                                _quantityButton(Icons.remove, () {
-                                  if (_selectedQuantity > 1) {
-                                    setState(() => _selectedQuantity--);
-                                  }
-                                }),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                  ),
-                                  child: Text(
-                                    '$_selectedQuantity',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                _quantityButton(Icons.add, () {
-                                  setState(() => _selectedQuantity++);
-                                }),
-                              ],
-                            ),
-                          ),
+                          // Container(
+                          //   padding: const EdgeInsets.all(4),
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.grey[100],
+                          //     borderRadius: BorderRadius.circular(30),
+                          //   ),
+                          //   child: Row(
+                          //     children: [
+                          //       _quantityButton(Icons.remove, onDecrement),
+                          //       Padding(
+                          //         padding: const EdgeInsets.symmetric(
+                          //           horizontal: 10,
+                          //         ),
+                          //         child: Text(
+                          //           '${item.quantity}',
+                          //           style: const TextStyle(
+                          //             fontWeight: FontWeight.bold,
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       _quantityButton(Icons.add, onIncrement),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],
@@ -154,7 +150,7 @@ class _CartItemState extends State<CartItem> {
     );
   }
 
-  Widget _quantityButton(IconData icon, VoidCallback onPressed) {
+  Widget _quantityButton(IconData icon, VoidCallback? onPressed) {
     return GestureDetector(
       onTap: onPressed,
       child: Container(

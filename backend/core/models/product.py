@@ -9,6 +9,7 @@ from core.database import Base
 from core.database.mixins import PrimaryKeyMixin, TimestampMixin
 
 if TYPE_CHECKING:
+    from .cart_items import CartItem
     from .category import Category
     from .product_image import ProductImage
 
@@ -26,3 +27,4 @@ class Product(Base, PrimaryKeyMixin, TimestampMixin):
         "ProductImage", back_populates="product", uselist=False, cascade="all, delete-orphan"
     )
     category: Mapped["Category"] = relationship("Category", back_populates="products")
+    cart_items: Mapped[list["CartItem"]] = relationship("CartItem", back_populates="product")

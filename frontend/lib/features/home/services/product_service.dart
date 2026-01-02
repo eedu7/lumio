@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:frontend/core/constants/api_constants.dart';
 import 'package:frontend/core/network/api_client.dart';
 import 'package:frontend/features/home/model/product_model.dart';
 
@@ -10,7 +9,7 @@ class ProductService {
     int limit = 20,
   }) async {
     final response = await ApiClient.get(
-      baseProductAPIUrl,
+      '/product/',
       query: {'skip': skip.toString(), 'limit': limit.toString()},
     );
     if (response.statusCode != 200) {
@@ -26,7 +25,7 @@ class ProductService {
     required String categoryId,
   }) async {
     final response = await ApiClient.get(
-      baseProductByCategory,
+      '/product/category/',
       query: {
         'skip': skip.toString(),
         'limit': limit.toString(),
@@ -41,7 +40,7 @@ class ProductService {
   }
 
   static Future<ProductModel> getProductById({required String id}) async {
-    final response = await ApiClient.get('$baseProductAPIUrl/$id');
+    final response = await ApiClient.get('/product/$id');
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch products');
     }

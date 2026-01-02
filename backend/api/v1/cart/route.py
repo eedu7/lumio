@@ -4,7 +4,7 @@ from sqlalchemy.orm import selectinload
 
 from core.dependencies import SessionDep
 from core.dependencies.authentication import get_current_user
-from core.models import Cart
+from core.models import Cart, CartItem, Product
 from core.schemas.cart import CartRead
 
 router = APIRouter(dependencies=[Depends(get_current_user)])
@@ -17,8 +17,11 @@ async def get_user_cart(request: Request, session: SessionDep):
     result = await session.execute(
         select(Cart)
         .where(Cart.user_id == user_id, Cart.is_active == True)
-        .options(selectinload(Cart.items))
+        .options(
+            selectinload(Cart.items).selectinload(CartItem.product).selectinload(Product.image)
+        )
     )
+
     cart = result.scalars().first()
 
     if not cart:
