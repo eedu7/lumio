@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/home/model/product_model.dart';
+import 'package:go_router/go_router.dart';
 
 class ChatProductCard extends StatelessWidget {
   final ProductModel product;
@@ -64,7 +66,9 @@ class ChatProductCard extends StatelessWidget {
                   width: double.infinity,
                   height: 32,
                   child: ElevatedButton(
-                    onPressed: () {}, // TODO: Add navigation to Product Details
+                    onPressed: () => context.push(
+                      AppRoutes.productsDetail(productId: product.id),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.primaryColor,
                       foregroundColor: Colors.white,
