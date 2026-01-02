@@ -12,4 +12,8 @@ tasks:
     silent: true
   dev:
     cmds:
+      - uv run fastapi dev main.py
+
+  dev:network:
+    cmds:
       - uv run fastapi dev main.py --host 192.168.18.33
