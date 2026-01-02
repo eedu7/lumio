@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class ProductHeading extends StatefulWidget {
-  const ProductHeading({super.key});
+  final String productId;
+  final String productName;
+
+  const ProductHeading({
+    super.key,
+    required this.productId,
+    required this.productName,
+  });
 
   @override
   State<ProductHeading> createState() => _ProductHeadingState();
@@ -18,23 +25,24 @@ class _ProductHeadingState extends State<ProductHeading> {
       children: [
         Expanded(
           child: Text(
-            "Short Cape Jacket",
+            widget.productName,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.black87,
             ),
           ),
         ),
-        IconButton(
-          onPressed: () => setState(() => _isFavorite = !_isFavorite),
-          icon: Icon(
-            _isFavorite
-                ? Icons.favorite_rounded
-                : Icons.favorite_outline_rounded,
-            color: _isFavorite ? Colors.redAccent : Colors.black87,
-            size: 28,
-          ),
-        ),
+        // TODO: Implement the favorite product functionality
+        // IconButton(
+        //   onPressed: () => setState(() => _isFavorite = !_isFavorite),
+        //   icon: Icon(
+        //     _isFavorite
+        //         ? Icons.favorite_rounded
+        //         : Icons.favorite_outline_rounded,
+        //     color: _isFavorite ? Colors.redAccent : Colors.black87,
+        //     size: 28,
+        //   ),
+        // ),
       ],
     );
   }

@@ -4,7 +4,9 @@ import 'package:frontend/features/home/presentations/widgets/info_box.dart';
 import 'package:go_router/go_router.dart';
 
 class ProductReview extends StatelessWidget {
-  const ProductReview({super.key});
+  final String productId;
+
+  const ProductReview({super.key, required this.productId});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class ProductReview extends StatelessWidget {
         const SizedBox(width: 4),
         InkWell(
           onTap: () =>
-              context.push(AppRoutes.reviewProduct(productId: '00-00-000-00')),
+              context.push(AppRoutes.reviewProduct(productId: productId)),
           child: Text(
             '4.4 (42 Reviews)',
             style: theme.textTheme.bodyMedium?.copyWith(

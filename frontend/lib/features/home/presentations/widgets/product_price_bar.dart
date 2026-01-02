@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ProductPriceBar extends StatelessWidget {
   final String label;
-  final String price;
+  final double price;
   final String buttonLabel;
   final IconData icon;
   final VoidCallback? onPressed;
@@ -10,7 +10,7 @@ class ProductPriceBar extends StatelessWidget {
   const ProductPriceBar({
     super.key,
     this.label = 'Total price',
-    this.price = '\$400.00',
+    this.price = 400.00,
     this.buttonLabel = 'Add to Cart',
     this.icon = Icons.shopping_bag_outlined,
     this.onPressed,
@@ -49,7 +49,7 @@ class ProductPriceBar extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                price,
+                '\$ $price',
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,

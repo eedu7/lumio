@@ -41,7 +41,7 @@ class ProductService {
   }
 
   static Future<ProductModel> getProductById({required String id}) async {
-    final response = await ApiClient.get('$baseProductByCategory/$id');
+    final response = await ApiClient.get('$baseProductAPIUrl/$id');
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch products');
     }
