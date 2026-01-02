@@ -16,15 +16,17 @@ class ChatResult {
 class ChatService {
   final String _url = "https://api.openai.com/v1/chat/completions";
 
-  Future<String> getChatResponse(List<Map<String, String>> history) async {
+  Future<ChatResult> getChatResponse(List<ChatResult> history) async {
     try {
       List<Map<String, dynamic>> messages = [
         {
           "role": "system",
           "content":
-              "You are Lumio AI, a charismatic salesperson. You have access to a product database. If a user asks for products, recommendations, or specific items, use the 'get_products' tool to browse our catalog before answering.",
+              "You are Lumio AI, a charismatic salesperson. If a user asks for products or recommendations, use 'get_products' to browse our catalog. Keep your responses friendly and concise.",
         },
-        ...history,
+        ...history.map(
+          (m) => {"role": m.isUser ? "user" : "assistant", "content": m.text},
+        ),
       ];
 
       final tools = [
@@ -32,13 +34,13 @@ class ChatService {
           "type": "function",
           "function": {
             "name": "get_products",
-            "description": "Fetch a list of available products from the store.",
+            "description": "Fetch available products from the store.",
             "parameters": {
               "type": "object",
               "properties": {
                 "limit": {
                   "type": "integer",
-                  "description": "Number of products to fetch",
+                  "description": "Number of products",
                 },
               },
             },
@@ -57,7 +59,6 @@ class ChatService {
           "messages": messages,
           "tools": tools,
           "tool_choice": "auto",
-          "temperature": 0.7,
         }),
       );
 
@@ -65,13 +66,16 @@ class ChatService {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final message = data['choices'][0]['message'];
 
+        // Check if GPT wants to call a tool
         if (message['tool_calls'] != null) {
           final toolCall = message['tool_calls'][0];
           final functionName = toolCall['function']['name'];
 
           if (functionName == 'get_products') {
+            // 1. Fetch products from your existing ProductService
             final products = await ProductService.getProducts(limit: 5);
 
+            // 2. Feed the tool result back to GPT to get a final conversational response
             messages.add(message);
             messages.add({
               "role": "tool",
@@ -90,16 +94,24 @@ class ChatService {
             );
 
             final secondData = jsonDecode(secondResponse.body);
-            return secondData['choices'][0]['message']['content'].trim();
+            return ChatResult(
+              text: secondData['choices'][0]['message']['content'].trim(),
+              products: products, // Include the products in the result
+            );
           }
         }
 
-        return message['content'].trim();
+        return ChatResult(text: message['content'].trim());
       } else {
-        return "I'm so sorry, I'm having a little trouble accessing our catalog. Give me a moment! ✨";
+        return ChatResult(
+          text: "I'm having trouble accessing the catalog right now. ✨",
+        );
       }
     } catch (e) {
-      return "It looks like our connection dropped. Please check your internet!";
+      return ChatResult(
+        text:
+            "It looks like our connection dropped. Please check your internet!",
+      );
     }
   }
 }

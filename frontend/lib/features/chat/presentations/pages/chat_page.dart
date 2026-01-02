@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/features/chat/presentations/widgets/chat_bubble.dart';
+import 'package:frontend/features/chat/presentations/widgets/chat_product_card.dart'; // Create this from the previous snippet
 import 'package:frontend/features/chat/services/chat_service.dart';
 import 'package:frontend/features/settings/presentations/widgets/custom_app_bar.dart';
 
@@ -15,7 +16,8 @@ class _ChatPageState extends State<ChatPage> {
   final ScrollController _scrollController = ScrollController();
   final ChatService _chatService = ChatService();
 
-  final List<Map<String, dynamic>> _messages = [];
+  // Now using the ChatResult model instead of a Map
+  final List<ChatResult> _messages = [];
   bool _isTyping = false;
 
   void _scrollToBottom() {
@@ -36,25 +38,17 @@ class _ChatPageState extends State<ChatPage> {
 
     _messageController.clear();
     setState(() {
-      _messages.add({'text': text, 'isUser': true});
+      _messages.add(ChatResult(text: text, isUser: true));
       _isTyping = true;
     });
     _scrollToBottom();
 
-    // Prepare history for OpenAI (converting our list to the format GPT expects)
-    List<Map<String, String>> history = _messages.map((m) {
-      return {
-        "role": m['isUser'] ? "user" : "assistant",
-        "content": m['text'] as String,
-      };
-    }).toList();
-
-    // Get response
-    final response = await _chatService.getChatResponse(history);
+    // Pass the entire history for context
+    final response = await _chatService.getChatResponse(_messages);
 
     setState(() {
       _isTyping = false;
-      _messages.add({'text': response, 'isUser': false});
+      _messages.add(response);
     });
     _scrollToBottom();
   }
@@ -78,28 +72,62 @@ class _ChatPageState extends State<ChatPage> {
               itemCount: _messages.length + (_isTyping ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == _messages.length && _isTyping) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text(
-                      "Lumio is typing...",
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    ),
-                  );
+                  return _buildTypingIndicator();
                 }
-                final message = _messages[index];
-                return ChatBubble(
-                  message: message['text'],
-                  isUser: message['isUser'],
+
+                final chatItem = _messages[index];
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // The Standard Message Bubble
+                    ChatBubble(
+                      message: chatItem.products != null
+                          ? 'Let me know if you like any of these or need more information'
+                          : chatItem.text,
+                      isUser: chatItem.isUser,
+                    ),
+
+                    // The Horizontal Product Carousel (only if products exist)
+                    if (chatItem.products != null &&
+                        chatItem.products!.isNotEmpty)
+                      _buildProductCarousel(chatItem.products!),
+                  ],
                 );
               },
             ),
           ),
           _buildInputArea(theme),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProductCarousel(List products) {
+    return Container(
+      height: 220, // Height for the horizontal cards
+      margin: const EdgeInsets.only(top: 8, bottom: 16),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          return ChatProductCard(product: products[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildTypingIndicator() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Text(
+        "Lumio is typing...",
+        style: TextStyle(
+          fontStyle: FontStyle.italic,
+          color: Colors.grey,
+          fontSize: 12,
+        ),
       ),
     );
   }
@@ -112,7 +140,7 @@ class _ChatPageState extends State<ChatPage> {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withOpacity(0.05),
             blurRadius: 15,
             offset: const Offset(0, -5),
           ),
@@ -141,7 +169,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           const SizedBox(width: 12),
           GestureDetector(
-            onTap: _handleSendMessage,
+            onTap: _isTyping ? null : _handleSendMessage,
             child: CircleAvatar(
               backgroundColor: _isTyping ? Colors.grey : theme.primaryColor,
               radius: 24,
