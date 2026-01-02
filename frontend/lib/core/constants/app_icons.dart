@@ -12,7 +12,7 @@ class AppIcons {
     'watch': Icons.watch,
   };
 
-  static IconData get(String name) {
+  static IconData fromString(String name) {
     return material[name] ?? Icons.category;
   }
 }

@@ -1,0 +1,2 @@
+// Category
+String baseCategoryAPIUrl = '/category';
