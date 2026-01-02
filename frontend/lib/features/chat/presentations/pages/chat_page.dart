@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/features/chat/presentations/widgets/chat_bubble.dart';
+import 'package:frontend/features/chat/services/chat_service.dart';
 import 'package:frontend/features/settings/presentations/widgets/custom_app_bar.dart';
 
 class ChatPage extends StatefulWidget {
@@ -11,77 +12,59 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
-  final List<Map<String, dynamic>> _messages = [
-    {
-      'text':
-          'Hi JD! Good morning! 👋 How can I help you with your order today?',
-      'isUser': false,
-      'time': '09:00 AM',
-    },
-    {
-      'text': 'Is there a special offer for the Popular Products?',
-      'isUser': true,
-      'time': '09:01 AM',
-    },
-    {
-      'text':
-          'Yes, JD! We currently have a 15% discount on all Popular Products for our premium members. Would you like me to apply the code LUMIO15 to your cart?',
-      'isUser': false,
-      'time': '09:01 AM',
-    },
-    {
-      'text':
-          'That would be great! Also, can I check the status of my vintage denim jacket?',
-      'isUser': true,
-      'time': '09:02 AM',
-    },
-    {
-      'text':
-          'Checking your latest order... 🔎 Your Vintage Denim Jacket is currently with our courier and is estimated to arrive today by 5:00 PM!',
-      'isUser': false,
-      'time': '09:02 AM',
-    },
-    {
-      'text': 'Awesome! What if the size doesn\'t fit? Can I return it?',
-      'isUser': true,
-      'time': '09:04 AM',
-    },
-    {
-      'text':
-          'Absolutely! We offer a 30-day hassle-free return policy. You can generate a return label directly from your "My Orders" page. 📦',
-      'isUser': false,
-      'time': '09:04 AM',
-    },
-    {
-      'text': 'One last thing—how many Lumio points do I have left?',
-      'isUser': true,
-      'time': '09:05 AM',
-    },
-    {
-      'text':
-          'You currently have 450 Lumio Points! You only need 50 more to unlock a \$10 voucher for your next purchase. ✨',
-      'isUser': false,
-      'time': '09:06 AM',
-    },
-    {
-      'text': 'Perfect, thank you for the help!',
-      'isUser': true,
-      'time': '09:06 AM',
-    },
-    {
-      'text':
-          'You\'re very welcome! Is there anything else I can assist you with today? 😊',
-      'isUser': false,
-      'time': '09:07 AM',
-    },
-  ];
+  final ScrollController _scrollController = ScrollController();
+  final ChatService _chatService = ChatService();
+
+  final List<Map<String, dynamic>> _messages = [];
+  bool _isTyping = false;
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  Future<void> _handleSendMessage() async {
+    final text = _messageController.text.trim();
+    if (text.isEmpty) return;
+
+    _messageController.clear();
+    setState(() {
+      _messages.add({'text': text, 'isUser': true});
+      _isTyping = true;
+    });
+    _scrollToBottom();
+
+    // Prepare history for OpenAI (converting our list to the format GPT expects)
+    List<Map<String, String>> history = _messages.map((m) {
+      return {
+        "role": m['isUser'] ? "user" : "assistant",
+        "content": m['text'] as String,
+      };
+    }).toList();
+
+    // Get response
+    final response = await _chatService.getChatResponse(history);
+
+    setState(() {
+      _isTyping = false;
+      _messages.add({'text': response, 'isUser': false});
+    });
+    _scrollToBottom();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey[50], // Matches HomePage background
+      backgroundColor: Colors.grey[50],
       appBar: const CustomAppBar(
         title: 'Lumio Support',
         backgroundColor: Colors.transparent,
@@ -90,8 +73,23 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: _messages.length,
+              controller: _scrollController,
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              itemCount: _messages.length + (_isTyping ? 1 : 0),
               itemBuilder: (context, index) {
+                if (index == _messages.length && _isTyping) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Text(
+                      "Lumio is typing...",
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                  );
+                }
                 final message = _messages[index];
                 return ChatBubble(
                   message: message['text'],
@@ -132,6 +130,7 @@ class _ChatPageState extends State<ChatPage> {
               ),
               child: TextField(
                 controller: _messageController,
+                onSubmitted: (_) => _handleSendMessage(),
                 decoration: const InputDecoration(
                   hintText: 'Type a message...',
                   border: InputBorder.none,
@@ -141,21 +140,10 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ),
           const SizedBox(width: 12),
-          // Using Seed Color (PinkAccent) for the send button
           GestureDetector(
-            onTap: () {
-              if (_messageController.text.trim().isNotEmpty) {
-                setState(() {
-                  _messages.add({
-                    'text': _messageController.text,
-                    'isUser': true,
-                  });
-                  _messageController.clear();
-                });
-              }
-            },
+            onTap: _handleSendMessage,
             child: CircleAvatar(
-              backgroundColor: theme.primaryColor,
+              backgroundColor: _isTyping ? Colors.grey : theme.primaryColor,
               radius: 24,
               child: const Icon(
                 Icons.send_rounded,

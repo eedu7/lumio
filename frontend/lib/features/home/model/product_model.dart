@@ -27,4 +27,15 @@ class ProductModel {
       image: ProductImageModel.fromJson(json['image']),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'price': price,
+      'category_id': categoryId,
+      'image': image.toJson(),
+    };
+  }
 }

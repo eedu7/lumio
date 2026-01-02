@@ -6,4 +6,8 @@ class ProductImageModel {
   factory ProductImageModel.fromJson(Map<String, dynamic> json) {
     return ProductImageModel(imageUrl: json['image_url']);
   }
+
+  Map<String, dynamic> toJson() {
+    return {'image_url': imageUrl};
+  }
 }

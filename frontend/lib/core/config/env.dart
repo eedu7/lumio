@@ -9,4 +9,7 @@ class ENV {
 
   // API
   static String get BASE_API_URL => dotenv.env['BASE_API_URL'] ?? '';
+
+  // OpenAI API KEY
+  static String get OPENAI_API_KEY => dotenv.env['OPENAI_API_KEY'] ?? '';
 }
