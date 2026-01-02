@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/constants/app_assets.dart';
 import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/features/home/presentations/widgets/info_box.dart';
 import 'package:go_router/go_router.dart';
 
-class ProductCard extends StatefulWidget {
-  const ProductCard({super.key});
+class ProductCard extends StatelessWidget {
+  final String id;
+  final String name;
+  final double price;
+  final String imageSrc;
 
-  @override
-  State<ProductCard> createState() => _ProductCardState();
-}
+  const ProductCard({
+    super.key,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.imageSrc,
+  });
 
-class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return GestureDetector(
-      onTap: () =>
-          context.push(AppRoutes.productsDetail(productId: 'product-id')),
+      onTap: () => context.push(AppRoutes.productsDetail(productId: id)),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -47,10 +51,7 @@ class _ProductCardState extends State<ProductCard> {
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(16),
                   ),
-                  child: Image.asset(
-                    AppAssets.socialLoginEnterAssetImage,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.network(imageSrc, fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -60,7 +61,7 @@ class _ProductCardState extends State<ProductCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Premium Sneakers',
+                    name,
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -96,7 +97,7 @@ class _ProductCardState extends State<ProductCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '\$120.00',
+                        '\$${price}',
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: theme.primaryColor,

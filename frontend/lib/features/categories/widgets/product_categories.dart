@@ -33,19 +33,3 @@ class ProductCategories extends ConsumerWidget {
     );
   }
 }
-
-// GridView.builder(
-// shrinkWrap: true,
-// physics: const NeverScrollableScrollPhysics(),
-// itemCount: appCategories.length,
-// gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-// crossAxisCount: 4,
-// mainAxisSpacing: 16,
-// crossAxisSpacing: 12,
-// childAspectRatio: 0.85,
-// ),
-// itemBuilder: (context, index) {
-// final category = appCategories[index];
-// return CategoryItem(label: category.label, icon: category.icon);
-// },
-// );
