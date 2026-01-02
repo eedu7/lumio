@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class CategoryCreate(BaseModel):
@@ -16,3 +16,5 @@ class CategoryRead(BaseModel):
     id: UUID
     name: str
     icon: str
+
+    model_config = ConfigDict(from_attributes=True)

@@ -18,6 +18,6 @@ class Category(Base, PrimaryKeyMixin, TimestampMixin):
     name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     icon: Mapped[str] = mapped_column(String(100), nullable=False)
 
-    product: Mapped[List["Product"]] = relationship(
+    products: Mapped[List["Product"]] = relationship(
         "Product", back_populates="category", cascade="all, delete-orphan"
     )
