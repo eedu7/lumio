@@ -1,38 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/features/categories/provider/categories_provider.dart';
+import 'package:frontend/features/categories/widgets/product_categories_small.dart';
 import 'package:frontend/features/home/model/product_model.dart';
 import 'package:frontend/features/home/presentations/widgets/product_card.dart';
 import 'package:frontend/features/home/services/product_service.dart';
 
-class ProductCatalog extends StatefulWidget {
+class ProductCatalog extends ConsumerWidget {
   const ProductCatalog({super.key});
 
   @override
-  State<ProductCatalog> createState() => _ProductCatalogState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedId = ref.watch(selectedCategoryProvider);
 
-class _ProductCatalogState extends State<ProductCatalog> {
-  late Future<List<ProductModel>> _productsFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _productsFuture = ProductService.getProducts();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return FutureBuilder<List<ProductModel>>(
-      future: _productsFuture,
+      key: ValueKey(selectedId),
+      future: (selectedId == ProductCategoriesSmall.allCategoryId)
+          ? ProductService.getProducts()
+          : ProductService.getProductsByCategoryId(categoryId: selectedId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 40),
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
 
         if (snapshot.hasError) {
-          return const Text('Failed to load products');
+          return const Center(child: Text('Failed to load products'));
         }
 
-        final List<ProductModel> products = snapshot.data ?? [];
+        final products = snapshot.data ?? [];
+
+        if (products.isEmpty) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 40),
+              child: Text('No products found in this category'),
+            ),
+          );
+        }
 
         return GridView.builder(
           shrinkWrap: true,

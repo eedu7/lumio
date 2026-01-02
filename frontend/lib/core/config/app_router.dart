@@ -34,7 +34,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
 
-  initialLocation: AppRoutes.chat,
+  initialLocation: AppRoutes.home,
   routes: <RouteBase>[
     // Authentication
     GoRoute(
@@ -197,6 +197,7 @@ final GoRouter appRouter = GoRouter(
                   builder: (BuildContext context, GoRouterState state) {
                     final qKey = state.uri.queryParameters[AppRoutes.qKey]!;
                     final qValue = state.uri.queryParameters[AppRoutes.qValue]!;
+                    final categoryId = state.uri.queryParameters['categoryId']!;
                     final discount =
                         state.uri.queryParameters[AppRoutes.discountKey] ?? '';
 
@@ -204,6 +205,7 @@ final GoRouter appRouter = GoRouter(
                         qKey == AppRoutes.collection;
 
                     return CategoryPage(
+                      categoryId: categoryId,
                       qKey: qKey,
                       qValue: qValue,
                       discount: discount,

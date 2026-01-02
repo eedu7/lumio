@@ -4,9 +4,15 @@ import 'package:go_router/go_router.dart';
 
 class CategoryItem extends StatelessWidget {
   final String label;
+  final String? categoryId;
   final IconData icon;
 
-  const CategoryItem({super.key, required this.label, required this.icon});
+  const CategoryItem({
+    super.key,
+    required this.label,
+    required this.icon,
+    this.categoryId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +20,11 @@ class CategoryItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () => context.push(
-        AppRoutes.categoryProducts(key: AppRoutes.categoryName, value: label),
+        AppRoutes.categoryProducts(
+          key: AppRoutes.categoryName,
+          value: label,
+          categoryId: categoryId,
+        ),
       ),
       child: Column(
         children: [

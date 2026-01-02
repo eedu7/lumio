@@ -81,11 +81,17 @@ class AppRoutes {
   static String categoryProducts({
     required String key,
     required String value,
+    String? categoryId,
     String discount = '',
   }) {
     final uri = Uri(
       path: category,
-      queryParameters: {qKey: key, qValue: value, discountKey: discount},
+      queryParameters: {
+        qKey: key,
+        qValue: value,
+        discountKey: discount,
+        'categoryId': categoryId,
+      },
     );
     return uri.toString();
   }

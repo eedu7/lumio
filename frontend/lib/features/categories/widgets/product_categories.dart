@@ -26,7 +26,11 @@ class ProductCategories extends ConsumerWidget {
           ),
           itemBuilder: (context, index) {
             final category = categories[index];
-            return CategoryItem(label: category.label, icon: category.icon);
+            return CategoryItem(
+              label: category.label,
+              icon: category.icon,
+              categoryId: category.id,
+            );
           },
         );
       },
