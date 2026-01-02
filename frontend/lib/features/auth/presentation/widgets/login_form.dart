@@ -75,6 +75,7 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 16),
           // Password
           CustomTextField(
+            obscureText: _obscureText,
             controller: _passwordController,
             prefixIcon: Icons.lock_outline,
             keyboardType: TextInputType.visiblePassword,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/core/config/app_router.dart';
 import 'package:frontend/core/services/local_storage_service.dart';
 import 'package:frontend/core/services/supabase/supabase_service.dart';
@@ -27,7 +28,7 @@ Future<void> main() async {
     );
   });
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

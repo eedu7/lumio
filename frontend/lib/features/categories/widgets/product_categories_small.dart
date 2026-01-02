@@ -1,74 +1,93 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/categories/data/app_categories.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/features/categories/model/app_category_model.dart';
+import 'package:frontend/features/categories/provider/categories_provider.dart';
 
-class ProductCategoriesSmall extends StatefulWidget {
+class ProductCategoriesSmall extends ConsumerWidget {
   const ProductCategoriesSmall({super.key});
 
-  @override
-  State<ProductCategoriesSmall> createState() => _ProductCategoriesSmallState();
-}
-
-class _ProductCategoriesSmallState extends State<ProductCategoriesSmall> {
   static const String allCategoryId = 'all';
-  String _selectedCategoryId = allCategoryId;
-  late final List<AppCategoryModel> _categoriesWithAll;
 
   @override
-  void initState() {
-    super.initState();
-    _categoriesWithAll = [
-      const AppCategoryModel(id: allCategoryId, label: 'All', icon: Icons.apps),
-      ...appCategories,
-    ];
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCategoryId = ref.watch(selectedCategoryProvider);
+    final categoriesAsync = ref.watch(categoriesProvider);
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return SizedBox(
-      height: 42,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: _categoriesWithAll.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
-        itemBuilder: (context, index) {
-          final category = _categoriesWithAll[index];
-          final isSelected = _selectedCategoryId == category.id;
-
-          return GestureDetector(
-            onTap: () => setState(() => _selectedCategoryId = category.id),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-              decoration: BoxDecoration(
-                color: isSelected ? theme.primaryColor : Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-                border: Border.all(
-                  color: isSelected ? theme.primaryColor : Colors.transparent,
-                  width: 1.5,
-                ),
-              ),
-              child: Center(
-                child: Text(
-                  category.label,
-                  style: theme.textTheme.labelLarge?.copyWith(
-                    color: isSelected ? Colors.white : Colors.grey[700],
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
+    return categoriesAsync.when(
+      loading: () => const SizedBox(
+        height: 42,
+        child: Center(child: CircularProgressIndicator()),
       ),
+      error: (_, __) => const SizedBox(
+        height: 42,
+        child: Center(child: Text('Failed to load categories')),
+      ),
+      data: (categories) {
+        final categoriesWithAll = [
+          const AppCategoryModel(
+            id: allCategoryId,
+            label: 'All',
+            icon: Icons.apps,
+          ),
+          ...categories,
+        ];
+
+        return SizedBox(
+          height: 42,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: categoriesWithAll.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (context, index) {
+              final category = categoriesWithAll[index];
+              final isSelected = selectedCategoryId == category.id;
+
+              return GestureDetector(
+                onTap: () {
+                  ref.read(selectedCategoryProvider.notifier).state =
+                      category.id;
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? Theme.of(context).primaryColor
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                    border: Border.all(
+                      color: isSelected
+                          ? Theme.of(context).primaryColor
+                          : Colors.transparent,
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      category.label,
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: isSelected ? Colors.white : Colors.grey[700],
+                        fontWeight: isSelected
+                            ? FontWeight.bold
+                            : FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

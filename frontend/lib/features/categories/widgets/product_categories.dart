@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/categories/model/app_category_model.dart';
-import 'package:frontend/features/categories/services/category_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/features/categories/provider/categories_provider.dart';
 import 'package:frontend/features/categories/widgets/category_item.dart';
 
-class ProductCategories extends StatelessWidget {
+class ProductCategories extends ConsumerWidget {
   const ProductCategories({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<AppCategoryModel>>(
-      future: CategoryService.getCategories(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final categoriesAsync = ref.watch(categoriesProvider);
 
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('Failed to load categories: ${snapshot.error}'),
-          );
-        }
-        final categories = snapshot.data ?? [];
-
+    return categoriesAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (_, __) => const Text('Failed to load categories'),
+      data: (categories) {
         return GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
