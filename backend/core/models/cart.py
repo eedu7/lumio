@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, List
-from uuid import UUID
 
-from sqlalchemy import Boolean, ForeignKey
+from sqlalchemy import UUID, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from core.database import Base
@@ -17,7 +16,7 @@ class Cart(Base, PrimaryKeyMixin, TimestampMixin):
     __tablename__ = "cart"
 
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
-    user_id: Mapped[UUID] = mapped_column(ForeignKey("users.id"), nullable=False)
+    user_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), nullable=False)
 
     # Relationship to CartItem
     items: Mapped[List["CartItem"]] = relationship(
