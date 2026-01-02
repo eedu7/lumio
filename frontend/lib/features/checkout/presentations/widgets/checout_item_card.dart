@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/constants/app_assets.dart';
+import 'package:frontend/features/cart/model/cart_item_model.dart';
 
 class CheckoutItemCard extends StatelessWidget {
-  final int quantity;
+  final CartItemModel item;
 
-  const CheckoutItemCard({super.key, this.quantity = 1});
+  const CheckoutItemCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final product = item.product;
 
     return Container(
       decoration: BoxDecoration(
@@ -35,9 +36,12 @@ class CheckoutItemCard extends StatelessWidget {
                   left: Radius.circular(20),
                 ),
               ),
-              child: Image.asset(
-                AppAssets.socialLoginEnterAssetImage,
+              child: Image.network(
+                // Changed to network to use model data
+                product.image.imageUrl,
                 fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.broken_image),
               ),
             ),
             Expanded(
@@ -47,7 +51,7 @@ class CheckoutItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Premium Sneakers',
+                      product.name, // Dynamic Name
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
@@ -57,7 +61,8 @@ class CheckoutItemCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Color: Black  •  Size: 42',
+                      'Category: ${product.categoryId}',
+                      // Example dynamic detail
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.grey[500],
                         fontWeight: FontWeight.w500,
@@ -68,7 +73,8 @@ class CheckoutItemCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$120.00',
+                          '\$${product.price.toStringAsFixed(2)}',
+                          // Dynamic Price
                           style: theme.textTheme.titleMedium?.copyWith(
                             color: theme.primaryColor,
                             fontWeight: FontWeight.bold,
@@ -85,7 +91,7 @@ class CheckoutItemCard extends StatelessWidget {
                             border: Border.all(color: Colors.grey.shade200),
                           ),
                           child: Text(
-                            'Qty: $quantity',
+                            'Qty: ${item.quantity}', // Dynamic Quantity
                             style: theme.textTheme.labelMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
