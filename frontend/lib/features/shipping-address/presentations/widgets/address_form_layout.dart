@@ -5,12 +5,32 @@ class AddressFormLayout extends StatelessWidget {
   final String appBarTitle;
   final String buttonLabel;
   final VoidCallback onSave;
+  final bool isLoading;
+
+  final TextEditingController addressTypeController;
+  final TextEditingController fullNameController;
+  final TextEditingController phoneController;
+  final TextEditingController addressLineController;
+  final TextEditingController cityController;
+  final TextEditingController stateController;
+
+  final bool isDefault;
+  final ValueChanged<bool> onDefaultChanged;
 
   const AddressFormLayout({
     super.key,
     required this.appBarTitle,
     required this.buttonLabel,
     required this.onSave,
+    required this.addressTypeController,
+    required this.fullNameController,
+    required this.phoneController,
+    required this.addressLineController,
+    required this.cityController,
+    required this.stateController,
+    required this.isDefault,
+    required this.onDefaultChanged,
+    this.isLoading = false,
   });
 
   @override
@@ -36,43 +56,53 @@ class AddressFormLayout extends StatelessWidget {
               child: Column(
                 spacing: 20.0,
                 children: [
-                  const AddressFormField(
+                  AddressFormField(
                     label: 'Address Name (e.g., Home, Office)',
-                    hintText: 'Enter address name',
+                    hintText: 'Home',
+                    controller: addressTypeController,
+                    enabled: !isLoading,
                   ),
-                  const AddressFormField(
+                  AddressFormField(
                     label: 'Full Name',
                     hintText: 'Enter your full name',
+                    controller: fullNameController,
+                    enabled: !isLoading,
                   ),
-                  const AddressFormField(
+                  AddressFormField(
                     label: 'Phone Number',
-                    hintText: 'Enter phone number',
+                    hintText: '0300xxxxxxx',
                     keyboardType: TextInputType.phone,
+                    controller: phoneController,
+                    enabled: !isLoading,
                   ),
-                  const AddressFormField(
+                  AddressFormField(
                     label: 'Street Address',
-                    hintText: 'Enter street address',
+                    hintText: 'Street, Area',
                     maxLines: 2,
+                    controller: addressLineController,
+                    enabled: !isLoading,
                   ),
-                  const Row(
+                  Row(
                     spacing: 16.0,
                     children: [
                       Expanded(
                         child: AddressFormField(
                           label: 'City',
-                          hintText: 'New York',
+                          hintText: 'Lahore',
+                          controller: cityController,
+                          enabled: !isLoading,
                         ),
                       ),
                       Expanded(
                         child: AddressFormField(
-                          label: 'Zip Code',
-                          hintText: '10001',
-                          keyboardType: TextInputType.number,
+                          label: 'State',
+                          hintText: 'Punjab',
+                          controller: stateController,
+                          enabled: !isLoading,
                         ),
                       ),
                     ],
                   ),
-                  // Default Address Toggle
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -81,8 +111,8 @@ class AddressFormLayout extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       Switch.adaptive(
-                        value: true,
-                        onChanged: (val) {},
+                        value: isDefault,
+                        onChanged: isLoading ? null : onDefaultChanged,
                         activeThumbColor: theme.primaryColor,
                       ),
                     ],
@@ -91,7 +121,6 @@ class AddressFormLayout extends StatelessWidget {
               ),
             ),
           ),
-          // Sticky Bottom Button
           Container(
             padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
             decoration: BoxDecoration(
@@ -111,19 +140,31 @@ class AddressFormLayout extends StatelessWidget {
               width: double.infinity,
               height: 56,
               child: ElevatedButton(
-                onPressed: onSave,
+                onPressed: isLoading ? null : onSave,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.primaryColor,
                   foregroundColor: Colors.white,
+                  disabledBackgroundColor: theme.primaryColor.withValues(
+                    alpha: 0.6,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                   elevation: 0,
                 ),
-                child: Text(
-                  buttonLabel,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
+                child: isLoading
+                    ? const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 3,
+                        ),
+                      )
+                    : Text(
+                        buttonLabel,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
               ),
             ),
           ),

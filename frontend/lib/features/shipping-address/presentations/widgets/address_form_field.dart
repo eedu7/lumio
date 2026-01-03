@@ -6,6 +6,7 @@ class AddressFormField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final int maxLines;
+  final bool enabled;
 
   const AddressFormField({
     super.key,
@@ -14,6 +15,7 @@ class AddressFormField extends StatelessWidget {
     this.controller,
     this.keyboardType = TextInputType.text,
     this.maxLines = 1,
+    this.enabled = true,
   });
 
   @override
@@ -34,11 +36,12 @@ class AddressFormField extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           maxLines: maxLines,
+          enabled: enabled,
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: enabled ? Colors.white : Colors.grey[100],
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 16,
@@ -50,6 +53,10 @@ class AddressFormField extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: theme.primaryColor, width: 2),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.grey.shade200),
             ),
           ),
         ),

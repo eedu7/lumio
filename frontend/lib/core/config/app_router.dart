@@ -22,6 +22,7 @@ import 'package:frontend/features/settings/presentations/pages/about_page.dart';
 import 'package:frontend/features/settings/presentations/pages/privacy_policy_page.dart';
 import 'package:frontend/features/settings/presentations/pages/settings_page.dart';
 import 'package:frontend/features/settings/presentations/pages/terms_conditions_page.dart';
+import 'package:frontend/features/shipping-address/model/address_model.dart';
 import 'package:frontend/features/shipping-address/presentations/pages/add_shipping_address_page.dart';
 import 'package:frontend/features/shipping-address/presentations/pages/edit_shipping_address_page.dart';
 import 'package:frontend/features/shipping-address/presentations/pages/shipping_address_page.dart';
@@ -116,7 +117,13 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.editShippingAddress,
       builder: (BuildContext context, GoRouterState state) {
-        return EditShippingAddressPage();
+        final address = state.extra;
+
+        if (address == null || address is! AddressModel) {
+          return const ShippingAddressPage();
+        }
+
+        return EditShippingAddressPage(address: address);
       },
     ),
 

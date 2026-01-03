@@ -5,6 +5,7 @@ import 'package:frontend/features/cart/provider/cart_provider.dart';
 import 'package:frontend/features/checkout/presentations/widgets/checout_item_card.dart';
 import 'package:frontend/features/checkout/presentations/widgets/place_order_button.dart';
 import 'package:frontend/features/shipping-address/presentations/widgets/shipping_address_card.dart';
+import 'package:frontend/features/shipping-address/provider/address_provider.dart'; // Import this
 import 'package:go_router/go_router.dart';
 
 class CheckoutPage extends ConsumerWidget {
@@ -12,9 +13,9 @@ class CheckoutPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Added WidgetRef
     final theme = Theme.of(context);
     final cartAsync = ref.watch(cartProvider);
+    final addressAsync = ref.watch(addressProvider);
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -29,9 +30,8 @@ class CheckoutPage extends ConsumerWidget {
       ),
       body: cartAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => Center(child: Text('Error loading cart: $err')),
         data: (cart) {
-          // Calculate total amount dynamically
           final double totalAmount = cart.items.fold(
             0,
             (sum, item) => sum + (item.product.price * item.quantity),
@@ -46,46 +46,65 @@ class CheckoutPage extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 20.0,
                     children: [
-                      // Shipping Address
                       Text(
                         'Shipping Address',
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      ShippingAddressCard(
-                        title: 'Home',
-                        address: '123 Dummy Street, New York, NY 10001',
-                        isDefault: true,
-                        trailingIcon: Icons.chevron_right_rounded,
-                        onTap: () => context.push(AppRoutes.shippingAddress),
+
+                      addressAsync.when(
+                        loading: () => const LinearProgressIndicator(),
+                        error: (err, _) => Text('Could not load address: $err'),
+                        data: (addresses) {
+                          final defaultAddress = addresses.firstWhere(
+                            (a) => a.isDefault,
+                            orElse: () => addresses.isNotEmpty
+                                ? addresses.first
+                                : throw Exception('No address found'),
+                          );
+
+                          if (addresses.isEmpty) {
+                            return ShippingAddressCard(
+                              title: 'No Address Found',
+                              address:
+                                  'Please add a shipping address to continue',
+                              onTap: () =>
+                                  context.push(AppRoutes.shippingAddress),
+                              trailingIcon: Icons.add_circle_outline,
+                            );
+                          }
+
+                          return ShippingAddressCard(
+                            title: defaultAddress.addressType,
+                            address:
+                                '${defaultAddress.addressLine}, ${defaultAddress.city}',
+                            isDefault: defaultAddress.isDefault,
+                            onTap: () =>
+                                context.push(AppRoutes.shippingAddress),
+                          );
+                        },
                       ),
 
-                      // Order Summary
                       Text(
                         'Order Summary',
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
-                      // Render actual cart items
                       ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: cart.items.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 12),
-                        itemBuilder: (context, index) {
-                          return CheckoutItemCard(item: cart.items[index]);
-                        },
+                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        itemBuilder: (context, index) =>
+                            CheckoutItemCard(item: cart.items[index]),
                       ),
                     ],
                   ),
                 ),
               ),
-
-              // Bottom Amount & Button Section
+              // Bottom Section
               Container(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
                 decoration: BoxDecoration(
@@ -116,7 +135,6 @@ class CheckoutPage extends ConsumerWidget {
                         ),
                         Text(
                           '\$${totalAmount.toStringAsFixed(2)}',
-                          // Dynamic Price
                           style: theme.textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.primary,
