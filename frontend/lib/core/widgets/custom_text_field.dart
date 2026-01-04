@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
+  final bool enabled;
 
   const CustomTextField({
     super.key,
@@ -24,6 +25,7 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.validator,
+    this.enabled = true,
   });
 
   @override
@@ -31,18 +33,18 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 4, bottom: 8),
-          child: label != null
-              ? Text(
-                  label!,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                )
-              : null,
-        ),
+        if (label != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 4, bottom: 8),
+            child: Text(
+              label!,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: enabled ? Colors.black : Colors.grey, // Visual feedback
+              ),
+            ),
+          ),
         Container(
           decoration: BoxDecoration(
             boxShadow: [
@@ -60,12 +62,19 @@ class CustomTextField extends StatelessWidget {
             onTap: onTap,
             obscureText: obscureText,
             validator: validator,
+            enabled: enabled,
+            // Pass to TextFormField
             decoration: InputDecoration(
               hintText: hint,
-              prefixIcon: Icon(prefixIcon, color: Colors.grey[400], size: 20),
+              prefixIcon: Icon(
+                prefixIcon,
+                color: enabled ? Colors.grey[400] : Colors.grey[300],
+                size: 20,
+              ),
               suffixIcon: suffixIcon,
               filled: true,
-              fillColor: Colors.white,
+              fillColor: enabled ? Colors.white : Colors.grey[100],
+              // Visual feedback
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 16,
@@ -77,6 +86,11 @@ class CustomTextField extends StatelessWidget {
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
                 borderSide: BorderSide.none,
+              ),
+              disabledBorder: OutlineInputBorder(
+                // Style for disabled state
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: Colors.grey[200]!, width: 1),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),

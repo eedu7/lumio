@@ -67,3 +67,18 @@ async def create_product(product: ProductCreate, session: SessionDep):
     await session.commit()
     await session.refresh(new_product)
     return new_product
+
+
+@router.post(
+    "/search",
+)
+async def search_products(product_name: str, session: SessionDep, skip: int = 0, limit: int = 20):
+    stmt = (
+        select(Product)
+        .where(Product.name.like(f"%{product_name}"))
+        .options(selectinload(Product.image))
+        .offset(skip)
+        .limit(limit)
+    )
+    result = await session.execute(stmt)
+    return result.scalars().all()

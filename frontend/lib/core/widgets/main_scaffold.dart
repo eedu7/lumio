@@ -57,11 +57,8 @@ class MainScaffold extends StatelessWidget {
             ),
             NavigationDestination(
               icon: Icon(Icons.notifications_outlined, color: Colors.grey[600]),
-              selectedIcon: Icon(
-                Icons.notifications_active,
-                color: theme.primaryColor,
-              ),
-              label: 'Alerts',
+              selectedIcon: Icon(Icons.auto_awesome, color: theme.primaryColor),
+              label: 'SF',
             ),
             NavigationDestination(
               icon: Icon(Icons.person_outline_rounded, color: Colors.grey[600]),

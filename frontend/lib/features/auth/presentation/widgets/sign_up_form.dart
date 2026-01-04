@@ -5,7 +5,6 @@ import 'package:frontend/core/services/supabase/supabase_auth.dart';
 import 'package:frontend/core/widgets/custom_text_field.dart';
 import 'package:frontend/features/auth/presentation/widgets/form_submit_button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -30,18 +29,40 @@ class _SignUpFormState extends State<SignUpForm> {
     super.dispose();
   }
 
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
+
     setState(() => _isSubmitting = true);
+
     try {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
+
       await _auth.signUp(email: email, password: password);
-      if (mounted) context.go(AppRoutes.home);
-    } on AuthException catch (e) {
-      throw Exception('Something went wrong try again: $e');
+
+      if (mounted) {
+        context.go(AppRoutes.home);
+      }
+    } catch (e) {
+      if (mounted) {
+        _showError(e.toString());
+      }
     } finally {
-      if (mounted) setState(() => _isSubmitting = false);
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+      }
     }
   }
 
@@ -51,39 +72,36 @@ class _SignUpFormState extends State<SignUpForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          // Email Address
           CustomTextField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             prefixIcon: Icons.email_outlined,
             hint: 'Email Address',
-            validator: (String? value) {
+            enabled: !_isSubmitting,
+            validator: (value) {
               if (value == null || value.isEmpty) return 'Email is required';
               if (!EmailValidator.validate(value)) return 'Invalid email';
               return null;
             },
           ),
           const SizedBox(height: 16),
-          // Password
           CustomTextField(
             obscureText: _obscureText,
             controller: _passwordController,
             keyboardType: TextInputType.visiblePassword,
             prefixIcon: Icons.lock_outline,
             hint: 'Password',
+            enabled: !_isSubmitting,
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureText ? Icons.visibility_off : Icons.visibility,
               ),
               onPressed: () => setState(() => _obscureText = !_obscureText),
             ),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Password is required';
-              }
+            validator: (value) {
+              if (value == null || value.isEmpty) return 'Password is required';
 
               final errors = <String>[];
-
               if (value.length < 12) errors.add('• At least 12 characters');
               if (!RegExp(r'[A-Za-z]').hasMatch(value)) {
                 errors.add('• Must contain letters');
@@ -98,7 +116,6 @@ class _SignUpFormState extends State<SignUpForm> {
               return errors.isEmpty ? null : errors.join('\n');
             },
           ),
-
           const SizedBox(height: 32),
           FormSubmitButton(
             label: 'Sign Up',

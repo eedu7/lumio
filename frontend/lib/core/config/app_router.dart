@@ -14,7 +14,6 @@ import 'package:frontend/features/checkout/presentations/pages/checkout_page.dar
 import 'package:frontend/features/congratulations/presentations/pages/congratulations_page.dart';
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/home/presentations/pages/product_detail_page.dart';
-import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
 import 'package:frontend/features/profile/presentations/pages/edit_profile_page.dart';
 import 'package:frontend/features/profile/presentations/pages/profile_page.dart';
 import 'package:frontend/features/reviews/presentations/pages/reviews_page.dart';
@@ -35,7 +34,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
 
-  initialLocation: AppRoutes.home,
+  initialLocation: AppRoutes.socialLogin,
   routes: <RouteBase>[
     // Authentication
     GoRoute(
@@ -251,9 +250,9 @@ final GoRouter appRouter = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: AppRoutes.notifications,
+              path: AppRoutes.specialOffers,
               builder: (BuildContext context, GoRouterState state) =>
-                  const NotificationsPage(),
+                  const SpecialOffersPage(),
             ),
           ],
         ),

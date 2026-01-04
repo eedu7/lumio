@@ -24,19 +24,16 @@ class ChatService {
     final patterns = [
       RegExp(r'\b(\d+)\s*(?:products?|items?)\b', caseSensitive: false),
       RegExp(r'(?:show|give|get|find)\s+(?:me\s+)?(\d+)', caseSensitive: false),
-      RegExp(r'\b(\d+)\b'), // Any number as fallback
+      RegExp(r'\b(\d+)\b'),
     ];
 
     for (var regex in patterns) {
       final match = regex.firstMatch(message);
       if (match != null) {
         final number = int.tryParse(match.group(1)!);
-        print('✅ Extracted number: $number');
         return number;
       }
     }
-
-    print('❌ No number found in message');
     return null;
   }
 

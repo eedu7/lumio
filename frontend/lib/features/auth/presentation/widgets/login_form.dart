@@ -5,7 +5,6 @@ import 'package:frontend/core/services/supabase/supabase_auth.dart';
 import 'package:frontend/core/widgets/custom_text_field.dart';
 import 'package:frontend/features/auth/presentation/widgets/form_submit_button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -16,7 +15,6 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final SupabaseAuth _auth = SupabaseAuth();
-
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -31,26 +29,33 @@ class _LoginFormState extends State<LoginForm> {
     super.dispose();
   }
 
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+      ),
+    );
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isSubmitting = true);
 
     try {
-      final email = _emailController.text.trim();
-      final password = _passwordController.text;
+      await _auth.signInWithPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
 
-      await _auth.signInWithPassword(email: email, password: password);
-
-      if (mounted) {
-        context.go(AppRoutes.home);
-      }
-    } on AuthException catch (e) {
-      throw Exception('Something went wrong try again: $e');
+      if (mounted) context.go(AppRoutes.home);
+    } catch (e) {
+      if (mounted) _showError(e.toString());
     } finally {
-      if (mounted) {
-        setState(() => _isSubmitting = false);
-      }
+      if (mounted) setState(() => _isSubmitting = false);
     }
   }
 
@@ -60,42 +65,41 @@ class _LoginFormState extends State<LoginForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          // Email Address
           CustomTextField(
             controller: _emailController,
             prefixIcon: Icons.email_outlined,
             keyboardType: TextInputType.emailAddress,
             hint: 'Email Address',
-            validator: (String? value) {
+            enabled: !_isSubmitting,
+            validator: (value) {
               if (value == null || value.isEmpty) return 'Email is required';
               if (!EmailValidator.validate(value)) return 'Invalid email';
               return null;
             },
           ),
           const SizedBox(height: 16),
-          // Password
           CustomTextField(
             obscureText: _obscureText,
             controller: _passwordController,
             prefixIcon: Icons.lock_outline,
-            keyboardType: TextInputType.visiblePassword,
             hint: 'Password',
+            enabled: !_isSubmitting,
             suffixIcon: IconButton(
               icon: Icon(
                 _obscureText ? Icons.visibility_off : Icons.visibility,
               ),
               onPressed: () => setState(() => _obscureText = !_obscureText),
             ),
-            validator: (String? value) {
-              if (value == null || value.isEmpty) return 'Password is required';
-              return null;
-            },
+            validator: (value) => (value == null || value.isEmpty)
+                ? 'Password is required'
+                : null,
           ),
-
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () => context.push(AppRoutes.forgotPassword),
+              onPressed: _isSubmitting
+                  ? null
+                  : () => context.push(AppRoutes.forgotPassword),
               child: Text(
                 'Forgot Password?',
                 style: TextStyle(

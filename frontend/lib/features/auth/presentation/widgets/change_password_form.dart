@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/services/supabase/supabase_auth.dart';
 import 'package:frontend/core/widgets/custom_text_field.dart';
 import 'package:frontend/core/widgets/ui_notifications.dart';
 import 'package:go_router/go_router.dart';
@@ -38,9 +37,10 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
     setState(() => _isLoading = true);
 
     try {
-      await SupabaseAuth().changePassword(
-        password: _newPasswordController.text.trim(),
-      );
+      // TODO: Change Password
+      // await SupabaseAuth().changePassword(
+      //   password: _newPasswordController.text.trim(),
+      // );
 
       if (!mounted) return;
 

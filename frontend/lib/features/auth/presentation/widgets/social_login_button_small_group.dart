@@ -14,19 +14,37 @@ class SocialLoginButtonSmallGroup extends StatefulWidget {
 class _SocialLoginButtonSmallGroupState
     extends State<SocialLoginButtonSmallGroup> {
   final SupabaseAuth _auth = SupabaseAuth();
+  bool _isSocialLoading = false;
+
+  Future<void> _handleSocialSignIn(Future<void> Function() signInMethod) async {
+    setState(() => _isSocialLoading = true);
+    try {
+      await signInMethod();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+    } finally {
+      if (mounted) setState(() => _isSocialLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_isSocialLoading) return const CircularProgressIndicator.adaptive();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SocialLoginIconButtonSmall(
-          onPressed: () async => await _auth.signInWithGoogle(),
+          onPressed: () => _handleSocialSignIn(_auth.signInWithGoogle),
           logoUrl: AppAssets.googleIcon,
         ),
         const SizedBox(width: 24),
         SocialLoginIconButtonSmall(
-          onPressed: () async => await _auth.signInWithGithub(),
+          onPressed: () => _handleSocialSignIn(_auth.signInWithGithub),
           logoUrl: AppAssets.githubIcon,
         ),
       ],

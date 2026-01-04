@@ -8,6 +8,9 @@ class AppRoutes {
   static const String forgotPassword = '/forgot-password';
   static const String changePassword = '/change-password';
 
+  // Special Features
+  static const String specialFeatures = '/special-features';
+  
   // Chat
   static const String chat = '/chat';
 
