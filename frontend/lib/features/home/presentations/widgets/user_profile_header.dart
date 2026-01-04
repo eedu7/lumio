@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/constants/app_routes.dart';
+import 'package:go_router/go_router.dart';
 
 class UserProfileHeader extends StatelessWidget {
   final String username;
@@ -69,7 +71,7 @@ class UserProfileHeader extends StatelessWidget {
             ],
           ),
           child: IconButton(
-            onPressed: () {},
+            onPressed: () => context.push(AppRoutes.notifications),
             icon: const Icon(
               Icons.notifications_none_rounded,
               color: Colors.black87,

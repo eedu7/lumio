@@ -14,6 +14,7 @@ import 'package:frontend/features/checkout/presentations/pages/checkout_page.dar
 import 'package:frontend/features/congratulations/presentations/pages/congratulations_page.dart';
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/home/presentations/pages/product_detail_page.dart';
+import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
 import 'package:frontend/features/profile/presentations/pages/edit_profile_page.dart';
 import 'package:frontend/features/profile/presentations/pages/profile_page.dart';
 import 'package:frontend/features/reviews/presentations/pages/reviews_page.dart';
@@ -25,6 +26,7 @@ import 'package:frontend/features/shipping-address/model/address_model.dart';
 import 'package:frontend/features/shipping-address/presentations/pages/add_shipping_address_page.dart';
 import 'package:frontend/features/shipping-address/presentations/pages/edit_shipping_address_page.dart';
 import 'package:frontend/features/shipping-address/presentations/pages/shipping_address_page.dart';
+import 'package:frontend/features/special-features/presentations/pages/special_features_page.dart';
 import 'package:frontend/features/special_offers/presentations/special_offers_page.dart';
 import 'package:frontend/features/support/presentations/pages/faq_page.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +36,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
 
-  initialLocation: AppRoutes.socialLogin,
+  initialLocation: AppRoutes.home,
   routes: <RouteBase>[
     // Authentication
     GoRoute(
@@ -168,6 +170,14 @@ final GoRouter appRouter = GoRouter(
       },
     ),
 
+    // About
+    GoRoute(
+      path: AppRoutes.notifications,
+      builder: (BuildContext context, GoRouterState state) {
+        return NotificationsPage();
+      },
+    ),
+
     // Edit Profile
     GoRoute(
       path: AppRoutes.editProfile,
@@ -250,9 +260,9 @@ final GoRouter appRouter = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: AppRoutes.specialOffers,
+              path: AppRoutes.specialFeatures,
               builder: (BuildContext context, GoRouterState state) =>
-                  const SpecialOffersPage(),
+                  const SpecialFeaturesPage(),
             ),
           ],
         ),

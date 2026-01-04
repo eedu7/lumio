@@ -75,7 +75,7 @@ async def create_product(product: ProductCreate, session: SessionDep):
 async def search_products(product_name: str, session: SessionDep, skip: int = 0, limit: int = 20):
     stmt = (
         select(Product)
-        .where(Product.name.like(f"%{product_name}"))
+        .where(Product.name.ilike(f"%{product_name}%"))
         .options(selectinload(Product.image))
         .offset(skip)
         .limit(limit)

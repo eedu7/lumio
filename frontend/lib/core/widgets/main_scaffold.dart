@@ -56,8 +56,11 @@ class MainScaffold extends StatelessWidget {
               label: 'Chat',
             ),
             NavigationDestination(
-              icon: Icon(Icons.notifications_outlined, color: Colors.grey[600]),
-              selectedIcon: Icon(Icons.auto_awesome, color: theme.primaryColor),
+              icon: Icon(Icons.auto_awesome, color: Colors.grey[600]),
+              selectedIcon: Icon(
+                Icons.auto_awesome_outlined,
+                color: theme.primaryColor,
+              ),
               label: 'SF',
             ),
             NavigationDestination(
