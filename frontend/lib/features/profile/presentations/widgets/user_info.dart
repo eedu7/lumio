@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/constants/app_routes.dart';
+import 'package:frontend/core/services/supabase/supabase_service.dart';
 import 'package:go_router/go_router.dart';
 
 class UserInfo extends StatelessWidget {
@@ -8,40 +9,52 @@ class UserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final profile = SupabaseService.getUserFromAuth();
+
+    if (profile == null) {
+      return const Center(child: Text("No user logged in"));
+    }
+
+    final String name = profile['full_name'];
+    final String email = profile['email'];
+    final String? avatarUrl = profile['avatar_url'];
+
+    final String initial = name.isNotEmpty ? name[0].toUpperCase() : "?";
+
     return Column(
       children: [
-        Stack(
-          children: [
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=user'),
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: theme.primaryColor,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.edit, color: Colors.white, size: 18),
-              ),
-            ),
-          ],
+        CircleAvatar(
+          radius: 50,
+          backgroundColor: theme.primaryColor.withValues(alpha: 0.1),
+          backgroundImage: (avatarUrl != null && avatarUrl.isNotEmpty)
+              ? NetworkImage(avatarUrl)
+              : null,
+          child: (avatarUrl == null || avatarUrl.isEmpty)
+              ? Text(
+                  initial,
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: theme.primaryColor,
+                  ),
+                )
+              : null,
         ),
         const SizedBox(height: 16),
-        const Text(
-          'John Doe',
-          style: TextStyle(
+        Text(
+          name,
+          style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w900,
             color: Colors.black87,
           ),
         ),
-        const Text(
-          'john.doe@email.com',
-          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
+        Text(
+          email,
+          style: const TextStyle(
+            color: Colors.grey,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         const SizedBox(height: 12),
         SizedBox(
@@ -49,7 +62,7 @@ class UserInfo extends StatelessWidget {
           child: OutlinedButton(
             onPressed: () => context.push(AppRoutes.editProfile),
             style: OutlinedButton.styleFrom(
-              shape: StadiumBorder(),
+              shape: const StadiumBorder(),
               side: BorderSide(color: Colors.grey.shade300),
             ),
             child: const Text(
