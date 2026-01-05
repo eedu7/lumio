@@ -2,6 +2,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Config(BaseSettings):
+    # Hugging Face
+    HF_TOKEN: str = ""
     # Supabase
     SUPABASE_PROJECT_URL: str = ""
     SUPABASE_PROJECT_REF: str = ""

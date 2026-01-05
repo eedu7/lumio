@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/features/special-features/service/special_feature_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../widgets/feature_controls.dart';
@@ -31,25 +32,29 @@ class _SpecialFeaturesPageState extends State<SpecialFeaturesPage> {
         _image = File(selectedFile.path);
         _results = null;
       });
-      _simulateAnalysis();
+      _runRealAnalysis();
     }
   }
 
-  Future<void> _simulateAnalysis() async {
+  Future<void> _runRealAnalysis() async {
+    if (_image == null) return;
+
     setState(() => _isAnalyzing = true);
-    await Future.delayed(const Duration(seconds: 2));
+
+    final apiData = await SpecialFeatureService.analyzeSkin(_image!);
+
     setState(() {
-      _results = {
-        "age_group": "25-30 Years",
-        "score": "94%",
-        "recommendations": [
-          {"name": "Revitalizing Serum", "price": 29.99, "tag": "Top Pick"},
-          {"name": "Hydrating Sunscreen", "price": 18.50, "tag": "Essential"},
-          {"name": "Night Repair Cream", "price": 45.00, "tag": "New"},
-        ],
-      };
+      _results = apiData;
       _isAnalyzing = false;
     });
+
+    if (apiData == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Could not analyze image. Check connection."),
+        ),
+      );
+    }
   }
 
   @override
@@ -61,19 +66,14 @@ class _SpecialFeaturesPageState extends State<SpecialFeaturesPage> {
         elevation: 0,
         centerTitle: true,
         title: const Text(
-          'AI Skin Analysis',
-          style: TextStyle(
-            fontWeight: FontWeight.w900,
-            color: Colors.black87,
-            fontSize: 20,
-          ),
+          'AI Skin Analysis - ',
+          style: TextStyle(fontWeight: FontWeight.w900, color: Colors.black87),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ImageDisplayCard(image: _image, isAnalyzing: _isAnalyzing),
               const SizedBox(height: 24),
@@ -84,7 +84,10 @@ class _SpecialFeaturesPageState extends State<SpecialFeaturesPage> {
                   ageGroup: _results!['age_group'],
                   score: _results!['score'],
                   items: _results!['recommendations'],
-                  onReset: () => setState(() => _results = null),
+                  onReset: () => setState(() {
+                    _results = null;
+                    _image = null;
+                  }),
                 ),
             ],
           ),

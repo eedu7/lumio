@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:frontend/core/config/env.dart';
 import 'package:frontend/core/services/supabase/supabase_service.dart';
@@ -62,5 +63,28 @@ class ApiClient {
   // Delete
   static Future<http.Response> delete(String apiUrl) {
     return http.delete(_buildUri(apiUrl), headers: _headers());
+  }
+
+  static Future<http.StreamedResponse> uploadImage(
+    String apiUrl,
+    File imageFile,
+  ) async {
+    final uri = _buildUri(apiUrl);
+    final request = http.MultipartRequest('POST', uri);
+
+    request.headers.addAll(_headers());
+
+    request.files.add(
+      await http.MultipartFile.fromPath('image', imageFile.path),
+    );
+
+    return await request.send().timeout(
+      const Duration(minutes: 1),
+      onTimeout: () {
+        throw Exception(
+          'Connection timed out. The server took too long to respond.',
+        );
+      },
+    );
   }
 }
