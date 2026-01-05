@@ -21,19 +21,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
       'title': 'Flawless Makeup',
       'desc':
           'Discover premium makeup essentials that enhance your natural beauty for every occasion.',
-      'image': AppAssets.onBoardingImageFirst, // makeup.jpg
+      'image': AppAssets.onBoardingImageFirst,
     },
     {
       'title': 'Signature Fragrances',
       'desc':
           'Find long-lasting, luxurious fragrances crafted to leave a lasting impression.',
-      'image': AppAssets.onBoardingImageSecond, // fragrance.jpg
+      'image': AppAssets.onBoardingImageSecond,
     },
     {
       'title': 'Radiant Skincare',
       'desc':
           'Nourish and protect your skin with carefully selected skincare products you can trust.',
-      'image': AppAssets.onBoardingImageThird, // skin-care.jpg
+      'image': AppAssets.onBoardingImageThird,
     },
   ];
 
