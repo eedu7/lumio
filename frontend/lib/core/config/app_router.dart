@@ -15,6 +15,7 @@ import 'package:frontend/features/congratulations/presentations/pages/congratula
 import 'package:frontend/features/home/presentations/pages/home_page.dart';
 import 'package:frontend/features/home/presentations/pages/product_detail_page.dart';
 import 'package:frontend/features/notifications/presentations/pages/notifications_page.dart';
+import 'package:frontend/features/on_boarding/presentations/pages/on_boarding_pages.dart';
 import 'package:frontend/features/profile/presentations/pages/edit_profile_page.dart';
 import 'package:frontend/features/profile/presentations/pages/profile_page.dart';
 import 'package:frontend/features/reviews/presentations/pages/reviews_page.dart';
@@ -28,6 +29,7 @@ import 'package:frontend/features/shipping-address/presentations/pages/edit_ship
 import 'package:frontend/features/shipping-address/presentations/pages/shipping_address_page.dart';
 import 'package:frontend/features/special-features/presentations/pages/special_features_page.dart';
 import 'package:frontend/features/special_offers/presentations/special_offers_page.dart';
+import 'package:frontend/features/splash_screen/presentations/pages/splash_screen.dart';
 import 'package:frontend/features/support/presentations/pages/faq_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -36,7 +38,7 @@ final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GoRouter appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
 
-  initialLocation: AppRoutes.home,
+  initialLocation: AppRoutes.splash,
   routes: <RouteBase>[
     // Authentication
     GoRoute(
@@ -47,6 +49,14 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.login,
       builder: (BuildContext context, GoRouterState state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: AppRoutes.splash,
+      builder: (context, state) => const SplashScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.onboarding,
+      builder: (context, state) => const OnboardingPage(),
     ),
     GoRoute(
       path: AppRoutes.socialLogin,

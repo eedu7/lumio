@@ -22,7 +22,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey[50], // Consistent with other pages
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text(
           'Edit Profile',
@@ -40,11 +40,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
               child: Form(
                 key: _formKey,
                 child: Column(
-                  spacing: 20.0, // Consistent vertical rhythm
+                  spacing: 20.0,
                   children: [
                     _buildAvatarSection(theme),
 
-                    const SizedBox(height: 12), // Extra space after avatar
+                    const SizedBox(height: 12),
 
                     _buildProfileField(
                       label: 'Full Name',

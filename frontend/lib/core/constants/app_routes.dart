@@ -10,6 +10,9 @@ class AppRoutes {
 
   // Special Features
   static const String specialFeatures = '/special-features';
+
+  static const String splash = '/splash';
+  static const String onboarding = '/onboarding';
   
   // Chat
   static const String chat = '/chat';

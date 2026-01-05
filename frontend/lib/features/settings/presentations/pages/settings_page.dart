@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/core/constants/app_routes.dart';
+import 'package:frontend/core/theme/theme_manager.dart';
 import 'package:frontend/features/settings/presentations/widgets/settings_section.dart';
 import 'package:frontend/features/settings/presentations/widgets/settings_tile.dart';
 import 'package:frontend/features/settings/presentations/widgets/settings_toggle_tile.dart';
 import 'package:go_router/go_router.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeManager = ref.watch(themeProvider);
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
@@ -97,7 +100,13 @@ class SettingsPage extends StatelessWidget {
                   // TODO: Implement currency chage
                 },
               ),
-              const SettingsToggleTile(label: 'Dark Mode', initialValue: false),
+              SettingsToggleTile(
+                label: 'Dark Mode',
+                initialValue: themeManager.isDarkMode,
+                onChanged: (bool value) {
+                  ref.read(themeProvider).toggleTheme(value);
+                },
+              ),
               SettingsTile(
                 label: 'Notification Preferences',
                 onTap: () {

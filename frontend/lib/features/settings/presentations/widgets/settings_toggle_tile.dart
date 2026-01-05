@@ -1,42 +1,34 @@
 import 'package:flutter/material.dart';
 
-class SettingsToggleTile extends StatefulWidget {
+class SettingsToggleTile extends StatelessWidget {
   final String label;
   final bool initialValue;
+  final ValueChanged<bool> onChanged;
 
   const SettingsToggleTile({
     super.key,
     required this.label,
     required this.initialValue,
+    required this.onChanged,
   });
 
   @override
-  State<SettingsToggleTile> createState() => _SettingsToggleTileState();
-}
-
-class _SettingsToggleTileState extends State<SettingsToggleTile> {
-  late bool _value;
-
-  @override
-  void initState() {
-    super.initState();
-    _value = widget.initialValue;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SwitchListTile.adaptive(
-      value: _value,
-      activeThumbColor: Theme.of(context).primaryColor,
+      value: initialValue,
+      activeThumbColor: theme.primaryColor,
+      activeTrackColor: theme.primaryColor,
       title: Text(
-        widget.label,
-        style: const TextStyle(
+        label,
+        style: TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w500,
-          color: Colors.black87,
+          color: theme.textTheme.bodyLarge?.color ?? Colors.black87,
         ),
       ),
-      onChanged: (val) => setState(() => _value = val),
+      onChanged: onChanged,
     );
   }
 }

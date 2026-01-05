@@ -41,67 +41,69 @@ class ProfilePage extends StatelessWidget {
             UserInfo(),
             const SizedBox(height: 30),
 
+            // TODO: Add orders
             // 2. Orders Section
-            ProfileSection(
-              title: 'Orders',
-              items: [
-                ProfileMenuItem(
-                  enabled: false,
-                  icon: Icons.shopping_bag_outlined,
-                  label: 'My Orders',
-                  onTap: () {},
-                ),
-                ProfileMenuItem(
-                  enabled: false,
-                  icon: Icons.local_shipping_outlined,
-                  label: 'Order Tracking',
-                  onTap: () {},
-                ),
-                ProfileMenuItem(
-                  enabled: false,
-                  icon: Icons.history_rounded,
-                  label: 'Order History',
-                  onTap: () {},
-                ),
-                ProfileMenuItem(
-                  enabled: false,
-                  icon: Icons.assignment_return_outlined,
-                  label: 'Returns & Refunds',
-                  onTap: () {},
-                ),
-              ],
-            ),
+            // ProfileSection(
+            //   title: 'Orders',
+            //   items: [
+            //     ProfileMenuItem(
+            //       enabled: false,
+            //       icon: Icons.shopping_bag_outlined,
+            //       label: 'My Orders',
+            //       onTap: () {},
+            //     ),
+            //     ProfileMenuItem(
+            //       enabled: false,
+            //       icon: Icons.local_shipping_outlined,
+            //       label: 'Order Tracking',
+            //       onTap: () {},
+            //     ),
+            //     ProfileMenuItem(
+            //       enabled: false,
+            //       icon: Icons.history_rounded,
+            //       label: 'Order History',
+            //       onTap: () {},
+            //     ),
+            //     ProfileMenuItem(
+            //       enabled: false,
+            //       icon: Icons.assignment_return_outlined,
+            //       label: 'Returns & Refunds',
+            //       onTap: () {},
+            //     ),
+            //   ],
+            // ),
 
-            // 3. Payments Section
-            ProfileSection(
-              title: 'Payments',
-              items: [
-                ProfileMenuItem(
-                  enabled: false,
-                  icon: Icons.credit_card_outlined,
-                  label: 'Saved Cards',
-                  onTap: () {},
-                ),
-                ProfileMenuItem(
-                  enabled: false,
-                  icon: Icons.account_balance_wallet_outlined,
-                  label: 'Wallet / Balance',
-                  onTap: () {},
-                ),
-                ProfileMenuItem(
-                  enabled: false,
-                  icon: Icons.card_giftcard_outlined,
-                  label: 'Gift Cards',
-                  onTap: () {},
-                ),
-                ProfileMenuItem(
-                  enabled: false,
-                  icon: Icons.confirmation_number_outlined,
-                  label: 'Coupons',
-                  onTap: () {},
-                ),
-              ],
-            ),
+            // TODO: Add payments
+            // // 3. Payments Section
+            // ProfileSection(
+            //   title: 'Payments',
+            //   items: [
+            //     ProfileMenuItem(
+            //       enabled: false,
+            //       icon: Icons.credit_card_outlined,
+            //       label: 'Saved Cards',
+            //       onTap: () {},
+            //     ),
+            //     ProfileMenuItem(
+            //       enabled: false,
+            //       icon: Icons.account_balance_wallet_outlined,
+            //       label: 'Wallet / Balance',
+            //       onTap: () {},
+            //     ),
+            //     ProfileMenuItem(
+            //       enabled: false,
+            //       icon: Icons.card_giftcard_outlined,
+            //       label: 'Gift Cards',
+            //       onTap: () {},
+            //     ),
+            //     ProfileMenuItem(
+            //       enabled: false,
+            //       icon: Icons.confirmation_number_outlined,
+            //       label: 'Coupons',
+            //       onTap: () {},
+            //     ),
+            //   ],
+            // ),
 
             // 4. Addresses Section
             ProfileSection(

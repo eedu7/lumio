@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/constants/app_routes.dart';
 import 'package:frontend/core/services/supabase/supabase_service.dart';
-import 'package:go_router/go_router.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({super.key});
@@ -56,21 +54,22 @@ class UserInfo extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 36,
-          child: OutlinedButton(
-            onPressed: () => context.push(AppRoutes.editProfile),
-            style: OutlinedButton.styleFrom(
-              shape: const StadiumBorder(),
-              side: BorderSide(color: Colors.grey.shade300),
-            ),
-            child: const Text(
-              'Edit Profile',
-              style: TextStyle(fontSize: 12, color: Colors.black87),
-            ),
-          ),
-        ),
+        // TODO: Edit Profile
+        // const SizedBox(height: 12),
+        // SizedBox(
+        //   height: 36,
+        //   child: OutlinedButton(
+        //     onPressed: () => context.push(AppRoutes.editProfile),
+        //     style: OutlinedButton.styleFrom(
+        //       shape: const StadiumBorder(),
+        //       side: BorderSide(color: Colors.grey.shade300),
+        //     ),
+        //     child: const Text(
+        //       'Edit Profile',
+        //       style: TextStyle(fontSize: 12, color: Colors.black87),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              UserProfileHeader(username: 'JD', greeting: 'Good Morning! 👋'),
+              UserProfileHeader(username: 'A', greeting: 'Good Morning! 👋'),
 
               const SizedBox(height: 20),
 
@@ -47,12 +47,13 @@ class HomePage extends StatelessWidget {
               SectionHeading(
                 title: 'Popular Products',
                 actionLabel: 'See All',
-                onPressed: () => context.push(
-                  AppRoutes.categoryProducts(
-                    key: AppRoutes.collection,
-                    value: 'Popular Products',
-                  ),
-                ),
+                onPressed: () =>
+                    context.push(
+                      AppRoutes.categoryProducts(
+                        key: AppRoutes.collection,
+                        value: 'Popular Products',
+                      ),
+                    ),
               ),
               const SizedBox(height: 16),
               ProductCategoriesSmall(),
