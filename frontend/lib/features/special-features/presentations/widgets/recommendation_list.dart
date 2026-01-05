@@ -19,6 +19,7 @@ class RecommendationList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Result Header
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -45,7 +46,7 @@ class RecommendationList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                score,
+                "Match: $score",
                 style: TextStyle(
                   color: Colors.green[700],
                   fontWeight: FontWeight.bold,
@@ -55,75 +56,84 @@ class RecommendationList extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 24),
-        const Text(
-          "Tailored for You",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+
+        Text(
+          items.isEmpty ? "No specific matches found" : "Tailored for You",
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
-        ...items.map(
-          (product) => Container(
+
+        // Product List
+        ...items.map((product) {
+          final imageUrl = product['image']?['image_url'];
+
+          return Container(
             margin: const EdgeInsets.only(bottom: 12),
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey[100]!),
+              border: Border.all(color: Colors.grey[200]!),
             ),
             child: Row(
               children: [
+                // Product Image
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 70,
+                  height: 70,
                   decoration: BoxDecoration(
-                    color: Colors.grey[50],
+                    color: Colors.grey[100],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(
-                    Icons.auto_awesome,
-                    color: Theme.of(context).primaryColor,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: imageUrl != null
+                        ? Image.network(imageUrl, fit: BoxFit.cover)
+                        : const Icon(
+                            Icons.inventory_2_outlined,
+                            color: Colors.grey,
+                          ),
                   ),
                 ),
                 const SizedBox(width: 16),
+                // Product Details
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product['name'],
+                        product['name'] ?? "Unknown Product",
                         style: const TextStyle(fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
+                      const SizedBox(height: 4),
                       Text(
-                        "\$${product['price']}",
-                        style: TextStyle(color: Theme.of(context).primaryColor),
+                        "\$${product['price']?.toStringAsFixed(2)}",
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    product['tag'],
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 14,
+                  color: Colors.grey,
                 ),
               ],
             ),
-          ),
-        ),
+          );
+        }),
+
+        const SizedBox(height: 16),
         Center(
-          child: TextButton(
+          child: TextButton.icon(
             onPressed: onReset,
-            child: const Text("Retake Analysis"),
+            icon: const Icon(Icons.refresh),
+            label: const Text("Retake Analysis"),
           ),
         ),
       ],
